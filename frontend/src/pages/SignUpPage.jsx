@@ -3,8 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false);
+  // Controls hover animation for SIGN UP button
   const [isHovered, setIsHovered] = useState(false);
+  // Controls hover animation for SIGN IN button
   const [isSignInHovered, setIsSignInHovered] = useState(false);
+
+  // Add navigate for routing
   const navigate = useNavigate();
 
   return (
@@ -13,26 +17,38 @@ const SignUpPage = () => {
       <div style={styles.leftSection}>
         <h2 style={styles.title}>Create an Account</h2>
         <div style={styles.socialIcons}>
-          <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" style={styles.iconCircle}>
-            <i className="fab fa-facebook-f" />
+          <a
+            href="https://www.facebook.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={styles.iconCircle}
+          >
+            <i className="fab fa-facebook-f"></i>
           </a>
-          <a href="https://www.google.com" target="_blank" rel="noopener noreferrer" style={styles.iconCircle}>
-            <i className="fab fa-google" />
+          <a
+            href="https://www.google.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={styles.iconCircle}
+          >
+            <i className="fab fa-google"></i>
           </a>
-          <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" style={styles.iconCircle}>
-            <i className="fab fa-linkedin-in" />
+          <a
+            href="https://www.linkedin.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={styles.iconCircle}
+          >
+            <i className="fab fa-linkedin-in"></i>
           </a>
         </div>
-
         <p style={styles.orText}>or use your email:</p>
 
         <div style={styles.inputContainer}>
+          {/* Name + Email in the same wrapper (as in F version) */}
           <div style={styles.inputWrapper}>
             <i className="fas fa-user" style={styles.inputIcon}></i>
-            <input type="text" placeholder="Name" style={styles.input} />
-          </div>
-
-          <div style={styles.inputWrapper}>
+            <input type="name" placeholder="Name" style={styles.input} />
             <i className="fas fa-envelope" style={styles.inputIcon}></i>
             <input type="email" placeholder="Email" style={styles.input} />
           </div>
@@ -44,12 +60,14 @@ const SignUpPage = () => {
               placeholder="Password"
               style={styles.input}
             />
-            <span style={styles.eyeIcon} onClick={() => setShowPassword(!showPassword)}>
+            <span
+              style={styles.eyeIcon}
+              onClick={() => setShowPassword(!showPassword)}
+            >
               {showPassword ? "🙈" : "👁️"}
             </span>
           </div>
         </div>
-
         <p style={styles.forgotPassword}>Forgot your password?</p>
 
         {/* Sign Up Button */}
@@ -65,15 +83,14 @@ const SignUpPage = () => {
         </button>
       </div>
 
-      {/* Divider */}
-      <div style={styles.divider} />
+      <div style={styles.divider}></div>
 
-      {/* Right Section */}
+      {/* Right Section (Sign In) */}
       <div style={styles.rightSection}>
         <h1 style={styles.signupTitle}>Welcome Back!</h1>
-        <h2 style={styles.signupText}>Sign in and discover new educational events!</h2>
-
-        {/* Navigate to LoginPage */}
+        <h2 style={styles.signupText}>
+          Sign in and discover new educational events!
+        </h2>
         <button
           style={{
             ...styles.signUpButton,
@@ -81,6 +98,7 @@ const SignUpPage = () => {
           }}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
+          // Navigate back to LoginPage
           onClick={() => navigate("/login")}
         >
           SIGN IN
@@ -90,106 +108,169 @@ const SignUpPage = () => {
   );
 };
 
+// Keyframes for fade in
+const fadeInKeyframes = {
+  from: { opacity: 0 },
+  to: { opacity: 1 },
+};
+
+// Styles from the F version
 const styles = {
   container: {
     display: "flex",
-    width: "100%",
-    minHeight: "100vh",
-    fontFamily: "sans-serif",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100vh",
+    width: "100vw",
+    background: "#FFFFFF",
+    fontFamily: "'Poppins', sans-serif",
   },
   leftSection: {
     flex: 1,
-    padding: "2rem",
+    padding: "40px",
+    textAlign: "center",
+    background: "linear-gradient(135deg, #B1B695, #53917E)",
+    color: "white",
+    height: "100vh",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
+    alignItems: "center",
+    // Fade-in animation:
+    animationName: fadeInKeyframes,
+    animationDuration: "1.5s",
+    animationFillMode: "forwards",
   },
   rightSection: {
     flex: 1,
-    padding: "2rem",
-    backgroundColor: "#f7f7f7",
+    padding: "40px",
+    textAlign: "center",
+    background: "white",
+    color: "white",
+    height: "100vh",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-  },
-  divider: {
-    width: "1px",
-    backgroundColor: "#ccc",
+    alignItems: "center",
+    // Fade-in animation:
+    animationName: fadeInKeyframes,
+    animationDuration: "1.5s",
+    animationFillMode: "forwards",
   },
   title: {
-    marginBottom: "1rem",
-  },
-  signupTitle: {
-    fontSize: "24px",
-    marginBottom: "1rem",
-  },
-  signupText: {
-    fontSize: "16px",
-    marginBottom: "1rem",
+    fontSize: "26px",
+    fontWeight: "bold",
+    color: "white",
   },
   socialIcons: {
     display: "flex",
-    gap: "0.5rem",
-    marginBottom: "1rem",
+    justifyContent: "center",
+    gap: "15px",
+    marginBottom: "15px",
   },
   iconCircle: {
+    width: "50px",
+    height: "50px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: "50%",
-    border: "1px solid #ccc",
-    padding: "0.5rem 0.6rem",
+    backgroundColor: "#f1f1f1",
+    color: "#000",
+    fontSize: "22px",
+    cursor: "pointer",
     textDecoration: "none",
-    color: "#333",
+    transition: "background 0.3s ease-in-out",
   },
   orText: {
-    margin: "1rem 0",
+    fontSize: "14px",
+    color: "#666",
+    marginBottom: "10px",
   },
   inputContainer: {
-    marginBottom: "1rem",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: "10px",
   },
   inputWrapper: {
     display: "flex",
     alignItems: "center",
-    marginBottom: "0.75rem",
-    border: "1px solid #ccc",
-    borderRadius: "4px",
-    padding: "0 0.5rem",
+    background: "#f9f9f9",
+    borderRadius: "8px",
+    padding: "10px",
+    width: "300px",
+    border: "1px solid #ddd",
+    position: "relative",
+    // The old code lumps Name + Email in the same line
+    // but we keep the same styling here
   },
   inputIcon: {
-    marginRight: "0.5rem",
-    color: "#777",
+    color: "#999",
+    marginRight: "10px",
   },
   input: {
-    flex: 1,
+    width: "100%",
     border: "none",
+    background: "transparent",
     outline: "none",
-    padding: "0.5rem 0",
+    fontSize: "14px",
   },
   eyeIcon: {
+    position: "absolute",
+    right: "10px",
     cursor: "pointer",
+    fontSize: "18px",
   },
   forgotPassword: {
-    marginTop: "0.5rem",
+    fontSize: "14px",
+    color: "#6D1A36",
     cursor: "pointer",
-    color: "#007bff",
+    marginTop: "10px",
+    textDecoration: "underline",
   },
   signInButton: {
-    marginTop: "1rem",
-    padding: "0.75rem 1.5rem",
+    width: "300px",
+    padding: "12px",
+    marginTop: "15px",
+    background: "white",
+    color: "#53917E",
     border: "none",
-    borderRadius: "4px",
-    backgroundColor: "#007bff",
-    color: "#fff",
+    borderRadius: "30px",
     cursor: "pointer",
-    transition: "transform 0.2s",
+    fontSize: "16px",
+    fontWeight: "bold",
+    transition: "transform 0.3s ease-in-out, background 0.3s ease-in-out",
+    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
   },
   signUpButton: {
-    marginTop: "1rem",
-    padding: "0.75rem 1.5rem",
-    border: "1px solid #007bff",
-    borderRadius: "4px",
-    backgroundColor: "#fff",
-    color: "#007bff",
+    width: "300px",
+    padding: "12px",
+    marginTop: "15px",
+    background: "linear-gradient(135deg, #B1B695, #53917E)",
+    color: "white",
+    border: "none",
+    borderRadius: "30px",
     cursor: "pointer",
-    transition: "transform 0.2s",
+    fontSize: "16px",
+    fontWeight: "bold",
+    transition: "transform 0.3s ease-in-out, background 0.3s ease-in-out",
+    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+  },
+  divider: {
+    width: "2px",
+    background: "#B1B695",
+    height: "100vh",
+  },
+  signupTitle: {
+    fontSize: "28px",
+    color: "#53917E",
+    marginBottom: "10px",
+  },
+  signupText: {
+    fontSize: "18px",
+    margin: "0 30px",
+    color: "#53917E",
   },
 };
 
