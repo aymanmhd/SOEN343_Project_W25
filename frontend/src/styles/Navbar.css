@@ -2,7 +2,7 @@
     position: absolute;  /* Ensures it's on top without affecting layout */
     top: 0;
     left: 0;
-    width: 100%;
+    width: 99%;
     height: 40px; /* Adjust height as needed */
     display: flex;
     justify-content: space-between;

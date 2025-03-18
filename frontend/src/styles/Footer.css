@@ -1,0 +1,62 @@
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 98%;
+    height: auto; /* Adjust height dynamically */
+    display: flex;
+    justify-content: space-between; /* Left & Right alignment */
+    align-items: center;
+    padding: 10px 20px;
+    border-radius: 15px 15px 0 0;
+    background: linear-gradient(to right, #B1B695, #53917e);
+    color: white;
+    z-index: 1000;
+}
+
+.footer-left {
+    font-size: 14px;
+}
+
+.footer-left a {
+    color: white;
+    text-decoration: none;
+}
+
+.footer-right {
+    display: flex;
+    flex-direction: column; /* Stack text above input/button */
+    align-items: flex-end; /* Align content to the right */
+    text-align: right;
+}
+
+.footer-message {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.newsletter {
+    display: flex;
+    flex-direction: row; /* Keep input and button side by side */
+    gap: 5px;
+}
+
+.newsletter-input {
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+}
+
+.btn-subscribe {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #B1B695;
+    color: white;
+    cursor: pointer;
+}
+
+.btn-subscribe:hover {
+    opacity: 0.8;
+}
