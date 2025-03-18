@@ -5,6 +5,7 @@ import Footer from "./components/Footer"; // Import Footer
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
+import DashboardAttendees from "./pages/DashboardAttendees";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function AppContent() {
         <Route path="/" element={<HomePage />} /> {/* Home Page */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/dashboardAttendees" element={<DashboardAttendees />} />
       </Routes>
 
       {location.pathname === "/" && <Footer />} {/* Show Footer only on HomePage */}

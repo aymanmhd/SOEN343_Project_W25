@@ -1,0 +1,113 @@
+/* General Page Styling */
+.dashboard-container {
+    background: linear-gradient(to bottom, #B1B695, #FCD0A1);
+    min-height: 100vh;
+    padding: 20px;
+    font-family: "Arial", sans-serif;
+  }
+  
+  /* Top Section */
+  .top-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Slogan Section (30%) */
+  .slogan-section {
+    width: 30%;
+  }
+  
+  .slogan-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: #6D1A36;
+  }
+  
+  /* Profile Section (70%) */
+  .profile-section {
+    width: 70%;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+  }
+  
+  .profile-box {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #53917E;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Middle Section (Summary) */
+  .summary-section {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .summary-card {
+    background-color: #B1B695;
+    padding: 15px;
+    border-radius: 8px;
+    width: 30%;
+    text-align: center;
+    color: #63535B;
+    font-weight: bold;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .summary-card:hover {
+    transform: scale(1.05);
+    background-color: #6D1A36;
+    color: #fff;
+  }
+  
+  /* Events Section */
+  .events-section {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+  }
+  
+  .event-box {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    width: 45%;
+    text-align: center;
+    border-radius: 10px;
+    color: #63535B;
+    font-size: 18px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Recommendation Section */
+  .recommendation-section {
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .recommendation-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #6D1A36;
+  }
+  
+  .recommendation-text {
+    font-size: 18px;
+    color: #63535B;
+  }
+  
