@@ -12,6 +12,7 @@
     background: linear-gradient(to right, #B1B695, #53917e);
     color: white;
     z-index: 1000;
+    font-family: "Poppins", sans-serif;
 }
 
 .footer-left {
@@ -28,11 +29,13 @@
     flex-direction: column; /* Stack text above input/button */
     align-items: flex-end; /* Align content to the right */
     text-align: right;
+    font-family: "Poppins", sans-serif;
 }
 
 .footer-message {
     margin-bottom: 5px;
     font-weight: bold;
+    font-family: "Poppins", sans-serif;
 }
 
 .newsletter {
