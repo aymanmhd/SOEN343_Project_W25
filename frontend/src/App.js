@@ -9,7 +9,8 @@ import SignUpPage from "./pages/SignUpPage";
 import AttendeeDashboard from "./pages/AttendeeDashboard";
 import OrganizerDashboard from "./pages/OrganizerDashboard";
 import AdminPanel from "./pages/AdminPanel";
-import ProfilePage from "./pages/ProfilePage"; // ✅ IMPORT MISSING PROFILE PAGE
+import ProfilePage from "./pages/ProfilePage"; 
+import NetworkingPage from "./pages/NetworkingPage";
 
 function App() {
   return (
@@ -38,7 +39,7 @@ function AppContent() {
     <div className="app-container">
       <Navbar /> {/* Navbar stays fixed at the top */}
 
-      <main> {/* ✅ Added padding here to prevent navbar overlap */}
+      <main> {/* Added padding here to prevent navbar overlap */}
         <Routes>
           <Route path="/" element={<HomeRedirector />} /> {/* Home changes based on role */}
           <Route path="/login" element={<LoginPage />} />
@@ -47,6 +48,7 @@ function AppContent() {
           <Route path="/attendee-dashboard" element={<AttendeeDashboard />} />
           <Route path="/organizer-dashboard" element={<OrganizerDashboard />} />
           <Route path="/admin-dashboard" element={<AdminPanel />} />
+          <Route path="/networking" element={<NetworkingPage />} />
         </Routes>
       </main>
 

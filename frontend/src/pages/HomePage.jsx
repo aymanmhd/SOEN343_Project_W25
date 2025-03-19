@@ -41,10 +41,10 @@ function HomePage() {
         </div>
       </header>
 
-      {/* ✅ Discover Bar Section */}
+      {/* Discover Bar Section */}
       <DiscoverBar subjects={subjects} />
 
-      {/* ✅ Video List */}
+      {/* Video List */}
       <SearchableVideoList videos={sampleVideos} />
 
       <Footer />
