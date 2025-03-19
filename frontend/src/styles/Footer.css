@@ -3,7 +3,7 @@
     bottom: 0;
     left: 0;
     width: 98%;
-    height: auto; /* Adjust height dynamically */
+    height: 40px; /* Adjust height dynamically */
     display: flex;
     justify-content: space-between; /* Left & Right alignment */
     align-items: center;

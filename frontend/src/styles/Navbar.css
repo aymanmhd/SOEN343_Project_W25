@@ -1,45 +1,52 @@
 .navbar {
-    position: absolute;  /* Ensures it's on top without affecting layout */
-    top: 0;
-    left: 0;
-    width: 99%;
-    height: 40px; /* Adjust height as needed */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    border-radius: 15px;
-    background: linear-gradient(to right, #B1B695, #53917e);
-    font-family: "Poppins", sans-serif;
+  position: fixed;  /* Keeps it at the top while scrolling */
+  top: 0;
+  left: 0;
+  width: 98%;
+  height: 40px; /* Adjust height if needed */
+  display: flex;
+  border-radius: 20px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  font-family: "Poppins", sans-serif;
+  z-index: 1000; /* Ensures navbar is always above other elements */
+
+  /* Apply gradient background with transparency */
+  background: linear-gradient(to right, rgba(177, 182, 149, 0.685), rgba(83, 145, 126, 0.493));
+  backdrop-filter: blur(3px); /* Adds blur effect to make it look more glass-like */
 }
 
-  
-  .logo a {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: white;
-    text-decoration: none;
-  }
-  
-  .nav-links a {
-    margin: 0 15px;
-    color: white;
-    text-decoration: none;
-  }
-  
-  .auth-buttons .btn {
-    margin-left: 10px;
-    padding: 8px 15px;
-    border-radius: 5px;
-    text-decoration: none;
-    color: white;
-  }
-  
-  .btn-primary {
-    background: #B1B695;
-  }
-  
-  .btn:hover {
-    opacity: 0.8;
-  }
-  
+.logo a {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+}
+
+.nav-links a {
+  margin: 0 15px;
+  color: white;
+  text-decoration: none;
+}
+
+.auth-buttons .btn {
+  margin-left: 10px;
+  padding: 8px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  color: white;
+}
+
+.btn-primary {
+  background: #B1B695;
+}
+
+.btn:hover {
+  opacity: 0.8;
+}
+
+/* Fix Page Overlap: Add Padding to Everything Except Navbar */
+main {
+  padding-top: 70px; /* Pushes content down while navbar stays at the top */
+}
