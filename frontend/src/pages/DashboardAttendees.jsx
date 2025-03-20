@@ -1,7 +1,23 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import "../styles/DashboardAttendees.css";
 
 const DashboardAttendees = () => {
+  const [activeTab, setActiveTab] = useState("upcoming");
+
+  // References to sections
+  const upcomingRef = useRef(null);
+  const registeredRef = useRef(null);
+  const recommendationRef = useRef(null);
+
+  // Example event lists
+  const upcomingEvents = ["Tech Conference 2025", "AI Expo", "React Summit"];
+  const registeredEvents = ["Web Development Workshop", "Cybersecurity Talk"];
+
+  // Scroll to a section smoothly
+  const scrollToSection = (ref) => {
+    ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
     <div className="dashboard-container">
       {/* Top Section */}
@@ -16,31 +32,49 @@ const DashboardAttendees = () => {
         </div>
       </div>
 
-      {/* Middle Section - Summary */}
+      {/* Middle Section - Summary with Clickable Cards */}
       <div className="summary-section">
-        <div className="summary-card">
+        <div className="summary-card" onClick={() => scrollToSection(upcomingRef)}>
           <p>Register for thousands of events</p>
         </div>
-        <div className="summary-card">
+        <div className="summary-card" onClick={() => scrollToSection(registeredRef)}>
           <p>Modify registered events</p>
         </div>
-        <div className="summary-card">
+        <div className="summary-card" onClick={() => scrollToSection(recommendationRef)}>
           <p>We've got you! Get interesting recommendations</p>
         </div>
       </div>
 
-      {/* Events Section */}
-      <div className="events-section">
-        <div className="event-box upcoming-events">
-          <h3>Upcoming Events</h3>
+      {/* Toggle Options */}
+      <div className="toggle-options" ref={upcomingRef}>
+        <div
+          className={`toggle-option ${activeTab === "upcoming" ? "active" : ""}`}
+          onClick={() => setActiveTab("upcoming")}
+        >
+          Upcoming Events
         </div>
-        <div className="event-box registered-events">
-          <h3>Registered Events</h3>
+        <div
+          className={`toggle-option ${activeTab === "registered" ? "active" : ""}`}
+          onClick={() => setActiveTab("registered")}
+          ref={registeredRef}
+        >
+          Registered Events
         </div>
       </div>
 
+      {/* Content Section - Updates Dynamically */}
+      <div className="events-content">
+        <ul className="event-list">
+          {(activeTab === "upcoming" ? upcomingEvents : registeredEvents).map(
+            (event, index) => (
+              <li key={index}>{index + 1}. {event}</li>
+            )
+          )}
+        </ul>
+      </div>
+
       {/* Recommendation Section */}
-      <div className="recommendation-section">
+      <div className="recommendation-section" ref={recommendationRef}>
         <h2 className="recommendation-title">Personalized Recommendations</h2>
         <p className="recommendation-text">
           Discover events tailored to your interests!
