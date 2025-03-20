@@ -6,6 +6,8 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import DashboardAttendees from "./pages/DashboardAttendees";
+import DashboardOrganizers from "./pages/DashboardOrganizers";
+import DashboardAdmin from "./pages/DashboardAdmin";
 
 function App() {
   return (
@@ -27,6 +29,9 @@ function AppContent() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/dashboardAttendees" element={<DashboardAttendees />} />
+        <Route path="/dashboardOrganizers" element={<DashboardOrganizers />} />
+        <Route path="/dashboardAdmin" element={<DashboardAdmin />} />
+
       </Routes>
 
       {location.pathname === "/" && <Footer />} {/* Show Footer only on HomePage */}
