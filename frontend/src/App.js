@@ -8,6 +8,8 @@ import SignUpPage from "./pages/SignUpPage";
 import DashboardAttendees from "./pages/DashboardAttendees";
 import DashboardOrganizers from "./pages/DashboardOrganizers";
 import DashboardAdmin from "./pages/DashboardAdmin";
+import CreateEventPage from "./pages/CreateEventPage";
+import TicketingPage from "./pages/TicketingPage";
 
 function App() {
   return (
@@ -31,6 +33,8 @@ function AppContent() {
         <Route path="/dashboardAttendees" element={<DashboardAttendees />} />
         <Route path="/dashboardOrganizers" element={<DashboardOrganizers />} />
         <Route path="/dashboardAdmin" element={<DashboardAdmin />} />
+        <Route path="/createEvent" element={<CreateEventPage />} />
+        <Route path="/ticketing" element={<TicketingPage />} />
 
       </Routes>
 
