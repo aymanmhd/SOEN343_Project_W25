@@ -11,6 +11,9 @@ import OrganizerDashboard from "./pages/OrganizerDashboard";
 import AdminPanel from "./pages/AdminPanel";
 import ProfilePage from "./pages/ProfilePage"; 
 import NetworkingPage from "./pages/NetworkingPage";
+import EventListingPage from "./pages/EventListingPage";
+import EventDetailsPage from "./pages/EventDetailsPage";
+import AnalyticsPage from "./pages/AnalyticsPage";
 
 function App() {
   return (
@@ -49,6 +52,9 @@ function AppContent() {
           <Route path="/organizer-dashboard" element={<OrganizerDashboard />} />
           <Route path="/admin-dashboard" element={<AdminPanel />} />
           <Route path="/networking" element={<NetworkingPage />} />
+          <Route path="/events" element={<EventListingPage />} />
+          <Route path="/events/:id" element={<EventDetailsPage />} />
+          <Route path="/analytics" element={<AnalyticsPage />} />
         </Routes>
       </main>
 

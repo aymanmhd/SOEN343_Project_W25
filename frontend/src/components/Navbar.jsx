@@ -10,8 +10,8 @@ const Navbar = () => {
     ? user.role === "attendee"
       ? "/attendee-dashboard"
       : user.role === "organizer"
-      ? "/organizer-dashboard"
-      : "/admin-dashboard"
+        ? "/organizer-dashboard"
+        : "/admin-dashboard"
     : "/";
 
   return (
@@ -32,7 +32,7 @@ const Navbar = () => {
         {user && user.role === "attendee" && (
           <>
             <Link to="/my-events">My Events</Link>
-            <Link to="/explore">Explore</Link>
+            <Link to="/events">Explore</Link>
             <Link to="/networking">Networking</Link>
             <Link to="/resources">Resources</Link>
             <Link to="/feedback">Feedback</Link>
@@ -48,16 +48,16 @@ const Navbar = () => {
         )}
 
 
-
         {user && user.role === "organizer" && (
           <>
-            <Link to="/dashboard">Dashboard</Link>
+            <Link to="/analytics">Dashboard</Link>
             <Link to="/create-event">Create Event</Link>
             <Link to="/manage-events">Manage Events</Link>
             <Link to="/analytics">Analytics</Link>
             <Link to="/sponsorships">Sponsorships</Link>
           </>
         )}
+
         {user && user.role === "admin" && (
           <>
             <Link to="/admin-panel">Admin Panel</Link>
