@@ -23,9 +23,6 @@ const Navbar = () => {
       <div className="nav-links">
         <Link to={homeLink}>Home</Link> {/* Home updates dynamically */}
 
-        {/* Show Discover only for public users & attendees */}
-        {(!user || user.role === "attendee") && <Link to="/discover">Discover</Link>}
-
 
 
         {/* Show different navbar items based on user role */}

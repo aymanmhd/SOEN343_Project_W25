@@ -14,6 +14,8 @@ import NetworkingPage from "./pages/NetworkingPage";
 import EventListingPage from "./pages/EventListingPage";
 import EventDetailsPage from "./pages/EventDetailsPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
+import MyEventsPage from "./pages/MyEventsPage";
+
 
 function App() {
   return (
@@ -55,6 +57,7 @@ function AppContent() {
           <Route path="/events" element={<EventListingPage />} />
           <Route path="/events/:id" element={<EventDetailsPage />} />
           <Route path="/analytics" element={<AnalyticsPage />} />
+          <Route path="/my-events" element={<MyEventsPage />} />
         </Routes>
       </main>
 
