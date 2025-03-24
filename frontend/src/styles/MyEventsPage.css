@@ -1,0 +1,38 @@
+.my-events-page {
+    margin-top: 80px; /* Avoids navbar overlap */
+    min-height: 60vh;
+    padding: 20px;
+    font-family: "Poppins", sans-serif;
+    animation: fadeIn 0.8s forwards;
+  }
+  
+  @keyframes fadeIn {
+    0%   { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  
+  .my-events-title {
+    font-size: 26px;
+    font-weight: bold;
+    color: #53917e;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .my-events-section {
+    margin-bottom: 40px;
+  }
+  
+  .my-events-section h3 {
+    font-size: 20px;
+    color: #53917e;
+    margin-bottom: 10px;
+  }
+  
+  .my-events-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  

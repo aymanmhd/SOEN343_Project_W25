@@ -1,0 +1,12 @@
+.video-list {
+    display: empty;
+    flex-direction: column;
+    gap: 40px;
+    margin-top: 15px;
+  }
+  
+  .empty-heading {
+    text-align: center;
+    color: gray;
+  }
+  

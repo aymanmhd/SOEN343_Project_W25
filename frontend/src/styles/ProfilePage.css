@@ -1,0 +1,102 @@
+/* Container for the whole Profile Page */
+.profile-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 60vh;
+    margin-top: 80px; /* Adjust to avoid navbar overlap */
+    padding: 20px;
+    font-family: "Poppins", sans-serif;
+    animation: fadeIn 1.2s forwards;
+  }
+  
+  /* Fade-in animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  /* Profile Header with avatar and name/role */
+  .profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  
+  .profile-avatar {
+    width: 140px;
+    height: 140px;
+    border-radius: 9999px;
+    object-fit: cover;
+    border: 3px solid #53917e; /* theme color */
+    margin-bottom: 15px;
+  }
+  
+  .profile-name {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #53917e;
+  }
+  
+  .profile-role {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  /* Profile Info Card */
+  .profile-info-card {
+    width: 100%;
+    max-width: 600px;
+    background: #f9f9f9;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 25px;
+  }
+  
+  .profile-info-card h3 {
+    margin-bottom: 15px;
+    color: #53917e;
+  }
+  
+  .profile-info-card p {
+    margin-bottom: 8px;
+    color: #333;
+  }
+  
+  /* Profile Actions (buttons) */
+  .profile-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .btn-action {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #b1b695, #53917e);
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .btn-action:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Footer (member since, etc.) */
+  .profile-footer {
+    font-size: 14px;
+    color: #666;
+  }
+  

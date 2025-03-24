@@ -1,0 +1,106 @@
+.analytics-page {
+    margin-top: 80px; /* Avoids navbar overlap */
+    min-height: 60vh;
+    padding: 20px;
+    font-family: "Poppins", sans-serif;
+    animation: fadeIn 0.8s forwards;
+  }
+  
+  @keyframes fadeIn {
+    0%   { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  
+  .analytics-title {
+    font-size: 26px;
+    font-weight: bold;
+    color: #53917e;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Cards row */
+  .analytics-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+  
+  /* Individual card */
+  .analytics-card {
+    background: #f9f9f9;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    width: 220px;
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .analytics-card:hover {
+    transform: scale(1.04);
+  }
+  
+  .analytics-card h3 {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .analytics-value {
+    font-size: 20px;
+    font-weight: bold;
+    color: #53917e;
+  }
+  
+  /* Table wrapper */
+  .analytics-table-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+  }
+  
+  .analytics-table-wrapper h3 {
+    color: #53917e;
+    font-size: 18px;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  /* Table styling */
+  .analytics-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 0;
+  }
+  
+  .analytics-table th,
+  .analytics-table td {
+    text-align: left;
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+  }
+  
+  .analytics-table thead {
+    background: #f9f9f9;
+  }
+  
+  .analytics-table th {
+    font-weight: bold;
+    color: #666;
+  }
+  
+  .analytics-table td {
+    color: #333;
+  }
+  
+  .analytics-table tr:hover {
+    background: #fafafa;
+  }
+  

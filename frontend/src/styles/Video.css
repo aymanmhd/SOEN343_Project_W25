@@ -1,0 +1,72 @@
+.video-list {
+  display: flex;
+  flex-direction: column; /* Stack videos vertically */
+  gap: 12px; /* Reduce space between videos */
+  align-items: center;
+  width: 100%;
+  font-family: "Poppins", sans-serif;
+}
+
+.video-card {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Space between image and text */
+  width: 100%;
+  max-width: 550px; /* Match the width of the example */
+  padding: 10px;
+  border-radius: 10px;
+  background: white;
+  transition: 0.3s ease;
+  font-family: "Poppins", sans-serif;
+}
+
+.video-card:hover {
+  background: #f7f7f7; /* Subtle hover effect */
+}
+
+.video-thumbnail {
+  width: 300px; /* Smaller thumbnail */
+  height: 150px;
+  border-radius: 5px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.video-info {
+  flex: 1; /* Allow text to take up space */
+  font-family: "Poppins", sans-serif;
+}
+
+.video-title {
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: black;
+  text-decoration: none;
+  display: block;
+  font-family: "Poppins", sans-serif;
+}
+
+.video-description {
+  font-size: 0.85rem;
+  color: gray;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Shorten long descriptions */
+  max-width: 350px; /* Prevent text from stretching too much */
+  font-family: "Poppins", sans-serif;
+}
+
+.like-button {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: gray;
+}
+
+.like-button:hover {
+  color: red;
+}
+.video-section{
+  font-family: "Poppins", sans-serif;
+}
