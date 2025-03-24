@@ -1,0 +1,95 @@
+.resources-page {
+    margin-top: 80px; /* Avoid navbar overlap */
+    min-height: 60vh;
+    padding: 20px;
+    font-family: "Poppins", sans-serif;
+    animation: fadeIn 0.8s forwards;
+  }
+  
+  @keyframes fadeIn {
+    0%   { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  
+  .resources-title {
+    font-size: 26px;
+    font-weight: bold;
+    color: #53917e;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Upload section (organizer only) */
+  .upload-resource {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .btn-upload {
+    background: linear-gradient(135deg, #b1b695, #53917e);
+    color: #fff;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .btn-upload:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Resource List */
+  .resources-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  /* Individual Resource Item */
+  .resource-item {
+    width: 300px;
+    background: #fff;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .resource-item:hover {
+    transform: scale(1.03);
+  }
+  
+  .resource-event-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #53917e;
+    margin-bottom: 8px;
+  }
+  
+  .resource-details p {
+    margin: 4px 0;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .btn-download {
+    margin-top: 10px;
+    background: #53917e;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .btn-download:hover {
+    transform: scale(1.05);
+  }
+  
