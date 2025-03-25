@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import EventEmitter from "../patterns/EventEmitter";
+import EventEmitter from "../patterns/NetworkingPageObserver";
 
 const useNetworking = () => {
   const [pollOption, setPollOption] = useState("");

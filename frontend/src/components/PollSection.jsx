@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import EventEmitter from "../patterns/EventEmitter";
+import EventEmitter from "../patterns/NetworkingPageObserver";
 
 const PollSection = ({ handleVote }) => {
   const [pollOption, setPollOption] = useState("");
