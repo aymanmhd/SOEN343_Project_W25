@@ -17,6 +17,8 @@ import AnalyticsPage from "./pages/AnalyticsPage";
 import MyEventsPage from "./pages/MyEventsPage";
 import ResourcesPage from "./pages/ResourcesPage";
 import AboutPage from "./pages/AboutPage";
+import ContactPage from "./pages/ContactPage";
+
 
 
 
@@ -64,6 +66,9 @@ function AppContent() {
           <Route path="/my-events" element={<MyEventsPage />} />
           <Route path="/resources" element={<ResourcesPage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+
+          
         </Routes>
       </main>
 
