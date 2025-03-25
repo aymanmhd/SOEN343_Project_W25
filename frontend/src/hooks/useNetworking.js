@@ -1,69 +1,40 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import EventEmitter from "../patterns/EventEmitter";
 
 const useNetworking = () => {
-  const [pollOption, setPollOption] = useState(""); // Which option the user voted for
+  const [pollOption, setPollOption] = useState("");
   const [pollResults, setPollResults] = useState({ optionA: 0, optionB: 0 });
-  const [question, setQuestion] = useState("");
   const [questionsList, setQuestionsList] = useState([]);
-  const [chatMessage, setChatMessage] = useState("");
   const [chatMessages, setChatMessages] = useState([]);
-  const [answers, setAnswers] = useState({}); // Stores answers for each question
-  const [answerInputs, setAnswerInputs] = useState({}); // Stores input values for each question
+
+  useEffect(() => {
+    EventEmitter.emit("updatePoll", { pollOption, pollResults });
+  }, [pollOption, pollResults]);
+
+  useEffect(() => {
+    EventEmitter.emit("updateQuestions", questionsList);
+  }, [questionsList]);
+
+  useEffect(() => {
+    EventEmitter.emit("updateChat", chatMessages);
+  }, [chatMessages]);
 
   const handleVote = (option) => {
-    setPollResults((prev) => ({
-      ...prev,
-      [option]: prev[option] + 1,
-    }));
+    setPollResults(prev => ({ ...prev, [option]: prev[option] + 1 }));
     setPollOption(option);
   };
 
-  const handleQuestionSubmit = (e) => {
-    e.preventDefault();
-    if (question.trim() === "") return;
-    setQuestionsList([...questionsList, { id: Date.now(), text: question }]);
-    setQuestion("");
+  const handleQuestionSubmit = (questionText) => {
+    if (!questionText.trim()) return;
+    setQuestionsList(prev => [...prev, { id: Date.now(), text: questionText }]);
   };
 
-  const handleAnswerSubmit = (e, questionId) => {
-    e.preventDefault();
-    if (!answerInputs[questionId]?.trim()) return;
-
-    setAnswers((prev) => ({
-      ...prev,
-      [questionId]: [...(prev[questionId] || []), answerInputs[questionId]],
-    }));
-
-    setAnswerInputs((prev) => ({
-      ...prev,
-      [questionId]: "",
-    }));
+  const handleChatSubmit = (message) => {
+    if (!message.trim()) return;
+    setChatMessages(prev => [...prev, { user: "You", message }]);
   };
 
-  const handleChatSubmit = (e) => {
-    e.preventDefault();
-    if (chatMessage.trim() === "") return;
-    setChatMessages([...chatMessages, { user: "You", message: chatMessage }]);
-    setChatMessage("");
-  };
-
-  return {
-    pollOption,
-    pollResults,
-    handleVote,
-    question,
-    questionsList,
-    handleQuestionSubmit,
-    chatMessage,
-    chatMessages,
-    handleChatSubmit,
-    answers,
-    answerInputs,
-    handleAnswerSubmit,
-    setQuestion,
-    setChatMessage,
-    setAnswerInputs,
-  };
+  return { handleVote, handleQuestionSubmit, handleChatSubmit };
 };
 
 export default useNetworking;
