@@ -1,7 +1,7 @@
 import React from "react";
 import "../styles/NetworkingPage.css";
 import Footer from "../components/Footer";
-import useNetworking from "../hooks/useNetworking"; // Correct hook import
+import useNetworking from "../hooks/useNetworking"; 
 
 const NetworkingPage = () => {
   const {
