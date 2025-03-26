@@ -76,7 +76,7 @@ setTimeout(async () => {
     await TransactionsManager.addToCart(account2_find, event2);
 
     // add speaker
-    const speaker1 = await AccountsManager.register("speaker1", "password", false, "Speaker 1");
+    const speaker1 = await AccountsManager.register("speaker1", "password", "Admin", "Speaker 1");
     // add speaker to event
     await EventsManager.addSpeaker(event1, speaker1);
 
