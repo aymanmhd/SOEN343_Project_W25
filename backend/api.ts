@@ -23,7 +23,7 @@ const websiteUrl = "http://localhost";
 
 setTimeout(async () => {
     database.dropDatabase();
-    const account2_create = await AccountsManager.register("admin2", "password", true, "Admin");
+    const account2_create = await AccountsManager.register("admin2", "password", "Admin", "Admin User");
     // console.log(account2_create);
     const account2_find = await AccountsManager.findAccountByUsername("admin2");
     // console.log(account2_find);

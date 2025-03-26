@@ -1,5 +1,48 @@
 import bcrypt from 'bcrypt';
 import { Account } from './models/Account';
+import mongoose from 'mongoose';
+
+
+// interface for user creation parameters
+interface AccountData {
+    username: string;
+    password: string;
+    fullName: string;
+    type: string;
+    //cartItems?: mongoose.Types.ObjectId[];
+    //orders?: mongoose.Types.ObjectId[];
+    //mails?: mongoose.Types.ObjectId[];
+    //attendingEvents?: mongoose.Types.ObjectId[];
+    //hostedEvents?: mongoose.Types.ObjectId[];
+}
+
+// account types: regular and admin (can add as necessary ex: guest users, tiered users)
+class RegularAccount {
+    account: InstanceType<typeof Account>;
+    constructor(data: AccountData) {
+        this.account = new Account({ ...data, type: 'Regular' });
+    }
+}
+
+class AdminAccount {
+    account: InstanceType<typeof Account>;
+    constructor(data: AccountData) {
+        this.account = new Account({ ...data, type: 'Admin' });
+    }
+}
+
+// factory class (factory design pattern)
+class AccountFactory {
+    static createAccount(type: string, data: AccountData): any {
+        switch (type) {
+            case 'Admin':
+                return new AdminAccount(data).account;
+            case 'Regular':
+            default:
+                return new RegularAccount(data).account;
+        }
+    }
+}
 
 class AccountsManager {
     // find account by username
@@ -7,10 +50,10 @@ class AccountsManager {
         return await Account.findOne({ username });
     }
 
-    static async register(username: string, password: string, isAdmin: boolean, fullName: string) {
+    static async register(username: string, password: string, type: string, fullName: string) {
         const hashedPassword = await bcrypt.hash(password, 10);
-        console.log('Hash:', hashedPassword);
-        const newAccount = new Account({ username, password: hashedPassword, isAdmin, fullName });
+        console.log('Hash: ', hashedPassword);
+        const newAccount = AccountFactory.createAccount(type, {username, password: hashedPassword, type, fullName});
         const result = await newAccount.save();
         console.log('User created!');
         return result;
