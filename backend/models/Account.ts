@@ -7,7 +7,7 @@ import { Mail } from './Mail';
 const AccountSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    isAdmin: { type: Boolean, required: true },
+    type: { type: String, required: true },
     fullName: { type: String, required: true},
 
     cartItems: { type: Array<Schema.Types.ObjectId>, ref: 'Event', default: []},
