@@ -10,11 +10,18 @@ const AccountSchema = new mongoose.Schema({
     isAdmin: { type: Boolean, required: true },
     fullName: { type: String, required: true},
 
-    cartItems: { type: Array<Schema.Types.ObjectId>, ref: 'Event', default: []},
+    cartItems: { type: Array<Schema.Types.ObjectId>, ref: 'Event', default: [] },
     orders: { type: Array<Schema.Types.ObjectId>, ref: 'Order', default: [] },
+    
     mails: { type: Array<Schema.Types.ObjectId>, ref: 'Mail', default: [] },
     attendingEvents: { type: Array<Schema.Types.ObjectId>, ref: 'Event', default: [] },
     hostedEvents: { type: Array<Schema.Types.ObjectId>, ref: 'Event', default: [] },
+
+    lastLogin: { type: Date, default: Date.now },
+    loginStreak : { type: Number, default: 1 },
+    loginStreakRecord : { type: Number, default: 1 },
+    loginStreakStartDate : { type: Date, default: Date.now },
+    loginStreakLastDate : { type: Date, default: Date.now },
 });
 
 // AccountSchema.methods.changePassword = async function (oldPassword: string, newPassword: string) {
@@ -38,4 +45,6 @@ const AccountSchema = new mongoose.Schema({
 //     await this.save();
 // };
 
-export const Account = mongoose.model('account', AccountSchema);
+const Account = mongoose.model('Account', AccountSchema);
+
+export { Account, AccountSchema };

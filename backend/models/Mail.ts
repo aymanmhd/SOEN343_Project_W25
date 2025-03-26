@@ -1,11 +1,14 @@
 import mongoose, { Schema } from 'mongoose';
+import { Account } from './Account';
 
 const MailSchema: mongoose.Schema = new mongoose.Schema({
-    accountTo: { type: Schema.Types.ObjectId, ref: 'Account', required: true },
     accountFrom: { type: Schema.Types.ObjectId, ref: 'Account', required: false, default: null },
+    accountTo: { type: Schema.Types.ObjectId, ref: 'Account', required: true },
     timeSent: { type: Date, required: true },
     subject: { type: String, required: true },
-    messsge: { type: String, required: true },
+    message: { type: String, required: true },
 });
 
-export const Mail = mongoose.model('mail', MailSchema);
+const Mail = mongoose.model('Mail', MailSchema);
+
+export { Mail, MailSchema };
