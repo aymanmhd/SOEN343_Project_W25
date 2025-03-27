@@ -11,7 +11,7 @@ const CreateEventPage = () => {
   const [eventPrice, setEventPrice] = useState(0);
   const [eventDescription, setEventDescription] = useState("");
   const [eventSpeakers, setEventSpeakers] = useState("");
-  const [eventAttendees, setEventAttendees] = useState(""); // Added missing state
+  const [eventAttendees, setEventAttendees] = useState("");
   const [submitStatus, setSubmitStatus] = useState(null);
   const [error, setError] = useState("");
 
@@ -20,7 +20,6 @@ const CreateEventPage = () => {
     setError("");
     setSubmitStatus(null);
 
-    // Convert inputs safely
     const speakersArray = eventSpeakers
       ? eventSpeakers.split(",").map((s) => s.trim())
       : [];
@@ -40,14 +39,13 @@ const CreateEventPage = () => {
         price: priceValue,
         description: eventDescription,
         speakers: speakersArray,
-        // attendees: attendeesArray // Only include if backend requires this
+        // attendees: attendeesArray
       },
       (response) => {
         if (response?.error) {
           setError(response.error);
         } else {
           setSubmitStatus("Event created successfully!");
-          // Reset all form fields
           setEventName("");
           setEventDate("");
           setEventLocation("");
@@ -65,10 +63,10 @@ const CreateEventPage = () => {
   };
 
   return (
-    <div className="create-event-page px-4 sm:px-8 py-12 bg-white min-h-screen text-gray-800 animate-fadeIn">
-      <h2 className="create-event-title">
+    <div className="create-event-page text-gray-800 animate-fadeIn">
+      <h1 className="text-4xl sm:text-5xl font-extrabold mb-10 text-gradient">
         Create a New Event
-      </h2>
+      </h1>
 
       {submitStatus && (
         <div className="text-green-600 text-center mb-6 font-medium text-lg">
@@ -84,10 +82,9 @@ const CreateEventPage = () => {
 
       <form
         onSubmit={handleSubmit}
-        className="max-w-4xl mx-auto bg-[#fefefe] shadow-xl rounded-2xl p-10 space-y-8"
+        className="max-w-2xl w-full bg-[#fefefe] shadow-xl rounded-2xl p-10 space-y-8"
       >
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-          {/* Event Name */}
+        <div className="grid grid-cols-1 gap-6">
           <div>
             <label className="label-style">Event Name</label>
             <input
@@ -100,7 +97,6 @@ const CreateEventPage = () => {
             />
           </div>
 
-          {/* Date */}
           <div>
             <label className="label-style">Date</label>
             <input
@@ -112,8 +108,7 @@ const CreateEventPage = () => {
             />
           </div>
 
-          {/* Location */}
-          <div className="sm:col-span-2">
+          <div>
             <label className="label-style">Location</label>
             <input
               type="text"
@@ -125,7 +120,6 @@ const CreateEventPage = () => {
             />
           </div>
 
-          {/* Price */}
           <div>
             <label className="label-style">Price ($)</label>
             <input
@@ -140,7 +134,6 @@ const CreateEventPage = () => {
             />
           </div>
 
-          {/* Speakers */}
           <div>
             <label className="label-style">Speakers (comma-separated)</label>
             <input
@@ -152,20 +145,7 @@ const CreateEventPage = () => {
             />
           </div>
 
-          {/* Attendees - Only include if needed */}
-          {/* <div>
-            <label className="label-style">Attendees (comma-separated)</label>
-            <input
-              type="text"
-              value={eventAttendees}
-              onChange={(e) => setEventAttendees(e.target.value)}
-              className="input-style"
-              placeholder="e.g. email1@test.com, email2@test.com"
-            />
-          </div> */}
-
-          {/* Description */}
-          <div className="sm:col-span-2">
+          <div>
             <label className="label-style">Description</label>
             <textarea
               rows="5"

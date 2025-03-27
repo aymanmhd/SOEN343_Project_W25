@@ -1,71 +1,159 @@
-/* Style form container */
-form {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 2rem;
-  background-color: #fefefe;
-  border-radius: 16px;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
+/* General Page Styling */
+.dashboard-container {
+  font-family: "Poppins", sans-serif;
+  background-color: #ffffff;
+  padding: 2rem 1rem;
+  min-height: 100vh;
 }
 
-/* Form labels */
-form label {
+/* Fade-in Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Top Section */
+.top-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #fefefe;
+  padding: 1.5rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
+  margin-bottom: 2rem;
+}
+
+.slogan-text {
+  font-size: 24px;
+  font-weight: 600;
+  color: #53917e;
+}
+
+.profile-section {
+  display: flex;
+  gap: 12px;
+}
+
+.profile-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #d9f0ea;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Summary Section */
+.summary-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 2rem;
+}
+
+.summary-card {
+  background-color: #fefefe;
+  color: #333;
   font-weight: 500;
-  margin-bottom: 6px;
-  display: block;
+  padding: 1.25rem;
+  border-radius: 14px;
+  width: 280px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.summary-card:hover {
+  transform: translateY(-4px);
+  background: linear-gradient(135deg, #b1b695, #53917e);
+  color: white;
+}
+
+/* Toggle Options */
+.toggle-options {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #eee;
+}
+
+.toggle-option {
+  font-size: 16px;
+  font-weight: 600;
+  padding: 12px 20px;
+  cursor: pointer;
+  position: relative;
+  color: #777;
+  transition: color 0.2s;
+}
+
+.toggle-option:hover {
+  color: #53917e;
+}
+
+.toggle-option.active {
+  color: #53917e;
+}
+
+.toggle-option.active::after {
+  content: "";
+  position: absolute;
+  height: 3px;
+  width: 100%;
+  background-color: #53917e;
+  bottom: -2px;
+  left: 0;
+}
+
+/* Events Section */
+.events-content {
+  margin: 0 auto 2rem auto;
+  max-width: 600px;
+  padding: 0 1rem;
+}
+
+.event-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.event-list li {
+  background-color: #ffffff;
+  padding: 12px 18px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  font-size: 15px;
   color: #333;
 }
 
-/* Input and textarea fields */
-form input,
-form textarea,
-form select {
-  font-family: "Poppins", sans-serif;
-  font-size: 14px;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  width: 100%;
-  margin-bottom: 1.2rem;
-  box-sizing: border-box;
-  transition: border 0.2s, box-shadow 0.2s;
-}
-
-/* Focus effect */
-form input:focus,
-form textarea:focus,
-form select:focus {
-  border-color: #53917e;
-  box-shadow: 0 0 0 3px rgba(83, 145, 126, 0.2);
-  outline: none;
-}
-
-/* Submit button */
-form button[type="submit"] {
-  background-color: #53917e;
-  color: white;
-  font-weight: 600;
-  padding: 0.6rem 1.2rem;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  transition: background-color 0.3s;
-}
-
-form button[type="submit"]:hover {
-  background-color: #417b69;
-}
-.create-event-title {
-  font-family: "Poppins", sans-serif;
-  font-size: 2rem; /* adjusts nicely for desktop */
-  font-weight: 600;
-  margin-bottom: 2.5rem;
+/* Recommendation Section */
+.recommendation-section {
+  background-color: #fefefe;
+  padding: 2rem;
+  border-radius: 16px;
   text-align: center;
-  background: linear-gradient(90deg, #53917e, #b1b695);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
 }
 
+.recommendation-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #53917e;
+  margin-bottom: 10px;
+}
+
+.recommendation-text {
+  font-size: 15px;
+  color: #666;
+}
