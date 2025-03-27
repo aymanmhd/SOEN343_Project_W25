@@ -1,0 +1,93 @@
+.create-event-page {
+    font-family: "Poppins", sans-serif;
+    background-color: #ffffff;
+    padding: 2rem 1rem;
+  }
+  
+  /* Add spacing between fields */
+  .form-group {
+    margin-bottom: 1.25rem;
+  }
+  
+  .input-style {
+    width: 100%;
+    max-width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    font-size: 14px;
+    transition: 0.2s ease;
+  }
+  
+  .input-style:focus {
+    outline: none;
+    border-color: #53917e;
+    box-shadow: 0 0 0 2px rgba(83, 145, 126, 0.15);
+  }
+  
+  .label-style {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #444;
+    display: block;
+  }
+  
+  .create-event-page form {
+    max-width: 650px;
+    margin: 0 auto;
+    background-color: #fefefe;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
+  }
+  
+  .create-event-page h1 {
+    color: #53917e;
+    font-size: 26px;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .create-button {
+    background: linear-gradient(135deg, #b1b695, #53917e);
+    color: white;
+    padding: 10px 28px;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  }
+  
+  .create-button:hover {
+    transform: scale(1.04);
+  }
+  
+  @media (max-width: 640px) {
+    .create-event-page form {
+      padding: 1.25rem;
+    }
+  
+    .input-style {
+      font-size: 13px;
+      padding: 8px 10px;
+    }
+  
+    .create-button {
+      padding: 9px 20px;
+      font-size: 14px;
+    }
+  
+    .create-event-page h1 {
+      font-size: 22px;
+    }
+  
+    .form-group {
+      margin-bottom: 1rem;
+    }
+  }
+  
