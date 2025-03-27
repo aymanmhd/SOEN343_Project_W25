@@ -28,8 +28,8 @@ const Navbar = () => {
         {/* Show different navbar items based on user role */}
         {user && user.role === "attendee" && (
           <>
-            <Link to="/my-events">My Events</Link>
             <Link to="/events">Explore</Link>
+            <Link to="/my-events">My Events</Link>
             <Link to="/networking">Networking</Link>
             <Link to="/resources">Resources</Link>
             <Link to="/feedback">Feedback</Link>
