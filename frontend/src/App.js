@@ -24,6 +24,7 @@ import ManageEventsPage from "./pages/ManageEventsPage";
 import FeedbackPage from "./pages/FeedbackPage";
 import ModerationPage from "./pages/ModerationPage";
 import AdminUsersPage from "./pages/AdminUsersPage"; 
+import PromotionsPage from "./pages/PromotionsPage"; 
 
 function App() {
   return (
@@ -74,6 +75,7 @@ function AppContent() {
           <Route path="/feedback" element={<FeedbackPage />} />
           <Route path="/moderation" element={<ModerationPage />} />
           <Route path="/user-management" element={<AdminUsersPage />} />
+          <Route path="/promotions" element={<PromotionsPage />} />
           
         </Routes>
       </main>

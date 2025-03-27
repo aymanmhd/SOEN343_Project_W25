@@ -49,6 +49,7 @@ const Navbar = () => {
           <>
             <Link to="/create-event">Create Event</Link>
             <Link to="/manage-events">Manage Events</Link>
+            <Link to="/promotions">Promotions</Link>
             <Link to="/analytics">Analytics</Link>
           </>
         )}
