@@ -22,11 +22,11 @@ import ContactPage from "./pages/ContactPage";
 import CreateEventPage from "./pages/CreateEventPage";
 import ManageEventsPage from "./pages/ManageEventsPage"; 
 import FeedbackPage from "./pages/FeedbackPage";
+import AdminReports from "./pages/AdminReports";
 import AccountPage from "./pages/AccountPage";
 import PromotionsPage from "./pages/PromotionsPage";
 import ModerationPage from "./pages/ModerationPage";
 import AdminUsersPage from "./pages/AdminUsersPage"; 
-
 
 
 
@@ -77,6 +77,8 @@ function AppContent() {
           <Route path="/create-event" element={<CreateEventPage />} />
           <Route path="/manage-events" element={<ManageEventsPage />} />
           <Route path="/feedback" element={<FeedbackPage />} />
+          <Route path="/adminReports" element={<AdminReports />} />
+
           <Route path="/account" element={<FeedbackPage />} />
           <Route path="/promotions" element={<PromotionsPage />} />
           <Route path="/moderation" element={<ModerationPage />} />
