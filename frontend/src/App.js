@@ -7,6 +7,7 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import AttendeeDashboard from "./pages/AttendeeDashboard";
+import AdminDashboard from "./pages/AdminDashboard";
 import OrganizerDashboard from "./pages/OrganizerDashboard";
 import AdminPanel from "./pages/AdminPanel";
 import ProfilePage from "./pages/ProfilePage"; 
@@ -57,7 +58,7 @@ function AppContent() {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/attendee-dashboard" element={<AttendeeDashboard />} />
           <Route path="/organizer-dashboard" element={<OrganizerDashboard />} />
-          <Route path="/admin-dashboard" element={<AdminPanel />} />
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/networking" element={<NetworkingPage />} />
           <Route path="/events" element={<EventListingPage />} />
           <Route path="/events/:id" element={<EventDetailsPage />} />
