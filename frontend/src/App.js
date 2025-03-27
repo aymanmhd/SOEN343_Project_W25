@@ -20,6 +20,7 @@ import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
 import CreateEventPage from "./pages/CreateEventPage";
 import ManageEventsPage from "./pages/ManageEventsPage"; 
+import FeedbackPage from "./pages/FeedbackPage";
 
 function App() {
   return (
@@ -67,6 +68,7 @@ function AppContent() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/create-event" element={<CreateEventPage />} />
           <Route path="/manage-events" element={<ManageEventsPage />} />
+          <Route path="/feedback" element={<FeedbackPage />} />
           
         </Routes>
       </main>
