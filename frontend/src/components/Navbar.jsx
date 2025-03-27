@@ -47,7 +47,6 @@ const Navbar = () => {
 
         {user && user.role === "organizer" && (
           <>
-            <Link to="/organizer-dashboard">Dashboard</Link>
             <Link to="/create-event">Create Event</Link>
             <Link to="/manage-events">Manage Events</Link>
             <Link to="/analytics">Analytics</Link>
