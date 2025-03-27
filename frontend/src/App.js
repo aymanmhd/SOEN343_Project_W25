@@ -18,10 +18,8 @@ import MyEventsPage from "./pages/MyEventsPage";
 import ResourcesPage from "./pages/ResourcesPage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
-
-
-
-
+import CreateEventPage from "./pages/CreateEventPage";
+import ManageEventsPage from "./pages/ManageEventsPage"; 
 
 function App() {
   return (
@@ -67,7 +65,8 @@ function AppContent() {
           <Route path="/resources" element={<ResourcesPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
-
+          <Route path="/create-event" element={<CreateEventPage />} />
+          <Route path="/manage-events" element={<ManageEventsPage />} />
           
         </Routes>
       </main>

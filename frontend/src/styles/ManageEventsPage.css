@@ -1,0 +1,104 @@
+/* Container */
+.manage-events-page {
+    font-family: "Poppins", sans-serif;
+    background-color: #fff;
+    animation: fadeIn 0.8s ease-in-out;
+  }
+  
+  /* Title */
+  .manage-events-page h1 {
+    font-size: 32px;
+    color: #53917e;
+    font-weight: bold;
+    margin-bottom: 30px;
+  }
+  
+  /* Empty state text */
+  .manage-events-page p {
+    font-size: 16px;
+    color: #666;
+    margin-top: 20px;
+  }
+  
+  /* Event Card Overrides */
+  .event-card {
+    background: #fdfdfd;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .event-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .event-card h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #6d1a36;
+    margin-bottom: 8px;
+  }
+  
+  .event-card p {
+    font-size: 14px;
+    color: #444;
+    margin: 4px 0;
+  }
+  
+  /* Action Buttons */
+  .event-card button {
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 12px;
+    transition: background 0.2s ease-in-out;
+  }
+  
+  .event-card button:first-child {
+    background-color: #53917e;
+    color: white;
+    margin-right: 8px;
+  }
+  
+  .event-card button:first-child:hover {
+    background-color: #3e6e60;
+  }
+  
+  .event-card button:last-child {
+    background-color: #dc2626;
+    color: white;
+  }
+  
+  .event-card button:last-child:hover {
+    background-color: #b91c1c;
+  }
+  
+  /* Grid Layout Responsive */
+  @media screen and (min-width: 768px) {
+    .manage-events-page .event-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+  }
+  
+  @media screen and (min-width: 1280px) {
+    .manage-events-page .event-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  /* Fade-in animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  

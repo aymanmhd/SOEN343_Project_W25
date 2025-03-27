@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../styles/CreateEventPage.css"; // Make sure this file exists
+import "../styles/CreateEventPage.css";
 import { useAuth } from "../context/AuthContext";
 
 const CreateEventPage = () => {
@@ -25,32 +25,30 @@ const CreateEventPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // BACKEND: Replace this with API call to save the event
+    // BACKEND: Replace with API call to create event
     console.log("Mock submit data:", formData);
-    setSubmitStatus("✅ Event created successfully (mock)");
+    setSubmitStatus("🎉 Event created successfully (mock)");
   };
 
   return (
-    <div className="create-event-page px-8 py-12 bg-white min-h-screen text-gray-800">
-      <h1 className="text-3xl font-bold mb-6 text-center text-primary">
+    <div className="create-event-page px-4 sm:px-8 py-12 bg-white min-h-screen text-gray-800 animate-fadeIn">
+      <h1 className="text-4xl sm:text-5xl font-extrabold mb-10 text-center text-gradient">
         Create a New Event
       </h1>
 
       {submitStatus && (
-        <div className="text-green-600 text-center mb-4 font-medium">
+        <div className="text-green-600 text-center mb-6 font-medium text-lg">
           {submitStatus}
         </div>
       )}
 
       <form
         onSubmit={handleSubmit}
-        className="max-w-3xl mx-auto bg-[#f9f9f9] shadow-md rounded-xl p-8 space-y-6"
+        className="max-w-4xl mx-auto bg-[#fefefe] shadow-xl rounded-2xl p-10 space-y-8"
       >
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
           <div>
-            <label className="block mb-2 text-sm font-semibold text-gray-700">
-              Event Title
-            </label>
+            <label className="label-style">Event Title</label>
             <input
               type="text"
               name="title"
@@ -58,14 +56,12 @@ const CreateEventPage = () => {
               value={formData.title}
               onChange={handleChange}
               className="input-style"
-              placeholder="e.g. AI in Education"
+              placeholder="e.g. Women in Tech Panel"
             />
           </div>
 
           <div>
-            <label className="block mb-2 text-sm font-semibold text-gray-700">
-              Category
-            </label>
+            <label className="label-style">Category</label>
             <select
               name="category"
               value={formData.category}
@@ -81,9 +77,7 @@ const CreateEventPage = () => {
           </div>
 
           <div>
-            <label className="block mb-2 text-sm font-semibold text-gray-700">
-              Date
-            </label>
+            <label className="label-style">Date</label>
             <input
               type="date"
               name="date"
@@ -95,9 +89,7 @@ const CreateEventPage = () => {
           </div>
 
           <div>
-            <label className="block mb-2 text-sm font-semibold text-gray-700">
-              Time
-            </label>
+            <label className="label-style">Time</label>
             <input
               type="time"
               name="time"
@@ -109,9 +101,7 @@ const CreateEventPage = () => {
           </div>
 
           <div className="sm:col-span-2">
-            <label className="block mb-2 text-sm font-semibold text-gray-700">
-              Location
-            </label>
+            <label className="label-style">Location</label>
             <input
               type="text"
               name="location"
@@ -119,14 +109,12 @@ const CreateEventPage = () => {
               value={formData.location}
               onChange={handleChange}
               className="input-style"
-              placeholder="e.g. Online or Room 101"
+              placeholder="e.g. Online or Concordia EV Building"
             />
           </div>
 
           <div className="sm:col-span-2">
-            <label className="block mb-2 text-sm font-semibold text-gray-700">
-              Capacity
-            </label>
+            <label className="label-style">Capacity</label>
             <input
               type="number"
               name="capacity"
@@ -139,27 +127,25 @@ const CreateEventPage = () => {
           </div>
 
           <div className="sm:col-span-2">
-            <label className="block mb-2 text-sm font-semibold text-gray-700">
-              Description
-            </label>
+            <label className="label-style">Description</label>
             <textarea
               name="description"
-              rows="4"
+              rows="5"
               required
               value={formData.description}
               onChange={handleChange}
               className="input-style resize-none"
-              placeholder="Describe your event..."
+              placeholder="Describe the event purpose, audience, or goals..."
             />
           </div>
         </div>
 
-        <div className="flex justify-center pt-4">
+        <div className="flex justify-center pt-6">
           <button
             type="submit"
-            className="bg-gradient-to-r from-[#b1b695] to-[#53917e] hover:scale-105 transition transform duration-300 text-white font-semibold py-3 px-6 rounded-full shadow-md"
+            className="create-button"
           >
-            Create Event
+            🚀 Create Event
           </button>
         </div>
       </form>
