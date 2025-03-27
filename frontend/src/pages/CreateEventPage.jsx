@@ -1,73 +1,67 @@
 import React, { useState } from "react";
-import "../styles/CreateEventPage.css"; // Adjust path if needed
-import { useAuth } from "../context/AuthContext"; // If you need user role checks
+import "../styles/CreateEventPage.css";
+import { useAuth } from "../context/AuthContext";
+import { api_private_post } from "../utils/api.js";
 
 const CreateEventPage = () => {
-  const { user } = useAuth(); // Remove if not using AuthContext
-
-  // These fields match your event schema: name, date, location, price, description, speakers, attendees.
-  // "speakers" is input as comma-separated text (later converted into an array).
-  // "attendees" typically starts empty (the backend can handle adding attendees).
-  const [formData, setFormData] = useState({
-    name: "",
-    date: "",
-    location: "",
-    price: "",
-    description: "",
-    speakers: ""
-  });
-
+  const { user } = useAuth();
+  const [eventName, setEventName] = useState("");
+  const [eventDate, setEventDate] = useState("");
+  const [eventLocation, setEventLocation] = useState("");
+  const [eventPrice, setEventPrice] = useState(0);
+  const [eventDescription, setEventDescription] = useState("");
+  const [eventSpeakers, setEventSpeakers] = useState("");
+  const [eventAttendees, setEventAttendees] = useState(""); // Added missing state
   const [submitStatus, setSubmitStatus] = useState(null);
+  const [error, setError] = useState("");
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+    setError("");
     setSubmitStatus(null);
 
-    // Convert the comma-separated "speakers" string into an array
-    const speakersArray = formData.speakers
-      ? formData.speakers.split(",").map((s) => s.trim())
+    // Convert inputs safely
+    const speakersArray = eventSpeakers
+      ? eventSpeakers.split(",").map((s) => s.trim())
       : [];
 
-    // Build the event object
-    const newEvent = {
-      name: formData.name,
-      date: formData.date,        // Example: "2025-03-26T23:16:22.376Z" or "2025-04-10"
-      location: formData.location,
-      price: Number(formData.price),  // Convert string to number
-      description: formData.description,
-      speakers: speakersArray,        // e.g. ["Speaker A", "Speaker B"]
-      attendees: []                   // Typically empty at creation
-    };
+    const attendeesArray = eventAttendees
+      ? eventAttendees.split(",").map((s) => s.trim())
+      : [];
 
-    // BACKEND: Replace this mock console.log with a real API call (fetch, axios, etc.)
-    console.log("Mock event creation:", newEvent);
+    const priceValue = Number(eventPrice);
 
-    // Example fetch call (uncomment & adjust if you want to test):
-    /*
-    try {
-      const response = await fetch("/events", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newEvent)
-      });
-      if (!response.ok) {
-        throw new Error("Failed to create event");
+    api_private_post(
+      "/events",
+      {
+        name: eventName,
+        date: eventDate,
+        location: eventLocation,
+        price: priceValue,
+        description: eventDescription,
+        speakers: speakersArray,
+        // attendees: attendeesArray // Only include if backend requires this
+      },
+      (response) => {
+        if (response?.error) {
+          setError(response.error);
+        } else {
+          setSubmitStatus("Event created successfully!");
+          // Reset all form fields
+          setEventName("");
+          setEventDate("");
+          setEventLocation("");
+          setEventPrice(0);
+          setEventDescription("");
+          setEventSpeakers("");
+          setEventAttendees("");
+        }
+      },
+      (err) => {
+        console.error("Event Creation failed:", err);
+        setError("Event creation failed. Please try again.");
       }
-      const createdEvent = await response.json();
-      setSubmitStatus(`🎉 Event '${createdEvent.name}' created successfully!`);
-    } catch (err) {
-      console.error(err);
-      setSubmitStatus("Error creating event.");
-    }
-    */
-
-    // For now, we simulate success:
-    setSubmitStatus("🎉 Event created successfully (mock)!");
+    );
   };
 
   return (
@@ -82,6 +76,12 @@ const CreateEventPage = () => {
         </div>
       )}
 
+      {error && (
+        <div className="text-red-600 text-center mb-6 font-medium text-lg">
+          {error}
+        </div>
+      )}
+
       <form
         onSubmit={handleSubmit}
         className="max-w-4xl mx-auto bg-[#fefefe] shadow-xl rounded-2xl p-10 space-y-8"
@@ -92,24 +92,22 @@ const CreateEventPage = () => {
             <label className="label-style">Event Name</label>
             <input
               type="text"
-              name="name"
               required
-              value={formData.name}
-              onChange={handleChange}
+              value={eventName}
+              onChange={(e) => setEventName(e.target.value)}
               className="input-style"
               placeholder="e.g. Women in Tech Panel"
             />
           </div>
 
-          {/* Date (ISO or YYYY-MM-DD) */}
+          {/* Date */}
           <div>
             <label className="label-style">Date</label>
             <input
               type="date"
-              name="date"
               required
-              value={formData.date}
-              onChange={handleChange}
+              value={eventDate}
+              onChange={(e) => setEventDate(e.target.value)}
               className="input-style"
             />
           </div>
@@ -119,10 +117,9 @@ const CreateEventPage = () => {
             <label className="label-style">Location</label>
             <input
               type="text"
-              name="location"
               required
-              value={formData.location}
-              onChange={handleChange}
+              value={eventLocation}
+              onChange={(e) => setEventLocation(e.target.value)}
               className="input-style"
               placeholder="e.g. Online or Concordia EV Building"
             />
@@ -130,41 +127,51 @@ const CreateEventPage = () => {
 
           {/* Price */}
           <div>
-            <label className="label-style">Price</label>
+            <label className="label-style">Price ($)</label>
             <input
               type="number"
-              name="price"
               min="0"
+              step="0.01"
               required
-              value={formData.price}
-              onChange={handleChange}
+              value={eventPrice}
+              onChange={(e) => setEventPrice(Math.max(0, Number(e.target.value)))}
               className="input-style"
-              placeholder="e.g. 10"
+              placeholder="e.g. 10.00"
             />
           </div>
 
-          {/* Speakers (Comma-separated) */}
+          {/* Speakers */}
           <div>
             <label className="label-style">Speakers (comma-separated)</label>
             <input
               type="text"
-              name="speakers"
-              value={formData.speakers}
-              onChange={handleChange}
+              value={eventSpeakers}
+              onChange={(e) => setEventSpeakers(e.target.value)}
               className="input-style"
               placeholder="e.g. John Doe, Jane Smith"
             />
           </div>
 
+          {/* Attendees - Only include if needed */}
+          {/* <div>
+            <label className="label-style">Attendees (comma-separated)</label>
+            <input
+              type="text"
+              value={eventAttendees}
+              onChange={(e) => setEventAttendees(e.target.value)}
+              className="input-style"
+              placeholder="e.g. email1@test.com, email2@test.com"
+            />
+          </div> */}
+
           {/* Description */}
           <div className="sm:col-span-2">
             <label className="label-style">Description</label>
             <textarea
-              name="description"
               rows="5"
               required
-              value={formData.description}
-              onChange={handleChange}
+              value={eventDescription}
+              onChange={(e) => setEventDescription(e.target.value)}
               className="input-style resize-none"
               placeholder="Describe the event's purpose, audience, or goals..."
             />
