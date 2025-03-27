@@ -139,9 +139,9 @@ apiServer.post("/login", async (req, res) => {
 });
 
 apiServer.post("/register", async (req, res) => {
-    const {username, password, isAdmin, fullName} = req.body;
+    const {username, password, type, fullName} = req.body;
     try {
-        const account = await AccountsManager.register(username, password, isAdmin, fullName);
+        const account = await AccountsManager.register(username, password, type, fullName);
         res.json(account);
         // return res.redirect(websiteUrl + "/login.html?success-msg=Successfully registered! Please log in...");
     } catch (e: any) {

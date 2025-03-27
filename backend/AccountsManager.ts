@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import { Account } from './models/Account';
 import mongoose from 'mongoose';
+import { error } from 'console';
 
 
 // interface for user creation parameters
@@ -39,8 +40,10 @@ class AccountFactory {
                 return new AdminAccount(data).account;
             case 'Regular':
                 return new RegularAccount(data).account;
+            default:
+                throw new Error("Error initializing the type.");
         }
-    }
+    }   
 }
 
 class AccountsManager {
