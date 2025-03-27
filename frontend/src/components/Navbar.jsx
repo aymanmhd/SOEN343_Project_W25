@@ -28,8 +28,8 @@ const Navbar = () => {
         {/* Show different navbar items based on user role */}
         {user && user.role === "attendee" && (
           <>
-            <Link to="/my-events">My Events</Link>
             <Link to="/events">Explore</Link>
+            <Link to="/my-events">My Events</Link>
             <Link to="/networking">Networking</Link>
             <Link to="/resources">Resources</Link>
             <Link to="/feedback">Feedback</Link>
@@ -49,13 +49,13 @@ const Navbar = () => {
           <>
             <Link to="/create-event">Create Event</Link>
             <Link to="/manage-events">Manage Events</Link>
+            <Link to="/promotions">Promotions</Link>
             <Link to="/analytics">Analytics</Link>
           </>
         )}
 
         {user && user.role === "admin" && (
           <>
-            <Link to="/admin-panel">Admin Panel</Link>
             <Link to="/user-management">Users</Link>
             <Link to="/moderation">Moderation</Link>
             <Link to="/reports">Reports</Link>

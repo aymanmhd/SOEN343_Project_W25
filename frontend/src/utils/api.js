@@ -1,13 +1,12 @@
-const API_URL = "http://localhost:3000"
+const API_URL = "http://localhost:8888";
 
-function api_private_get(endpoint, successCallback) {
+export function api_private_get(endpoint, successCallback) {
     fetch(API_URL + endpoint, {
         method: 'GET',
-        credentials: 'include'  // Include cookies
+        credentials: 'include'
     })
         .then(response => {
             if (response.status === 401) {
-                // alert('You are not logged in. Redirecting to login page...');
                 window.location.href = 'login.html?error-msg=You have been logged out due to inactivity. Please log in again.';
             } else if (response.status !== 200) {
                 console.error('Error:', response);
@@ -21,7 +20,7 @@ function api_private_get(endpoint, successCallback) {
         });
 }
 
-function api_private_post(endpoint, data, successCallback, errorCallback=null) {
+export function api_private_post(endpoint, data, successCallback, errorCallback = null) {
     fetch(API_URL + endpoint, {
         method: 'POST',
         credentials: 'include',
@@ -32,7 +31,6 @@ function api_private_post(endpoint, data, successCallback, errorCallback=null) {
     })
         .then(response => {
             if (response.status === 401) {
-                // alert('You are not logged in. Redirecting to login page...');
                 window.location.href = 'login.html?error-msg=You have been logged out due to inactivity. Please log in again.';
             } else if (response.status !== 200) {
                 console.error('Error:', response);
@@ -48,5 +46,3 @@ function api_private_post(endpoint, data, successCallback, errorCallback=null) {
             }
         });
 }
-
-export default api;

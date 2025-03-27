@@ -1,0 +1,67 @@
+.promotions-page {
+    margin-top: 80px;
+    padding: 30px 20px;
+    font-family: "Poppins", sans-serif;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    animation: fadeIn 0.8s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  .promotions-title {
+    font-size: 26px;
+    font-weight: bold;
+    color: #53917e;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  
+  .promotions-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .promotions-form input,
+  .promotions-form textarea {
+    padding: 14px;
+    font-size: 14px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    resize: none;
+    outline: none;
+    transition: border-color 0.2s ease-in-out;
+  }
+  
+  .promotions-form input:focus,
+  .promotions-form textarea:focus {
+    border-color: #53917e;
+  }
+  
+  .btn-send-promo {
+    background: linear-gradient(135deg, #b1b695, #53917e);
+    color: white;
+    padding: 12px;
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .btn-send-promo:hover {
+    transform: scale(1.05);
+  }
+  
+  .success-message {
+    color: green;
+    font-size: 14px;
+    text-align: center;
+  }
+  

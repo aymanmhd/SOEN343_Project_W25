@@ -1,0 +1,103 @@
+.moderation-page-container {
+    padding: 40px;
+    font-family: "Poppins", sans-serif;
+    background-color: #fff;
+    min-height: 100vh;
+  }
+  
+  .moderation-title {
+    font-size: 32px;
+    font-weight: bold;
+    color: #53917e;
+    margin-bottom: 10px;
+  }
+  
+  .moderation-subtitle {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 30px;
+  }
+  
+  .moderation-table-wrapper {
+    overflow-x: auto;
+    width: 100%;
+  }
+  
+  .moderation-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fdfdfd;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    min-width: 960px;
+  }
+  
+  .moderation-table th,
+  .moderation-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #e6e6e6;
+    text-align: left;
+  }
+  
+  .moderation-table th {
+    background-color: #53917e;
+    color: white;
+    font-weight: 600;
+  }
+  
+  .status-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  .badge-pending {
+    background-color: #fce5cd;
+    color: #cc7a00;
+  }
+  
+  .badge-removed {
+    background-color: #f8d7da;
+    color: #a71d2a;
+  }
+  
+  .badge-dismissed {
+    background-color: #d4edda;
+    color: #256029;
+  }
+  
+  .moderation-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .btn-remove,
+  .btn-dismiss {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s ease;
+  }
+  
+  .btn-remove {
+    background-color: #d9534f;
+    color: white;
+  }
+  
+  .btn-remove:hover {
+    background-color: #c9302c;
+  }
+  
+  .btn-dismiss {
+    background-color: #5cb85c;
+    color: white;
+  }
+  
+  .btn-dismiss:hover {
+    background-color: #449d44;
+  }
+  
