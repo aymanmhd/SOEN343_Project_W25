@@ -4,7 +4,7 @@
   "description": "",
   "main": "api.ts",
   "scripts": {
-    "start": "ts-node api.ts",
+    "start": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -24,6 +24,8 @@
     "@types/express": "^5.0.1",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^22.13.11",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
   },
   "dependencies": {
@@ -34,7 +36,6 @@
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.12.2",
-    "ts-node": "^10.9.2",
     "uuid": "^11.1.0"
   }
 }

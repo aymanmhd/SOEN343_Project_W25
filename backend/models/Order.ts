@@ -1,5 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 import { Event } from './Event';
+import { Account } from './Account';
 
 const OrderSchema: mongoose.Schema = new mongoose.Schema({
     account: { type: Schema.Types.ObjectId, ref: 'Account', required: true },
@@ -10,4 +11,6 @@ const OrderSchema: mongoose.Schema = new mongoose.Schema({
     // items: { type: Array<typeof Event>, required: true },
 });
 
-export const Order = mongoose.model('order', OrderSchema);
+const Order = mongoose.model('Order', OrderSchema);
+
+export { Order, OrderSchema };

@@ -12,10 +12,26 @@ import AccountsManager from "./AccountsManager";
 import EventsManager from "./EventsManager";
 import TransactionsManager from "./TransactionsManager";
 
-import { Event } from "./models/Event";
+
 import MailManager from "./MailManager";
+import LoginStreak from "./LoginStreak";
+
+import mongoose, { Schema } from "mongoose";
+import { Account, AccountSchema } from "./models/Account";
+import { Event, EventSchema } from "./models/Event";
+import { Mail, MailSchema } from "./models/Mail";
+import { Order, OrderSchema } from "./models/Order";
+// const Account = require("./models/Account");
+// const Event = require("./models/Event");
+// const Mail = require("./models/Mail");
+// const Order = require("./models/Order");
 
 dotenv.config();
+
+mongoose.model('Account', AccountSchema);
+mongoose.model('Event', EventSchema);
+mongoose.model('Mail', MailSchema);
+mongoose.model('Order', OrderSchema);
 
 const apiServer = express();
 const port = 3000;
@@ -23,9 +39,12 @@ const websiteUrl = "http://localhost";
 
 setTimeout(async () => {
     database.dropDatabase();
-    const account2_create = await AccountsManager.register("admin2", "password", true, "Admin");
+    const account2_create = await AccountsManager.register("admin2", "password", "Admin", "Admin User");
     // console.log(account2_create);
     const account2_find = await AccountsManager.findAccountByUsername("admin2");
+    if (!account2_find) {
+        throw new Error("Account not found");
+    }
     // console.log(account2_find);
     await TransactionsManager.clearCart(account2_find);
     // console.log(account2_find);
@@ -53,6 +72,15 @@ setTimeout(async () => {
         console.log("No attending events found.");
     }
 
+    await TransactionsManager.addToCart(account2_find, event1);
+    await TransactionsManager.addToCart(account2_find, event2);
+
+    // add speaker
+    const speaker1 = await AccountsManager.register("speaker1", "password", "Admin", "Speaker 1");
+    // add speaker to event
+    await EventsManager.addSpeaker(event1, speaker1);
+
+    const mail1 = await MailManager.sendNewMail(account2_find, account2_find, "Test Mail", "This is a test mail.");
     const mails1 = await MailManager.findMailByAccountTo(account2_find);
     console.log(mails1);
 }, 2000);
@@ -101,8 +129,10 @@ apiServer.post("/login", async (req, res) => {
 
     res.cookie("token", jwtToken, {
         httpOnly: true,
-        // sameSite: 'None',  // need to set Secure too...
+        // sameSite: 'None',  // need to set Secure too?
     });
+
+    LoginStreak.updateLoginStreak(account);  // Update login streak asynchronously
 
     // res.status(200).send("Logged In!");
     return res.redirect(websiteUrl + "/account.html");
@@ -112,31 +142,242 @@ apiServer.post("/register", async (req, res) => {
     const {username, password, isAdmin, fullName} = req.body;
     try {
         const account = await AccountsManager.register(username, password, isAdmin, fullName);
-        return res.redirect(websiteUrl + "/login.html?success-msg=Successfully registered! Please log in...");
+        res.json(account);
+        // return res.redirect(websiteUrl + "/login.html?success-msg=Successfully registered! Please log in...");
     } catch (e: any) {
         console.error("Error: ", e);
-        return res.status(401).redirect(websiteUrl + "/register.html?error-msg=" + e.message);
+        res.status(400).json({ error: e.message });
+        // return res.status(401).redirect(websiteUrl + "/register.html?error-msg=" + e.message);
     }
 });
 
-apiServer.get("/logout", (req, res) => {
+apiServer.get("/logout", async (req, res) => {
     res.clearCookie("token");
     return res.redirect(websiteUrl + "/login.html?success-msg=Successfully logged out");
 });
 
 apiServer.get("/check_login", cookieJwtAuth, (req, res) => {
-    res.send(true);
+    res.send(true);  // will throw an error if not logged in
+});
+
+
+
+apiServer.get('/account', async (req, res) => {
+    let account = await AccountsManager.findAccountByUsername("admin2");  // TODO: find right account
+    if (!account) {
+        res.status(404).json({ error: 'Account not found' });
+        return;
+    }
+    try {
+        account = await account.populate('cartItems');  // equivalent to `GET /cart`
+        account = await account.populate('orders');
+        account = await account.populate({
+            path: 'mails',
+            populate: [
+            { path: 'accountTo', select: 'username' },
+            { path: 'accountFrom', select: 'username' }
+            ]
+        });  // equivalent to `GET /mail`
+        account = await account.populate('attendingEvents');
+        account = await account.populate('hostedEvents');
+
+        res.json(account);
+    } catch (error) {
+        console.error('Failed to fetch accounts:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+
+/* ================================================== */
+/* Events Endpoints                                   */
+/* ================================================== */
+
+apiServer.post("/events", async (req, res) => {
+    const { name, date, location, price, description } = req.body;
+    try {
+        const event: any = await EventsManager.createNewEvent(name, new Date(date), location, price, description);
+        res.status(201).json(event);
+    } catch (error) {
+        console.error("Error creating event:", error);
+        res.status(500).json({ error: "Failed to create event" });
+    }
+});
+
+apiServer.get("/events", async (req, res) => {
+    try {
+        let events = await EventsManager.getAllEvents();
+        // for each speaker (ObjectId) in event, populate username and fullname 
+        events = await Promise.all(events.map(async event => await event.populate({
+            path: 'speakers',
+            select: 'username fullName'
+        })));
+        res.json(events);
+    } catch (error) {
+        console.error("Error fetching events:", error);
+        res.status(500).json({ error: "Failed to fetch events" });
+    }
+});
+
+apiServer.post("/events/add_speaker", async (req, res) => {
+    const { eventId, speakerId } = req.body;
+    try {
+        const updatedEvent = await EventsManager.addSpeaker(eventId, speakerId);
+        res.json(updatedEvent);
+    } catch (error) {
+        console.error("Error adding speaker:", error);
+        res.status(500).json({ error: "Failed to add speaker" });
+    }
+});
+
+apiServer.post("/events/add_attendee_manually", async (req, res) => {
+    const { eventId, attendeeId } = req.body;
+    try {
+        const updatedEvent = await EventsManager.addAttendee(eventId, attendeeId);
+        res.json(updatedEvent);
+    } catch (error) {
+        console.error("Error adding attendee:", error);
+        res.status(500).json({ error: "Failed to add attendee" });
+    }
+});
+
+/* ================================================== */
+/* Transactions Endpoints                             */
+/* ================================================== */
+
+apiServer.post("/cart/add", async (req, res) => {
+    const { eventId } = req.body;
+    try {
+        const account = await AccountsManager.findAccountByUsername("admin2");  // TODO: Replace with logged-in user
+        const event = await Event.findById(eventId);
+        if (!event) {
+            res.status(404).json({ error: "Event not found" });
+            return;
+        }
+        try {
+            const updatedCart = await TransactionsManager.addToCart(account, event);
+            res.json(updatedCart);
+        } catch (e: any) {
+            res.status(400).json({ error: e.message });
+            return;
+        }
+    } catch (error) {
+        console.error("Error adding to cart:", error);
+        res.status(500).json({ error: "Failed to add to cart" });
+    }
+});
+
+apiServer.post("/cart/remove", async (req, res) => {
+    const { eventId } = req.body;
+    try {
+        const account = await AccountsManager.findAccountByUsername("admin2");  // TODO: Replace with logged-in user
+        const event = await Event.findById(eventId);
+        if (!event) {
+            res.status(404).json({ error: "Event not found" });
+            return;
+        }
+        await TransactionsManager.removeFromCart(account, event);
+        res.redirect('/cart');
+    } catch (error) {
+        console.error("Error removing from cart:", error);
+        res.status(500).json({ error: "Failed to remove from cart" });
+    }
+});
+
+apiServer.post("/cart/clear", async (req, res) => {
+    try {
+        const account = await AccountsManager.findAccountByUsername("admin2"); // TODO: Replace with logged-in user
+        const updatedCart = await TransactionsManager.clearCart(account);
+        res.redirect('/cart');
+    } catch (error) {
+        console.error("Error clearing cart:", error);
+        res.status(500).json({ error: "Failed to clear cart" });
+    }
+});
+
+apiServer.get("/cart", async (req, res) => {
+    try {
+        const account = await AccountsManager.findAccountByUsername("admin2"); // TODO: Replace with logged-in user
+        if (!account) {
+            res.status(404).json({ error: "Account not found" });
+            return;
+        }
+        await account.populate('cartItems');
+        res.json(account.cartItems);
+    } catch (error) {
+        console.error("Error fetching cart:", error);
+        res.status(500).json({ error: "Failed to fetch cart" });
+    }
+});
+
+apiServer.post("/cart/checkout", async (req, res) => {
+    const { paymentCard } = req.body;
+    try {
+        const account = await AccountsManager.findAccountByUsername("admin2"); // TODO: Replace with logged-in user
+        const order = await TransactionsManager.checkoutCart(account, paymentCard);
+        res.json(order);
+    } catch (error) {
+        console.error("Error during checkout:", error);
+        res.status(500).json({ error: "Failed to checkout" });
+    }
+});
+
+/* ================================================== */
+/* Mail Endpoints                                     */
+/* ================================================== */
+
+apiServer.get("/mail", async (req, res) => {
+    try {
+        const account = await AccountsManager.findAccountByUsername("admin2"); // TODO: Replace with logged-in user
+        const mails = await MailManager.findMailByAccountTo(account);
+        // populate accountFrom and accountTo fields with username and fullName
+        await Mail.populate(mails, {
+            path: 'accountFrom accountTo',
+            select: 'username fullName'
+        });
+        res.json(mails);
+    } catch (error) {
+        console.error("Error fetching mail:", error);
+        res.status(500).json({ error: "Failed to fetch mail" });
+    }
+});
+
+apiServer.post("/mail", async (req, res) => {
+    const { accountTo, subject, message } = req.body;
+    try {
+        const account: NonNullable<any> = await AccountsManager.findAccountByUsername("admin2"); // TODO: Replace with logged-in user
+        const accountToObj = await AccountsManager.findAccountByUsername(accountTo);
+        if (!accountToObj) {
+            res.status(404).json({ error: "Recipient account not found" });
+            return;
+        }
+        const mail = await MailManager.sendNewMail(account, accountToObj, subject, message);
+        await Mail.populate(mail, {
+            path: 'accountFrom accountTo',
+            select: 'username fullName'
+        });
+        res.json(mail);
+    } catch (error) {
+        console.error("Error sending mail:", error);
+        res.status(500).json({ error: "Failed to send mail" });
+    }
 });
 
 
 
 
+
+
+
+
+
+
+
+
+
+
 const httpServer = http.createServer(apiServer);
-// const httpsServer = https.createServer(credentials, app);
-
 httpServer.listen(port);
-// httpsServer.listen(port);
-
 console.log(`Listening on port ${port}`);
 
 database.connectDatabase();
