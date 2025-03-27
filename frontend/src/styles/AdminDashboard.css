@@ -1,123 +1,90 @@
-.admin-dashboard-container {
-  padding: 40px 60px;
-  font-family: "Poppins", sans-serif;
-  background-color: #fff;
-  color: #333;
+.admin-container {
+  min-height: 100vh;
+  background-color: #ffffff;
+  padding: 2.5rem 1.5rem;
+  font-family: 'Poppins', sans-serif;
 }
 
-/* Hero Section */
-.dashboard-hero {
-  background: #f7f7f7;
-  padding: 30px;
-  border-radius: 20px;
-  margin-bottom: 30px;
-  position: relative;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+.admin-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Welcome Box */
+.admin-welcome-box {
+  background-color: #f7f7f7;
+  border-radius: 1.5rem;
+  padding: 2rem;
   text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+  margin-bottom: 2rem;
 }
 
-.dashboard-heading {
-  font-size: 28px;
-  font-weight: 700;
-  color: #6d1a36;
-  margin-bottom: 10px;
-  animation: fadeInUp 0.8s ease forwards;
+.admin-welcome-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #3c3c3c;
 }
 
-.sub-welcome {
-  color: #888;
-  font-size: 16px;
-  margin-top: 5px;
-  font-style: italic;
-}
-
-.highlight-name {
+.admin-highlight {
   color: #53917e;
 }
 
-.dashboard-dots {
+.admin-subtitle {
+  margin-top: 0.5rem;
+  font-style: italic;
+  color: #777;
+  font-size: 1rem;
+}
+
+/* Dots */
+.admin-dots {
   display: flex;
-  gap: 10px;
   justify-content: center;
-  margin-top: 15px;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
 }
 
 .dot {
-  width: 14px;
-  height: 14px;
+  width: 10px;
+  height: 10px;
   background-color: #53917e;
   border-radius: 50%;
 }
 
-/* Prompt */
-.dashboard-prompt {
+/* Subheading */
+.admin-subheading {
   text-align: center;
-  font-size: 16px;
-  color: #6d1a36;
-  margin: 20px 0;
-  font-style: italic;
+  font-size: 1.1rem;
+  color: #6b1d3a;
+  margin: 1.5rem 0;
 }
 
-/* Action Buttons */
-.dashboard-actions {
+/* Action Cards */
+.admin-actions {
   display: flex;
-  gap: 20px;
-  margin: 30px 0;
   flex-wrap: wrap;
+  gap: 1.5rem;
   justify-content: center;
+  margin-bottom: 3rem;
 }
 
-.action-box {
-  flex: 1;
-  min-width: 250px;
-  background: #e4e7dd;
+.admin-action-card {
+  flex: 1 1 300px;
+  background-color: #e9f1ee;
+  padding: 1.5rem;
+  border-radius: 1.25rem;
+  font-weight: 600;
+  text-align: center;
+  font-size: 1.05rem;
   color: #333;
-  padding: 18px;
-  border-radius: 15px;
-  text-align: center;
-  font-weight: 600;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.06);
-  transition: all 0.3s ease;
+  transition: 0.3s ease;
   cursor: pointer;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.04);
 }
 
-.action-box:hover {
-  background-color: #dbe1d3;
-  transform: translateY(-4px);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+.admin-action-card:hover {
+  background-color: #d7e9e3;
+  transform: translateY(-3px);
 }
 
-/* Dashboard Sections */
-.dashboard-section {
-  margin-bottom: 40px;
-  text-align: center;
-  padding: 20px;
-  background: #fdfdfd;
-  border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
-}
-
-.section-title {
-  font-size: 20px;
-  font-weight: 600;
-  color: #444;
-  margin-bottom: 12px;
-}
-
-.section-subtitle {
-  font-size: 16px;
-  color: #6d1a36;
-  font-style: italic;
-}
-
-/* Animation */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
