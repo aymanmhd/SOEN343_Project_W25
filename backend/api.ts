@@ -43,8 +43,8 @@ mongoose.model('Mail', MailSchema);
 mongoose.model('Order', OrderSchema);
 
 const apiServer = express();
-const port = 3000;
-const websiteUrl = "http://localhost";
+const port = 8888;
+const websiteUrl = "http://localhost:3000";
 
 setTimeout(async () => {
     database.dropDatabase();
@@ -95,7 +95,7 @@ setTimeout(async () => {
 }, 2000);
 
 var corsOptions = {
-    origin: "",
+    origin: websiteUrl,
     credentials: true,
     optionsSuccessStatus: 200
 };
@@ -144,7 +144,8 @@ apiServer.post("/login", async (req, res) => {
     LoginStreak.updateLoginStreak(account);  // Update login streak asynchronously
 
     // res.status(200).send("Logged In!");
-    return res.redirect(websiteUrl + "/account.html");
+    console.log("Successfully logged in!");
+    return res.redirect(websiteUrl + "/account");
 });
 
 apiServer.post("/register", async (req, res) => {

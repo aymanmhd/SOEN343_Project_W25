@@ -32,6 +32,13 @@ class AdminAccount {
     }
 }
 
+class OrganizerAccount {
+    account: InstanceType<typeof Account>;
+    constructor(data: AccountData) {
+        this.account = new Account({ ...data, type: 'Organizer' });
+    }
+}
+
 // factory class (factory design pattern)
 class AccountFactory {
     static createAccount(type: string, data: AccountData): any {
@@ -40,6 +47,8 @@ class AccountFactory {
                 return new AdminAccount(data).account;
             case 'Regular':
                 return new RegularAccount(data).account;
+            case 'Organizer':
+                return new OrganizerAccount(data).account;
             default:
                 throw new Error("Error initializing the type.");
         }
