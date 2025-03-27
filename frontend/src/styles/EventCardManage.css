@@ -1,0 +1,118 @@
+.event-card {
+    width: 300px;
+    background: #fff;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .event-card:hover {
+    transform: scale(1.02);
+  }
+  
+  .event-card-image img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+  }
+  
+  .event-card-body {
+    padding: 15px;
+    flex-grow: 1;
+  }
+  
+  .event-card-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #53917e;
+    margin-bottom: 8px;
+  }
+  
+  .event-card-description {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+    min-height: 40px;
+  }
+  
+  .event-card-info p {
+    margin: 4px 0;
+    font-size: 13px;
+    color: #333;
+  }
+  
+  .event-card-footer {
+    padding: 12px 15px;
+    border-top: 1px solid #eee;
+    background: #f9f9f9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .btn-edit {
+    background: linear-gradient(135deg, #b1b695, #53917e);
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(83, 145, 126, 0.2);
+    transition: all 0.25s ease-in-out;
+  }
+  
+  .btn-edit:hover {
+    background: linear-gradient(135deg, #6c9e88, #3b6957);
+    transform: translateY(-1px) scale(1.03);
+    box-shadow: 0 6px 16px rgba(83, 145, 126, 0.3);
+  }
+  
+  .btn-delete {
+    background: linear-gradient(135deg, #ff4e4e, #b91c1c);
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.2);
+    transition: all 0.25s ease-in-out;
+  }
+  
+  .btn-delete:hover {
+    background: linear-gradient(135deg, #e11d48, #7f1d1d);
+    transform: translateY(-1px) scale(1.03);
+    box-shadow: 0 6px 16px rgba(255, 0, 0, 0.3);
+  }
+  
+  /* Section layout */
+.event-section {
+    margin-bottom: 3rem;
+  }
+  
+  .section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #53917e;
+    margin-bottom: 1rem;
+    padding-left: 1rem;
+  }
+  
+  /* Grid layout reused */
+  .event-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  

@@ -1,0 +1,250 @@
+.manage-events-page {
+  font-family: "Poppins", sans-serif;
+  background-color: #fefefe;
+  padding: 2rem 1rem;
+  min-height: 100vh;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+.manage-events-page h1 {
+  font-size: 28px;
+  font-weight: 800;
+  color: #53917e;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.empty-message {
+  text-align: center;
+  color: #888;
+  font-size: 15px;
+  margin-top: 2rem;
+}
+
+/* Grid for events */
+.event-grid {
+  display: grid;
+  gap: 20px;
+}
+
+@media screen and (min-width: 640px) {
+  .event-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .event-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Event Card Styling */
+.event-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: 0.3s ease-in-out;
+}
+
+.event-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+
+.event-card h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.event-card .event-meta {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 6px;
+}
+
+/* Status badges */
+.event-status {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 999px;
+  margin-top: 10px;
+}
+
+.event-status.Upcoming {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.event-status.Completed {
+  background-color: #e0e7ff;
+  color: #3730a3;
+}
+
+.event-status.Draft {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+/* Button row */
+.event-card .action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+  gap: 10px;
+}
+
+.event-card button {
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+
+.event-card button.edit-btn {
+  background-color: #53917e;
+  color: #fff;
+}
+
+.event-card button.edit-btn:hover {
+  background-color: #3f6b5d;
+}
+
+.event-card button.delete-btn {
+  background-color: #dc2626;
+  color: white;
+}
+
+.event-card button.delete-btn:hover {
+  background-color: #b91c1c;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.page-title {
+  text-align: center;
+  font-size: 32px;
+  font-weight: bold;
+  color: #53917e;
+  margin-bottom: 2rem;
+}
+
+.event-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.event-tools {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+/* Secondary buttons (for agenda, venue, calendar) */
+.btn-secondary {
+  background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+  color: #333;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+  transition: all 0.25s ease-in-out;
+}
+
+.btn-secondary:hover {
+  background: linear-gradient(135deg, #cbd5e1, #a0aec0);
+  transform: scale(1.03);
+}
+
+/* Modals */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(2px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
+}
+
+.modal-content {
+  background: white;
+  padding: 1.5rem 2rem;
+  border-radius: 16px;
+  max-width: 420px;
+  width: 90%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.modal-content .btn-secondary {
+  margin-top: 0.5rem;
+  padding: 8px 18px;
+}
+
+
+
+.modal-content h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #333;
+}
+.agenda-textarea {
+  width: 100%;
+  height: 120px;
+  padding: 10px 12px;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  resize: vertical;
+  font-size: 13px;
+  font-family: "Poppins", sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+  line-height: 1.4;
+  text-align: left;
+}
+
+
+
+.input-style {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 1rem;
+}
+
