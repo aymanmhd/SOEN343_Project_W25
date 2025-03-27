@@ -38,7 +38,6 @@ class AccountFactory {
             case 'Admin':
                 return new AdminAccount(data).account;
             case 'Regular':
-            default:
                 return new RegularAccount(data).account;
         }
     }
