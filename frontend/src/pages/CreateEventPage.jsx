@@ -66,9 +66,9 @@ const CreateEventPage = () => {
 
   return (
     <div className="create-event-page px-4 sm:px-8 py-12 bg-white min-h-screen text-gray-800 animate-fadeIn">
-      <h1 className="text-4xl sm:text-5xl font-extrabold mb-10 text-center text-gradient">
+      <h2 className="create-event-title">
         Create a New Event
-      </h1>
+      </h2>
 
       {submitStatus && (
         <div className="text-green-600 text-center mb-6 font-medium text-lg">
