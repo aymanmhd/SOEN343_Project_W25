@@ -55,7 +55,6 @@ const Navbar = () => {
 
         {user && user.role === "admin" && (
           <>
-            <Link to="/admin-panel">Admin Panel</Link>
             <Link to="/user-management">Users</Link>
             <Link to="/moderation">Moderation</Link>
             <Link to="/reports">Reports</Link>
