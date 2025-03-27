@@ -7,7 +7,7 @@ const SignUpPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
-  const [isAdmin, setIsAdmin] = useState("Regular");
+  const [userRole, setUserRole] = useState("attendee"); // attendee or organizer
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -17,13 +17,13 @@ const SignUpPage = () => {
     setError("");
 
     api_private_post(
-      "/register", // Update this endpoint to match your API
-      { username, password, type:"Regular", fullName },
+      "/register", // BACKEND: Replace with your real registration endpoint
+      { username, password, type: userRole, fullName },
       (response) => {
         if (response && response.error) {
           setError(response.error);
         } else {
-          navigate("/login"); // Redirect to login after successful registration
+          navigate("/login"); // Redirect after successful signup
         }
       },
       (err) => {
@@ -35,11 +35,11 @@ const SignUpPage = () => {
 
   return (
     <div className="signup-container">
+      {/* Left Side */}
       <div className="signup-left-section">
         <h2 className="signup-title">Create an Account</h2>
 
         <div className="signup-social-icons">
-          {/* Keep your social icons here if needed */}
           <a href="https://www.facebook.com" target="_blank" rel="noreferrer" className="icon-circle">
             <i className="fab fa-facebook-f"></i>
           </a>
@@ -54,7 +54,7 @@ const SignUpPage = () => {
         <p className="signup-or-text">or register with email:</p>
 
         <form onSubmit={handleSubmit} className="signup-input-container">
-          {/* Full Name Input */}
+          {/* Full Name */}
           <div className="signup-input-wrapper">
             <i className="fas fa-user input-icon"></i>
             <input
@@ -67,7 +67,7 @@ const SignUpPage = () => {
             />
           </div>
 
-          {/* Username Input */}
+          {/* Username */}
           <div className="signup-input-wrapper">
             <i className="fas fa-envelope input-icon"></i>
             <input
@@ -80,7 +80,7 @@ const SignUpPage = () => {
             />
           </div>
 
-          {/* Password Input */}
+          {/* Password */}
           <div className="signup-input-wrapper">
             <i className="fas fa-lock input-icon"></i>
             <input
@@ -99,6 +99,16 @@ const SignUpPage = () => {
             </span>
           </div>
 
+          <div className="signup-role-toggle-switch">
+            <div className={`toggle-option ${userRole === "attendee" ? "active" : ""}`} onClick={() => setUserRole("attendee")}>
+              Attendee
+            </div>
+            <div className={`toggle-option ${userRole === "organizer" ? "active" : ""}`} onClick={() => setUserRole("organizer")}>
+              Organizer
+            </div>
+          </div>
+
+
           <button type="submit" className="btn-create-account">
             SIGN UP
           </button>
@@ -107,8 +117,10 @@ const SignUpPage = () => {
         </form>
       </div>
 
+      {/* Divider */}
       <div className="signup-divider"></div>
 
+      {/* Right Side */}
       <div className="signup-right-section">
         <h1 className="welcome-back-title">Welcome Back!</h1>
         <h2 className="welcome-back-text">
