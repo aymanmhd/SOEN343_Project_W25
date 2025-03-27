@@ -1,54 +1,33 @@
-import React, { useRef } from "react";
+import React from "react";
 import "../styles/AdminDashboard.css";
 
 const AdminDashboard = () => {
-  // References to sections
-  const userManagementRef = useRef(null);
-  const systemManagementRef = useRef(null);
-
-  // Scroll to a section smoothly
-  const scrollToSection = (ref) => {
-    ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
   return (
-    <div className="dashboard-container">
-      {/* Top Section */}
-      <div className="top-section">
-        <div className="slogan-section">
-          <h2 className="slogan-text">Admin Control Panel</h2>
+    <div className="admin-container">
+      <div className="admin-wrapper">
+        {/* Welcome Box */}
+        <div className="admin-welcome-box">
+          <h2 className="admin-welcome-title">
+            🛡️ Welcome back, <span className="admin-highlight">Admin!</span>
+          </h2>
+          <p className="admin-subtitle">Ready to manage the system?</p>
+          <div className="admin-dots">
+            <div className="dot" />
+            <div className="dot" />
+            <div className="dot" />
+          </div>
         </div>
-        <div className="profile-section">
-          <div className="profile-box"></div>
-          <div className="profile-box"></div>
-          <div className="profile-box"></div>
-        </div>
-      </div>
 
-      {/* Middle Section - Summary with Clickable Cards */}
-      <div className="summary-section">
-        <div className="summary-card" onClick={() => scrollToSection(userManagementRef)}>
-          <p>Manage Users</p>
-        </div>
-        <div className="summary-card" onClick={() => scrollToSection(systemManagementRef)}>
-          <p>Manage System</p>
-        </div>
-      </div>
-
-      {/* Section - User Management */}
-      <div className="section-container" ref={userManagementRef}>
-        <h2 className="section-title">User Management</h2>
-        <p className="section-description">
-          Oversee user accounts, permissions, and security settings.
+        {/* Subheading Prompt */}
+        <p className="admin-subheading">
+          ⚙️ <i>Choose a section below to manage users or maintain the system!</i>
         </p>
-      </div>
 
-      {/* Section - System Management */}
-      <div className="section-container" ref={systemManagementRef}>
-        <h2 className="section-title">System Management</h2>
-        <p className="section-description">
-          Configure system settings, security, and maintenance tools.
-        </p>
+        {/* Action Buttons */}
+        <div className="admin-actions">
+          <div className="admin-action-card">👥 User Management</div>
+          <div className="admin-action-card">🧩 System Settings</div>
+        </div>
       </div>
     </div>
   );
