@@ -1,0 +1,42 @@
+.create-event-page {
+    font-family: "Poppins", sans-serif;
+    background-color: #ffffff;
+  }
+  
+  .input-style {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    background-color: #fdfdfd;
+    font-size: 14px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .input-style:focus {
+    outline: none;
+    border-color: #53917e;
+    box-shadow: 0 0 0 3px rgba(83, 145, 126, 0.2);
+  }
+  
+  .create-event-page button[type="submit"] {
+    background: linear-gradient(135deg, #b1b695, #53917e);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 12px 32px;
+    border: none;
+    border-radius: 9999px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .create-event-page button[type="submit"]:hover {
+    transform: scale(1.05);
+  }
+  
+  .create-event-page h1 {
+    color: #53917e;
+  }
+  
