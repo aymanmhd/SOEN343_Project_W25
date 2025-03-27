@@ -23,6 +23,7 @@ import CreateEventPage from "./pages/CreateEventPage";
 import ManageEventsPage from "./pages/ManageEventsPage"; 
 import FeedbackPage from "./pages/FeedbackPage";
 import AccountPage from "./pages/AccountPage";
+import PromotionsPage from "./pages/PromotionsPage";
 
 function App() {
   return (
@@ -72,6 +73,7 @@ function AppContent() {
           <Route path="/manage-events" element={<ManageEventsPage />} />
           <Route path="/feedback" element={<FeedbackPage />} />
           <Route path="/account" element={<FeedbackPage />} />
+          <Route path="/promotions" element={<PromotionsPage />} />
           
         </Routes>
       </main>
