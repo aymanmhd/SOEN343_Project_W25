@@ -6,12 +6,7 @@ const EventListingPage = () => {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
-    // BACKEND: Replace with API call to fetch events, e.g.:
-    // fetch("/api/events")
-    //   .then(res => res.json())
-    //   .then(data => setEvents(data));
-    //
-    // For now, we’ll use some mock data:
+    // BACKEND: Replace with actual API call to fetch events
     const mockEvents = [
       {
         id: 1,
@@ -52,7 +47,15 @@ const EventListingPage = () => {
 
   return (
     <div className="event-listing-page">
-      <h2 className="event-listing-title">Upcoming Events</h2>
+      <div className="event-listing-header">
+        <h1 className="event-listing-welcome">🌟 Hey there, future explorer!</h1>
+        <p className="event-listing-sub">
+          Discover exciting events below — find one that sparks your interest and click <strong>“View Details”</strong> to learn more! 💫
+        </p>
+      </div>
+
+      <h2 className="event-listing-title">📅 Upcoming Events</h2>
+
       <div className="event-listing-grid">
         {events.map((event) => (
           <EventCard key={event.id} event={event} />
@@ -63,5 +66,3 @@ const EventListingPage = () => {
 };
 
 export default EventListingPage;
-
-

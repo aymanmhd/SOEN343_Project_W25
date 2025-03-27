@@ -27,6 +27,9 @@ import PromotionsPage from "./pages/PromotionsPage";
 import ModerationPage from "./pages/ModerationPage";
 import AdminUsersPage from "./pages/AdminUsersPage"; 
 
+
+
+
 function App() {
   return (
     <AuthProvider>
@@ -78,6 +81,8 @@ function AppContent() {
           <Route path="/promotions" element={<PromotionsPage />} />
           <Route path="/moderation" element={<ModerationPage />} />
           <Route path="/user-management" element={<AdminUsersPage />} />
+        
+
           
         </Routes>
       </main>

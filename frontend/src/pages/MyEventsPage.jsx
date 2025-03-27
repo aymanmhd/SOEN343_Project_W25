@@ -64,8 +64,15 @@ const MyEventsPage = () => {
   }, []);
 
   return (
-    <div className="my-events-page">
-      <h2 className="my-events-title">My Events</h2>
+    <div className="my-events-header">
+  <h2 className="my-events-title">📖 My Events</h2>
+  <p className="my-events-subtext">
+    👋 Hey there! These are the events you've registered for — both upcoming and past.  
+    Stay curious, stay prepared, and make the most of every moment! ✨
+  </p>
+
+
+
 
       {/* Upcoming Events */}
       <section className="my-events-section">
