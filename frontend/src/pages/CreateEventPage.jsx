@@ -7,6 +7,7 @@ const CreateEventPage = () => {
   const { user } = useAuth();
   const [eventName, setEventName] = useState("");
   const [eventDate, setEventDate] = useState("");
+  const [eventTime, setEventTime] = useState(""); // ✅ NEW
   const [eventLocation, setEventLocation] = useState("");
   const [eventPrice, setEventPrice] = useState(0);
   const [eventDescription, setEventDescription] = useState("");
@@ -35,6 +36,7 @@ const CreateEventPage = () => {
       {
         name: eventName,
         date: eventDate,
+        time: eventTime, // ✅ NEW
         location: eventLocation,
         price: priceValue,
         description: eventDescription,
@@ -48,6 +50,7 @@ const CreateEventPage = () => {
           setSubmitStatus("Event created successfully!");
           setEventName("");
           setEventDate("");
+          setEventTime(""); // ✅ NEW
           setEventLocation("");
           setEventPrice(0);
           setEventDescription("");
@@ -97,15 +100,28 @@ const CreateEventPage = () => {
             />
           </div>
 
-          <div>
-            <label className="label-style">Date</label>
-            <input
-              type="date"
-              required
-              value={eventDate}
-              onChange={(e) => setEventDate(e.target.value)}
-              className="input-style"
-            />
+          <div className="grid sm:grid-cols-2 gap-6">
+            <div>
+              <label className="label-style">Date</label>
+              <input
+                type="date"
+                required
+                value={eventDate}
+                onChange={(e) => setEventDate(e.target.value)}
+                className="input-style"
+              />
+            </div>
+
+            <div>
+              <label className="label-style">Time</label>
+              <input
+                type="time"
+                required
+                value={eventTime}
+                onChange={(e) => setEventTime(e.target.value)}
+                className="input-style"
+              />
+            </div>
           </div>
 
           <div>
@@ -128,7 +144,9 @@ const CreateEventPage = () => {
               step="0.01"
               required
               value={eventPrice}
-              onChange={(e) => setEventPrice(Math.max(0, Number(e.target.value)))}
+              onChange={(e) =>
+                setEventPrice(Math.max(0, Number(e.target.value)))
+              }
               className="input-style"
               placeholder="e.g. 10.00"
             />
