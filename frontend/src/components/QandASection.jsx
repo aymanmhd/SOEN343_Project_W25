@@ -1,50 +1,34 @@
 import React, { useState } from "react";
 
-const QandASection = () => {
-  const [question, setQuestion] = useState("");
-  const [questionsList, setQuestionsList] = useState([]);
-  const [answers, setAnswers] = useState({});
+const QandASection = ({ handleQuestionSubmit, questionsList }) => {
+  const [input, setInput] = useState("");
 
-  const submitQuestion = (e) => {
+  const submit = (e) => {
     e.preventDefault();
-    if (question.trim()) {
-      const newQuestion = { id: questionsList.length + 1, text: question };
-      setQuestionsList([...questionsList, newQuestion]);
-      setQuestion("");
-    }
+    handleQuestionSubmit(input);
+    setInput("");
   };
 
   return (
     <div className="section">
-      <div className="section-image"></div>
       <div className="section-text">
         <h2 className="title">Q&A Sessions</h2>
         <p>Submit your questions and get them answered.</p>
 
-        {/* Question Input Form */}
-        <form onSubmit={submitQuestion} className="question-form">
+        <form onSubmit={submit} className="qna-input">
           <input
             type="text"
             placeholder="Type your question here..."
-            value={question}
-            onChange={(e) => setQuestion(e.target.value)}
-            className="question-input"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
           />
           <button type="submit">Submit</button>
         </form>
 
-        {/* Display Questions & Answers */}
-        <div className="questions-list">
+        <div className="qna-container">
           {questionsList.map((q) => (
-            <div key={q.id} className="question-item">
-              <p>❓ {q.text}</p>
-
-              {/* Answer List */}
-              <div className="answers-list">
-                {answers[q.id]?.map((ans, index) => (
-                  <p key={index} className="answer-item">💬 {ans}</p>
-                ))}
-              </div>
+            <div key={q.id} className="qna-question">
+              ❓ {q.text}
             </div>
           ))}
         </div>

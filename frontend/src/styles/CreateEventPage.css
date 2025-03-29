@@ -23,6 +23,7 @@
 
 .create-event-page h1.text-gradient {
   background: linear-gradient(135deg, #b1b695, #53917e);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;

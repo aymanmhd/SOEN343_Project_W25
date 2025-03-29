@@ -1,22 +1,34 @@
-import React, { useState, useEffect } from "react";
-import EventEmitter from "../patterns/NetworkingPageObserver";
+import React, { useState } from "react";
 
-const ChatSection = ({ handleChatSubmit }) => {
-  const [chatMessages, setChatMessages] = useState([]);
+const ChatSection = ({ handleChatSubmit, chatMessages }) => {
+  const [input, setInput] = useState("");
 
-  useEffect(() => {
-    EventEmitter.subscribe("updateChat", (messages) => setChatMessages(messages));
-
-    return () => EventEmitter.unsubscribe("updateChat");
-  }, []);
+  const send = () => {
+    handleChatSubmit(input);
+    setInput("");
+  };
 
   return (
     <div className="section">
       <h2 className="title">Chatroom</h2>
-      {chatMessages.map((msg, index) => (
-        <p key={index}><strong>{msg.user}:</strong> {msg.message}</p>
-      ))}
-      <button onClick={() => handleChatSubmit("Hello!")}>Send Message</button>
+
+      <div className="chat-box">
+        {chatMessages.map((msg, index) => (
+          <div key={index} className={`chat-message ${msg.user === "You" ? "you" : ""}`}>
+            <strong>{msg.user}:</strong> {msg.message}
+          </div>
+        ))}
+      </div>
+
+      <div className="chat-input">
+        <input
+          type="text"
+          value={input}
+          placeholder="Type a message..."
+          onChange={(e) => setInput(e.target.value)}
+        />
+        <button onClick={send}>Send</button>
+      </div>
     </div>
   );
 };
