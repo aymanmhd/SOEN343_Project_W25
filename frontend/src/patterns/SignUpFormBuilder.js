@@ -19,7 +19,7 @@ class SignUpFormBuilder {
       return this;
     }
   
-    addPasswordInput(showPassword, togglePassword) {
+    addPasswordInput(password, setPassword, showPassword, togglePassword) {
       this.formElements.push(
         <div className="signup-input-wrapper" key="password">
           <i className="fas fa-lock input-icon"></i>
@@ -27,6 +27,8 @@ class SignUpFormBuilder {
             type={showPassword ? "text" : "password"}
             placeholder="Password"
             className="signup-input"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <span className="signup-eye-icon" onClick={togglePassword}>
             {showPassword ? "🙈" : "👁️"}
@@ -35,6 +37,7 @@ class SignUpFormBuilder {
       );
       return this;
     }
+    
   
     addSocialIcons() {
       this.formElements.push(

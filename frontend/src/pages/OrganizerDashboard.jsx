@@ -2,33 +2,51 @@ import React from "react";
 import "../styles/OrganizerDashboard.css";
 
 const OrganizerDashboard = () => {
+  const { user } = useAuth();
+  const displayName = user?.name || "Organizer";
+
   return (
-    <div className="organizer-container">
-      <div className="organizer-wrapper">
-        {/* Welcome Box */}
-        <div className="organizer-welcome-box">
-          <h2 className="organizer-welcome-title">
-            👋 Welcome back, <span className="organizer-highlight">Organizer!</span>
-          </h2>
-          <p className="organizer-subtitle">We're glad to see you again!</p>
-          <div className="organizer-dots">
-            <div className="dot" />
-            <div className="dot" />
-            <div className="dot" />
-          </div>
+    <div className="attendee-dashboard-container">
+      {/* Hero Greeting */}
+      <div className="dashboard-hero cute">
+        <h1 className="dashboard-heading">
+          🎉 Welcome back, <span className="highlight-name">{displayName}</span>!
+        </h1>
+        <p className="sub-welcome">Let’s get your events organized and thriving ✨</p>
+        <div className="dashboard-dots">
+          <div className="dot" />
+          <div className="dot" />
+          <div className="dot" />
         </div>
+      </div>
 
-        {/* Prompt Text */}
-        <p className="organizer-subheading">
-          🚀 <i>What would you like to do today? Choose an option below to manage, analyze or promote!</i>
+      {/* Prompt */}
+      <p className="dashboard-prompt">
+        🚀 What would you like to do today? Choose from the options below to manage your events.
+      </p>
+
+      {/* Action Buttons */}
+      <div className="dashboard-actions">
+        <Link to="/create-event" className="action-box">
+          📝 Create Event
+        </Link>
+        <Link to="/manage-events" className="action-box">
+          🛠️ Manage Events
+        </Link>
+        <Link to="/promotions" className="action-box">
+          📢 Promotions
+        </Link>
+        <Link to="/analytics" className="action-box">
+          📊 Analytics
+        </Link>
+      </div>
+
+      {/* Optional Section - Dashboard Summary */}
+      <div className="dashboard-section recommendations-box">
+        <h2 className="section-title text-green">📌 Quick Tip</h2>
+        <p className="section-subtitle">
+          Keep your event info up to date and track engagement regularly!
         </p>
-
-        {/* Action Cards */}
-        <div className="organizer-actions">
-          <div className="organizer-action-card">📅 Manage Events</div>
-          <div className="organizer-action-card">📊 View Analytics</div>
-          <div className="organizer-action-card">📣 Promotions</div>
-        </div>
       </div>
     </div>
   );

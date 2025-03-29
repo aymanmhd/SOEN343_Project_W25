@@ -1,53 +1,50 @@
-.admin-container {
-  min-height: 100vh;
-  background-color: #ffffff;
-  padding: 2.5rem 1.5rem;
-  font-family: 'Poppins', sans-serif;
+.admin-dashboard-container {
+  padding: 40px 60px;
+  font-family: "Poppins", sans-serif;
+  background-color: #fff;
+  color: #333;
 }
 
-.admin-wrapper {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* Welcome Box */
-.admin-welcome-box {
-  background-color: #f7f7f7;
-  border-radius: 1.5rem;
-  padding: 2rem;
+/* Hero Section */
+.dashboard-hero {
+  background: #f7f7f7;
+  padding: 30px;
+  border-radius: 20px;
+  margin-bottom: 30px;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   text-align: center;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
-  margin-bottom: 2rem;
 }
 
-.admin-welcome-title {
-  font-size: 2rem;
-  font-weight: 600;
-  color: #3c3c3c;
+.dashboard-heading {
+  font-size: 28px;
+  font-weight: 700;
+  color: #6d1a36;
+  margin-bottom: 10px;
+  animation: fadeInUp 0.8s ease forwards;
 }
 
-.admin-highlight {
+.sub-welcome {
+  color: #888;
+  font-size: 16px;
+  margin-top: 5px;
+  font-style: italic;
+}
+
+.highlight-name {
   color: #53917e;
 }
 
-.admin-subtitle {
-  margin-top: 0.5rem;
-  font-style: italic;
-  color: #777;
-  font-size: 1rem;
-}
-
-/* Dots */
-.admin-dots {
+.dashboard-dots {
   display: flex;
+  gap: 10px;
   justify-content: center;
-  gap: 0.5rem;
-  margin-top: 1.25rem;
+  margin-top: 15px;
 }
 
 .dot {
-  width: 10px;
-  height: 10px;
+  width: 14px;
+  height: 14px;
   background-color: #53917e;
   border-radius: 50%;
 }
