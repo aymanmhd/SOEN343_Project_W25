@@ -23,22 +23,37 @@ const AttendeeDashboard = () => {
           <div className="dot" />
         </div>
       </div>
-       {/* Prompt */}
-       <p className="dashboard-prompt">
+
+      {/* Prompt */}
+      <p className="dashboard-prompt">
         ✨ What would you like to do today? Choose an option below to explore, update or share!
       </p>
+
       {/* Action Buttons */}
       <div className="dashboard-actions">
-      <Link to="/events" className="action-box">
+        <Link to="/events" className="action-box">
           🎟️ Ready to sign up? Register for an event!
-      </Link>
+        </Link>
 
         <Link to="/my-events" className="action-box">
           🛠️ Modify your registrations
         </Link>
+
+        <Link to="/networking" className="action-box">
+          🌐 Join Networking Space
+        </Link>
+
+        <Link to="/resources" className="action-box">
+          📚 Browse Resources
+        </Link>
+
         <Link to="/feedback" className="action-box">
           💬 Provide a feedback
         </Link>
+
+        
+
+        
       </div>
 
       {/* Registered Events */}
@@ -59,6 +74,7 @@ const AttendeeDashboard = () => {
         <p className="section-subtitle">Discover events just for you 💡</p>
       </div>
     </div>
+    
   );
 };
 
