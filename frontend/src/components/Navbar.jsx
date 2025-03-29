@@ -58,8 +58,8 @@ const Navbar = () => {
           <>
             <Link to="/user-management">Users</Link>
             <Link to="/moderation">Moderation</Link>
-            <Link to="/reports">Reports</Link>
-            <Link to="/financials">Financials</Link>
+            <Link to="/admin-reports">Reports</Link>
+            <Link to="/admin-financials">Financials</Link>
           </>
         )}
       </div>

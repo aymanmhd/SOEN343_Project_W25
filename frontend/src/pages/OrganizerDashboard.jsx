@@ -1,5 +1,9 @@
 import React from "react";
 import "../styles/OrganizerDashboard.css";
+import { useAuth } from "../context/AuthContext";
+import { Link } from "react-router-dom";
+
+
 
 const OrganizerDashboard = () => {
   const { user } = useAuth();

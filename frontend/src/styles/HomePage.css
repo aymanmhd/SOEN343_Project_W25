@@ -1,31 +1,113 @@
+/* Base homepage styling */
+.homepage {
+  font-family: "Poppins", sans-serif;
+  background: #fff;
+  color: #333;
+  padding: 2rem;
+}
+
+/* Hero Section */
 .hero-section {
-  display: flex; /* Enable flexbox */
-  align-items: center; /* Align items vertically */
-  justify-content: center; /* Center the content */
-  gap: 30px; /* Space between the image and text */
-  padding: 40px;
-  background-color: #eef;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: linear-gradient(135deg, #eaf2ef, #f8f9f7);
+  padding: 4rem 2rem;
+  border-radius: 16px;
+  margin-bottom: 3rem;
+  box-shadow: 0 4px 10px rgba(83, 145, 126, 0.08);
 }
 
-.hero-image {
-  width: 350px; /* Adjust width */
-  height: 200px; /* Adjust height */
-  background: lightblue; /* Placeholder for image */
-  border-radius: 10px;
-  flex-shrink: 0; /* Prevent image from shrinking */
+.hero-text .title {
+  font-size: 2.5rem;
+  color: #53917e;
+  margin-bottom: 1rem;
 }
 
-.hero-text {
-  max-width: 500px; /* Ensure text does not stretch too much */
-  font-family: "Poppins", sans-serif;
-  
+.hero-text p {
+  font-size: 1.1rem;
+  color: #444;
+  margin-bottom: 0.5rem;
 }
-.title{
-    font-size: 25px;
-    font-weight: bold;
-    color: #53917e;
-    font-family: "Poppins", sans-serif;
+
+/* CTA Section */
+.cta-section {
+  text-align: center;
+  background: #f5f7f6;
+  border: 2px dashed #b1b695;
+  border-radius: 16px;
+  padding: 2.5rem;
+  margin: 2rem auto 4rem auto;
+  max-width: 700px;
+  box-shadow: 0 4px 6px rgba(83, 145, 126, 0.07);
 }
-.ptitle{
-  font-family: "Poppins", sans-serif;
+
+.cta-section h2 {
+  font-size: 1.8rem;
+  color: #53917e;
+  margin-bottom: 0.8rem;
+}
+
+.cta-section p {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.cta-buttons .btn {
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 25px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.cta-buttons .btn-primary {
+  background: #53917e;
+  color: white;
+}
+
+.cta-buttons .btn-primary:hover {
+  background: #467c6c;
+}
+
+.cta-buttons .btn {
+  background: transparent;
+  border: 2px solid #53917e;
+  color: #53917e;
+}
+
+.cta-buttons .btn:hover {
+  background: #e8f5f0;
+}
+
+/* Section Headings */
+.section-heading {
+  font-size: 1.75rem;
+  color: #333;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.section-subtext {
+  text-align: center;
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .cta-buttons {
+    flex-direction: column;
+  }
 }

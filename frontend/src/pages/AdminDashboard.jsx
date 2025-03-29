@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import "../styles/AdminDashboard.css";
 import { Link } from "react-router-dom";
 
@@ -39,10 +39,10 @@ const AdminDashboard = () => {
         <Link to="/moderation" className="action-box">
           🖥️ Manage System
         </Link>
-        <Link to="/reports" className="action-box">
+        <Link to="/admin-report" className="action-box">
           📊 Reports
         </Link>
-        <Link to="/financial" className="action-box">
+        <Link to="/admin-financials" className="action-box">
           💰 Financial
         </Link>
 
