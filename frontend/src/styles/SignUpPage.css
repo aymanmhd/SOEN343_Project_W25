@@ -192,3 +192,34 @@
     }
   }
   
+  /* Smaller Role Switch Toggle */
+.signup-role-toggle-switch {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  background: #ffffff;
+  border-radius: 25px;
+  overflow: hidden;
+  width: 220px;
+  height: 38px;
+  border: 2px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.toggle-option {
+  flex: 1;
+  text-align: center;
+  padding: 8px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #53917e;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+  user-select: none;
+  line-height: 1;
+}
+
+.toggle-option.active {
+  background: #53917e;
+  color: #fff;
+}
