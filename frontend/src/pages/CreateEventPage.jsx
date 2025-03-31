@@ -7,7 +7,7 @@ const CreateEventPage = () => {
   const { user } = useAuth();
   const [eventName, setEventName] = useState("");
   const [eventDate, setEventDate] = useState("");
-  const [eventTime, setEventTime] = useState(""); // ✅ NEW
+  const [eventTime, setEventTime] = useState(""); 
   const [eventLocation, setEventLocation] = useState("");
   const [eventPrice, setEventPrice] = useState(0);
   const [eventDescription, setEventDescription] = useState("");
