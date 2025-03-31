@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction, RequestHandler } from "express";
 
 interface CustomRequest extends Request {
-    username?: String;
+    username?: string;
 }
 
 const cookieJwtAuth: RequestHandler = (req: CustomRequest, res: Response, next: NextFunction): void => {

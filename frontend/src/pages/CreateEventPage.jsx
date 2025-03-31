@@ -1,38 +1,73 @@
 import React, { useState } from "react";
 import "../styles/CreateEventPage.css";
 import { useAuth } from "../context/AuthContext";
+import { api_private_post } from "../utils/api.js";
 
 const CreateEventPage = () => {
   const { user } = useAuth();
-
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    date: "",
-    time: "",
-    location: "",
-    category: "",
-    capacity: "",
-  });
-
+  const [eventName, setEventName] = useState("");
+  const [eventDate, setEventDate] = useState("");
+  const [eventTime, setEventTime] = useState(""); 
+  const [eventLocation, setEventLocation] = useState("");
+  const [eventPrice, setEventPrice] = useState(0);
+  const [eventDescription, setEventDescription] = useState("");
+  const [eventSpeakers, setEventSpeakers] = useState("");
+  const [eventAttendees, setEventAttendees] = useState("");
   const [submitStatus, setSubmitStatus] = useState(null);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
+  const [error, setError] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setError("");
+    setSubmitStatus(null);
 
-    // BACKEND: Replace with API call to create event
-    console.log("Mock submit data:", formData);
-    setSubmitStatus("🎉 Event created successfully (mock)");
+    const speakersArray = eventSpeakers
+      ? eventSpeakers.split(",").map((s) => s.trim())
+      : [];
+
+    const attendeesArray = eventAttendees
+      ? eventAttendees.split(",").map((s) => s.trim())
+      : [];
+
+    const priceValue = Number(eventPrice);
+
+    api_private_post(
+      "/events",
+      {
+        name: eventName,
+        date: eventDate,
+        time: eventTime, // ✅ NEW
+        location: eventLocation,
+        price: priceValue,
+        description: eventDescription,
+        speakers: speakersArray,
+        // attendees: attendeesArray
+      },
+      (response) => {
+        if (response?.error) {
+          setError(response.error);
+        } else {
+          setSubmitStatus("Event created successfully!");
+          setEventName("");
+          setEventDate("");
+          setEventTime(""); // ✅ NEW
+          setEventLocation("");
+          setEventPrice(0);
+          setEventDescription("");
+          setEventSpeakers("");
+          setEventAttendees("");
+        }
+      },
+      (err) => {
+        console.error("Event Creation failed:", err);
+        setError("Event creation failed. Please try again.");
+      }
+    );
   };
 
   return (
-    <div className="create-event-page px-4 sm:px-8 py-12 bg-white min-h-screen text-gray-800 animate-fadeIn">
-      <h1 className="text-4xl sm:text-5xl font-extrabold mb-10 text-center text-gradient">
+    <div className="create-event-page text-gray-800 animate-fadeIn">
+      <h1 className="text-4xl sm:text-5xl font-extrabold mb-10 text-gradient">
         Create a New Event
       </h1>
 
@@ -42,109 +77,107 @@ const CreateEventPage = () => {
         </div>
       )}
 
+      {error && (
+        <div className="text-red-600 text-center mb-6 font-medium text-lg">
+          {error}
+        </div>
+      )}
+
       <form
         onSubmit={handleSubmit}
-        className="max-w-4xl mx-auto bg-[#fefefe] shadow-xl rounded-2xl p-10 space-y-8"
+        className="max-w-2xl w-full bg-[#fefefe] shadow-xl rounded-2xl p-10 space-y-8"
       >
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 gap-6">
           <div>
-            <label className="label-style">Event Title</label>
+            <label className="label-style">Event Name</label>
             <input
               type="text"
-              name="title"
               required
-              value={formData.title}
-              onChange={handleChange}
+              value={eventName}
+              onChange={(e) => setEventName(e.target.value)}
               className="input-style"
               placeholder="e.g. Women in Tech Panel"
             />
           </div>
 
-          <div>
-            <label className="label-style">Category</label>
-            <select
-              name="category"
-              value={formData.category}
-              onChange={handleChange}
-              className="input-style"
-            >
-              <option value="">Select Category</option>
-              <option value="Workshop">Workshop</option>
-              <option value="Seminar">Seminar</option>
-              <option value="Webinar">Webinar</option>
-              <option value="Networking">Networking</option>
-            </select>
+          <div className="grid sm:grid-cols-2 gap-6">
+            <div>
+              <label className="label-style">Date</label>
+              <input
+                type="date"
+                required
+                value={eventDate}
+                onChange={(e) => setEventDate(e.target.value)}
+                className="input-style"
+              />
+            </div>
+
+            <div>
+              <label className="label-style">Time</label>
+              <input
+                type="time"
+                required
+                value={eventTime}
+                onChange={(e) => setEventTime(e.target.value)}
+                className="input-style"
+              />
+            </div>
           </div>
 
           <div>
-            <label className="label-style">Date</label>
-            <input
-              type="date"
-              name="date"
-              required
-              value={formData.date}
-              onChange={handleChange}
-              className="input-style"
-            />
-          </div>
-
-          <div>
-            <label className="label-style">Time</label>
-            <input
-              type="time"
-              name="time"
-              required
-              value={formData.time}
-              onChange={handleChange}
-              className="input-style"
-            />
-          </div>
-
-          <div className="sm:col-span-2">
             <label className="label-style">Location</label>
             <input
               type="text"
-              name="location"
               required
-              value={formData.location}
-              onChange={handleChange}
+              value={eventLocation}
+              onChange={(e) => setEventLocation(e.target.value)}
               className="input-style"
               placeholder="e.g. Online or Concordia EV Building"
             />
           </div>
 
-          <div className="sm:col-span-2">
-            <label className="label-style">Capacity</label>
+          <div>
+            <label className="label-style">Price ($)</label>
             <input
               type="number"
-              name="capacity"
-              min="1"
-              value={formData.capacity}
-              onChange={handleChange}
+              min="0"
+              step="0.01"
+              required
+              value={eventPrice}
+              onChange={(e) =>
+                setEventPrice(Math.max(0, Number(e.target.value)))
+              }
               className="input-style"
-              placeholder="e.g. 100"
+              placeholder="e.g. 10.00"
             />
           </div>
 
-          <div className="sm:col-span-2">
+          <div>
+            <label className="label-style">Speakers (comma-separated)</label>
+            <input
+              type="text"
+              value={eventSpeakers}
+              onChange={(e) => setEventSpeakers(e.target.value)}
+              className="input-style"
+              placeholder="e.g. John Doe, Jane Smith"
+            />
+          </div>
+
+          <div>
             <label className="label-style">Description</label>
             <textarea
-              name="description"
               rows="5"
               required
-              value={formData.description}
-              onChange={handleChange}
+              value={eventDescription}
+              onChange={(e) => setEventDescription(e.target.value)}
               className="input-style resize-none"
-              placeholder="Describe the event purpose, audience, or goals..."
+              placeholder="Describe the event's purpose, audience, or goals..."
             />
           </div>
         </div>
 
         <div className="flex justify-center pt-6">
-          <button
-            type="submit"
-            className="create-button"
-          >
+          <button type="submit" className="create-button">
             🚀 Create Event
           </button>
         </div>

@@ -1,28 +1,41 @@
 .event-listing-page {
-    min-height: 60vh;
-    margin-top: 80px; /* keep consistent with navbar offset */
-    padding: 20px;
-    font-family: "Poppins", sans-serif;
-    animation: fadeIn 0.8s forwards;
-  }
-  
-  @keyframes fadeIn {
-    0%   { opacity: 0; }
-    100% { opacity: 1; }
-  }
-  
-  .event-listing-title {
-    font-size: 26px;
-    font-weight: bold;
-    color: #53917e;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .event-listing-grid {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  
+  padding: 50px 30px;
+  font-family: "Poppins", sans-serif;
+  background-color: #ffffff;
+  min-height: 100vh;
+}
+
+.event-listing-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.event-listing-welcome {
+  font-size: 28px;
+  color: #6d1a36;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.event-listing-sub {
+  font-size: 16px;
+  color: #555;
+  max-width: 600px;
+  margin: 0 auto;
+  font-style: italic;
+}
+
+.event-listing-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #53917e;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.event-listing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  justify-items: center;
+}

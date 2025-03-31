@@ -1,6 +1,7 @@
 import React from "react";
-import "../styles/HomePage.css";
 import HomeComponentFactory from "../patterns/HomeComponentFactory";
+import "../styles/HomePage.css";
+
 
 // Sample Data
 const sampleVideos = [
@@ -27,6 +28,7 @@ function HomePage() {
     <div className="homepage">
       {HomeComponentFactory.createComponent("navbar")}
       {HomeComponentFactory.createComponent("hero")}
+      {HomeComponentFactory.createComponent("cta")}
       {HomeComponentFactory.createComponent("discover", { subjects })}
       {HomeComponentFactory.createComponent("videos", { videos: sampleVideos })}
       {HomeComponentFactory.createComponent("footer")}

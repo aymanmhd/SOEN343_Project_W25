@@ -1,120 +1,104 @@
-/* Add a background color to differentiate white blocks */
 .networking-container {
-    background-color: #f5f5f5; /* Light gray background */
-    padding: 50px 0; /* Add space around */
+  background-color: #f9f9f9;
+  padding: 60px 20px 100px;
+  font-family: "Poppins", sans-serif;
+  min-height: 100vh;
+}
+
+.networking-welcome-card {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 40px;
+  border-radius: 24px;
+  background: linear-gradient(to bottom right, #f7faf7, #eef4f0);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+}
+
+.welcome-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #53917e;
+  margin-bottom: 10px;
+}
+
+.welcome-subtext {
+  font-size: 16px;
+  color: #444;
+  line-height: 1.6;
+}
+
+.welcome-features-list {
+  list-style: none;
+  padding: 0;
+  margin: 15px 0;
+  color: #333;
+  font-size: 15.5px;
+}
+
+.welcome-features-list li {
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Buttons */
+.tab-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 30px;
+}
+
+.tab-button {
+  padding: 12px 24px;
+  background-color: #eef1ec;
+  border: none;
+  border-radius: 30px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #53917e;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.tab-button:hover {
+  background-color: #dfeae3;
+  transform: translateY(-2px);
+}
+
+.tab-button.active {
+  background: linear-gradient(135deg, #b1b695, #53917e);
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Engagement section wrapper */
+.section-wrapper {
+  max-width: 900px;
+  margin: 60px auto 0;
+  background: #fff;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+}
+
+/* Optional fade-in animation */
+.fade-in {
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
   }
-  
-  /* Center the title section */
-  .networking-header {
-    text-align: center; /* Center title */
-    margin-bottom: 30px; /* Add spacing below */
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .networking-header .title {
-    font-size: 32px;
-    font-weight: bold;
-    color: #53917e;
-    font-family: "Poppins", sans-serif;
-  }
-  
-  /* White Block Sections */
-  .section {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 30px;
-    padding: 40px;
-    background-color: white; /* White block */
-    border-radius: 10px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for effect */
-    width: 80%; /* Set width */
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  /* Adjust Section Image */
-  .section-image {
-    width: 150px;
-    height: 150px;
-    background: lightblue;
-    border-radius: 10px;
-    flex-shrink: 0;
-  }
-  
-  /* Section Text */
-  .section-text {
-    max-width: 500px;
-    font-family: "Poppins", sans-serif;
-  }
-  
-  .title {
-    font-size: 25px;
-    font-weight: bold;
-    color: #53917e;
-    font-family: "Poppins", sans-serif;
-  }
-  .poll-container {
-    text-align: center; /* Center content */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .poll-options {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 10px;
-  }
-  
-  .poll-button {
-    padding: 12px 20px;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    border-radius: 8px;
-    transition: 0.3s;
-    font-weight: bold;
-    background-color: #53917e;
-    color: white;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .poll-button:hover {
-    background-color: #437a65;
-  }
-  
-  .poll-button:disabled {
-    background: gray;
-    cursor: not-allowed;
-    opacity: 0.7;
-  }
-  
-  .poll-button.selected {
-    background-color: #2c6b56;
-    color: white;
-  }
-  
-  /* Poll Results - Progress Bar */
-  .poll-results {
-    margin-top: 15px;
-    font-weight: bold;
-  }
-  
-  .progress-bar {
-    width: 80%;
-    background: #e0e0e0;
-    border-radius: 8px;
-    overflow: hidden;
-    height: 15px;
-    margin-top: 10px;
-    position: relative;
-  }
-  
-  .progress-fill {
-    height: 100%;
-    background: #53917e;
-    transition: width 0.5s ease-in-out;
-  }
-  
+}

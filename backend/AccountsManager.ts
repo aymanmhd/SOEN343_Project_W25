@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import { Account } from './models/Account';
 import mongoose from 'mongoose';
+import { error } from 'console';
 
 
 // interface for user creation parameters
@@ -31,6 +32,13 @@ class AdminAccount {
     }
 }
 
+class OrganizerAccount {
+    account: InstanceType<typeof Account>;
+    constructor(data: AccountData) {
+        this.account = new Account({ ...data, type: 'Organizer' });
+    }
+}
+
 // factory class (factory design pattern)
 class AccountFactory {
     static createAccount(type: string, data: AccountData): any {
@@ -38,10 +46,13 @@ class AccountFactory {
             case 'Admin':
                 return new AdminAccount(data).account;
             case 'Regular':
-            default:
                 return new RegularAccount(data).account;
+            case 'Organizer':
+                return new OrganizerAccount(data).account;
+            default:
+                throw new Error("Error initializing the type.");
         }
-    }
+    }   
 }
 
 class AccountsManager {

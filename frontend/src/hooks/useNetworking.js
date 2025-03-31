@@ -34,7 +34,15 @@ const useNetworking = () => {
     setChatMessages(prev => [...prev, { user: "You", message }]);
   };
 
-  return { handleVote, handleQuestionSubmit, handleChatSubmit };
+  // ✅ Add the missing shared state here
+  return {
+    handleVote,
+    handleQuestionSubmit,
+    handleChatSubmit,
+    pollResults,
+    questionsList,
+    chatMessages
+  };
 };
 
 export default useNetworking;

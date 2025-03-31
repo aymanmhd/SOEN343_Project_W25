@@ -35,4 +35,40 @@
     gap: 20px;
     justify-content: center;
   }
+
+  .my-events-welcome {
+    text-align: center;
+    font-size: 16px;
+    color: #6d1a36;
+    margin-bottom: 30px;
+    font-style: italic;
+  }
+  .my-events-intro {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .my-events-header {
+    text-align: center;
+    margin-bottom: 40px;
+    font-family: "Poppins", sans-serif;
+  }
+  
+  .my-events-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #6d1a36;
+    margin-bottom: 10px;
+  }
+  
+  .my-events-subtext {
+    font-size: 16px;
+    color: #444;
+    font-style: italic;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+  
+  
   
