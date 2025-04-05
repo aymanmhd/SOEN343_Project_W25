@@ -7,12 +7,11 @@ const CreateEventPage = () => {
   const { user } = useAuth();
   const [eventName, setEventName] = useState("");
   const [eventDate, setEventDate] = useState("");
-  const [eventTime, setEventTime] = useState(""); // ✅ NEW
+  const [eventTime, setEventTime] = useState(""); 
   const [eventLocation, setEventLocation] = useState("");
   const [eventPrice, setEventPrice] = useState(0);
   const [eventDescription, setEventDescription] = useState("");
   const [eventSpeakers, setEventSpeakers] = useState("");
-  const [eventAttendees, setEventAttendees] = useState("");
   const [eventVenue, setEventVenue] = useState("");
   const [eventAgenda, setEventAgenda] = useState("");
   const [submitStatus, setSubmitStatus] = useState(null);
@@ -27,22 +26,20 @@ const CreateEventPage = () => {
       ? eventSpeakers.split(",").map((s) => s.trim())
       : [];
 
-    const attendeesArray = eventAttendees
-      ? eventAttendees.split(",").map((s) => s.trim())
-      : [];
-
     const priceValue = Number(eventPrice);
 
-    console.log("Event Name:", eventName); // Debugging line
-    console.log("Event Date:", eventDate); // Debugging line 
-    console.log("Event Time:", eventTime); // Debugging line
-    console.log("Event Location:", eventLocation); // Debugging line
-    console.log("Event Price:", priceValue); // Debugging line
-    console.log("Event Description:", eventDescription); // Debugging line
-    console.log("Event Speakers:", speakersArray); // Debugging line
-    console.log("Event Attendees:", attendeesArray); // Debugging line
-    console.log("Event Venue:", eventVenue); // Debugging line
-    console.log("Event Agenda:", eventAgenda); // Debugging line
+    console.log(
+      "name: " + eventName,
+      "date: " + eventDate,
+      "time: "  + eventTime, 
+      "location: " + eventLocation,
+      "price: " + priceValue,
+      "description: " + eventDescription,
+      "speakers: " + speakersArray,
+      "attendees: " + attendeesArray,
+      "venue: "  + eventVenue,
+      "agenda: "  + eventAgenda
+    );
 
     api_private_post(
       "/events",
