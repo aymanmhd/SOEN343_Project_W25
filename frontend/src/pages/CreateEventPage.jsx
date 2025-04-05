@@ -13,6 +13,8 @@ const CreateEventPage = () => {
   const [eventDescription, setEventDescription] = useState("");
   const [eventSpeakers, setEventSpeakers] = useState("");
   const [eventAttendees, setEventAttendees] = useState("");
+  const [eventVenue, setEventVenue] = useState("");
+  const [eventAgenda, setEventAgenda] = useState("");
   const [submitStatus, setSubmitStatus] = useState(null);
   const [error, setError] = useState("");
 
@@ -31,6 +33,17 @@ const CreateEventPage = () => {
 
     const priceValue = Number(eventPrice);
 
+    console.log("Event Name:", eventName); // Debugging line
+    console.log("Event Date:", eventDate); // Debugging line 
+    console.log("Event Time:", eventTime); // Debugging line
+    console.log("Event Location:", eventLocation); // Debugging line
+    console.log("Event Price:", priceValue); // Debugging line
+    console.log("Event Description:", eventDescription); // Debugging line
+    console.log("Event Speakers:", speakersArray); // Debugging line
+    console.log("Event Attendees:", attendeesArray); // Debugging line
+    console.log("Event Venue:", eventVenue); // Debugging line
+    console.log("Event Agenda:", eventAgenda); // Debugging line
+
     api_private_post(
       "/events",
       {
@@ -41,7 +54,9 @@ const CreateEventPage = () => {
         price: priceValue,
         description: eventDescription,
         speakers: speakersArray,
-        // attendees: attendeesArray
+        attendees: attendeesArray,
+        venue: eventVenue,
+        agenda: eventAgenda
       },
       (response) => {
         if (response?.error) {
@@ -56,6 +71,8 @@ const CreateEventPage = () => {
           setEventDescription("");
           setEventSpeakers("");
           setEventAttendees("");
+          setEventVenue("");
+          setEventAgenda("");
         }
       },
       (err) => {
@@ -137,6 +154,18 @@ const CreateEventPage = () => {
           </div>
 
           <div>
+              <label className="label-style">Venue</label>
+              <input
+                type="text"
+                required
+                value={eventVenue}
+                onChange={(e) => setEventVenue(e.target.value)}
+                className="input-style"
+                placeholder="e.g. Convention Center Room 101"
+              />
+            </div>
+
+          <div>
             <label className="label-style">Price ($)</label>
             <input
               type="number"
@@ -149,6 +178,21 @@ const CreateEventPage = () => {
               }
               className="input-style"
               placeholder="e.g. 10.00"
+            />
+          </div>
+
+          <div>
+            <label className="label-style">Detailed Agenda</label>
+            <textarea
+              rows="4"
+              required
+              value={eventAgenda}
+              onChange={(e) => setEventAgenda(e.target.value)}
+              className="input-style resize-none"
+              placeholder="e.g.
+                - 9:00 AM: Registration
+                - 10:00 AM: Keynote Speech
+                - 11:30 AM: Workshop Sessions"
             />
           </div>
 
