@@ -1,37 +1,39 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom"; // 1) Import useNavigate
+import { api_private_get } from "../utils/api.js";
 import "../styles/ProfilePage.css";
 
 const ProfilePage = () => {
-  const { user } = useAuth();
-  const navigate = useNavigate(); // 2) Initialize navigate
-
   const [profileData, setProfileData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  // 3) If user is null (logged out), go to public homepage
   useEffect(() => {
-    if (!user) {
-      navigate("/");
-    }
-  }, [user, navigate]);
+    api_private_get(
+      "/profile",
+      (response) => {
+        setProfileData(response);
+        setLoading(false);
+      },
+      (err) => {
+        console.error("Error fetching profile:", err);
+        setError("Failed to load profile data");
+        setLoading(false);
+      }
+    );
+  }, []);
 
-  // Simulate fetching profile data (replace with real API call)
-  useEffect(() => {
-    if (user) {
-      // BACKEND: Replace with an actual API call to fetch user profile data
-      const mockProfile = {
-        id: 123,
-        name: "Jane Doe",
-        email: "jane.doe@example.com",
-        role: user.role,
-        bio: "Hello, I am Jane. I love attending tech events!",
-      };
-      setProfileData(mockProfile);
-    }
-  }, [user]);
+  const handleEditProfile = () => {
+    // Implement edit profile logic
+    console.log("Edit profile clicked");
+  };
 
-  if (!profileData) {
+  const handleChangePassword = () => {
+    // Implement password change logic
+    console.log("Change password clicked");
+  };
+
+  if (loading) {
     return (
       <div className="profile-page">
         <h2>Loading profile...</h2>
@@ -39,15 +41,13 @@ const ProfilePage = () => {
     );
   }
 
-  const handleEditProfile = () => {
-    // BACKEND: Replace with call to open a modal or navigate to an edit profile form
-    alert("Edit profile clicked (placeholder).");
-  };
-
-  const handleChangePassword = () => {
-    // BACKEND: Replace with call to change password logic
-    alert("Change password clicked (placeholder).");
-  };
+  if (error) {
+    return (
+      <div className="profile-page">
+        <h2 className="error-message">{error}</h2>
+      </div>
+    );
+  }
 
   return (
     <div className="profile-page">
@@ -57,23 +57,27 @@ const ProfilePage = () => {
           src="https://via.placeholder.com/150"
           alt="Profile"
         />
-        <h2 className="profile-name">{profileData.name}</h2>
+        <h2 className="profile-name">{profileData.fullName}</h2>
         <p className="profile-role">Role: {profileData.role}</p>
       </div>
 
       <div className="profile-info-card">
         <h3>Profile Information</h3>
         <p><strong>Email:</strong> {profileData.email}</p>
-        <p><strong>Bio:</strong> {profileData.bio}</p>
+        <p><strong>Bio:</strong> {profileData.bio || "No bio provided"}</p>
       </div>
 
       <div className="profile-actions">
-        <button className="btn-action" onClick={handleEditProfile}>Edit Profile</button>
-        <button className="btn-action" onClick={handleChangePassword}>Change Password</button>
+        <button className="btn-action" onClick={handleEditProfile}>
+          Edit Profile
+        </button>
+        <button className="btn-action" onClick={handleChangePassword}>
+          Change Password
+        </button>
       </div>
 
       <div className="profile-footer">
-        <p>Member since 2023</p>
+        <p>Member since {new Date(profileData.memberSince).toLocaleDateString()}</p>
       </div>
     </div>
   );
