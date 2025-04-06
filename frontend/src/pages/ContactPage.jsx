@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../styles/ContactPage.css";
+import { api_private_post } from "../utils/api.js";
 
 const ContactPage = () => {
   const [form, setForm] = useState({
@@ -8,8 +9,9 @@ const ContactPage = () => {
     subject: "",
     message: "",
   });
-
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -17,11 +19,26 @@ const ContactPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setError("");
 
-    // BACKEND: Replace this with a real API call (e.g. POST /api/contact)
-    console.log("Contact Form Submitted:", form);
-    setSubmitted(true);
-    setForm({ name: "", email: "", subject: "", message: "" });
+    console.log("Form data:", form);    // Debugging line
+
+    api_private_post(
+      "/api/contact",
+      form,
+      (response) => {
+        setSubmitted(true);
+        setForm({ name: "", email: "", subject: "", message: "" });
+        setIsSubmitting(false);
+        setTimeout(() => setSubmitted(false), 5000);
+      },
+      (err) => {
+        console.error("Contact submission failed:", err);
+        setError("Failed to send message. Please try again.");
+        setIsSubmitting(false);
+      }
+    );
   };
 
   return (
@@ -71,13 +88,23 @@ const ContactPage = () => {
             required
           ></textarea>
 
-          <button type="submit" className="btn-send">
-            Send Message
+          <button 
+            type="submit" 
+            className="btn-send"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Sending..." : "Send Message"}
           </button>
 
           {submitted && (
             <p className="success-message">
               ✅ Message submitted! We’ll get back to you soon.
+            </p>
+          )}
+          
+          {error && (
+            <p className="error-message">
+              ❌ {error}
             </p>
           )}
         </form>
