@@ -1,40 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../styles/FeedbackPage.css";
 import { useAuth } from "../context/AuthContext";
-
-const mockEventList = [
-    "Intro to Machine Learning",
-    "Cybersecurity Basics",
-    "Web Dev Bootcamp",
-  ];
-  
-
-const mockFeedbackData = [
-  {
-    eventId: 1,
-    eventName: "AI in Education Summit",
-    rating: 4,
-    comment: "Great insights into the future of AI!",
-    tags: ["Inspiring", "Innovative"],
-    date: "2025-03-01",
-  },
-  {
-    eventId: 2,
-    eventName: "Sustainable Learning Environments",
-    rating: 5,
-    comment: "Well-organized and inspiring.",
-    tags: ["Sustainable", "Thoughtful"],
-    date: "2025-02-20",
-  },
-];
+import { api_private_get, api_private_post } from "../utils/api.js";
 
 const tagOptions = ["Inspiring", "Technical", "Fun", "Well-Organized", "Interactive"];
 
 const FeedbackPage = () => {
   const { user } = useAuth();
+  const [registeredEvents, setRegisteredEvents] = useState([]);
   const [feedbackList, setFeedbackList] = useState([]);
   const [newFeedback, setNewFeedback] = useState({
-    eventName: "",
+    eventId: "",
     rating: "",
     comment: "",
     tags: [],
@@ -42,11 +18,41 @@ const FeedbackPage = () => {
   const [successMsg, setSuccessMsg] = useState("");
   const [charCount, setCharCount] = useState(0);
   const [hoveredRating, setHoveredRating] = useState(null);
+  const [loading, setLoading] = useState({
+    events: true,
+    feedback: true
+  });
+  const [error, setError] = useState("");
   const feedbackEndRef = useRef(null);
 
   useEffect(() => {
-    // BACKEND: Replace with API call to fetch feedback
-    setFeedbackList(mockFeedbackData);
+    // Fetch registered events
+    api_private_get(
+      "/users/registrations",
+      (response) => {
+        setRegisteredEvents(response || []);
+        setLoading(prev => ({ ...prev, events: false }));
+      },
+      (err) => {
+        console.error("Error fetching registrations:", err);
+        setError("Failed to load registered events");
+        setLoading(prev => ({ ...prev, events: false }));
+      }
+    );
+
+    // Fetch all feedback
+    api_private_get(
+      "/events/feedback",
+      (response) => {
+        setFeedbackList(response || []);
+        setLoading(prev => ({ ...prev, feedback: false }));
+      },
+      (err) => {
+        console.error("Error fetching feedback:", err);
+        setError("Failed to load previous feedback");
+        setLoading(prev => ({ ...prev, feedback: false }));
+      }
+    );
   }, []);
 
   const handleInputChange = (e) => {
@@ -69,25 +75,61 @@ const FeedbackPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setError("");
 
-    const newEntry = {
-      ...newFeedback,
-      date: new Date().toISOString().split("T")[0],
-      eventId: Math.random().toFixed(5),
+    if (!newFeedback.eventId || !newFeedback.rating || !newFeedback.comment) {
+      setError("Please fill in all required fields");
+      return;
+    }
+
+    const payload = {
+      eventId: newFeedback.eventId,
+      rating: Number(newFeedback.rating),
+      tags: newFeedback.tags,
+      comment: newFeedback.comment
     };
 
-    setFeedbackList([newEntry, ...feedbackList]);
-    setNewFeedback({ eventName: "", rating: "", comment: "", tags: [] });
-    setCharCount(0);
-    setSuccessMsg("✅ Feedback submitted successfully!");
+    api_private_post(
+      "/events/feedback",
+      payload,
+      (response) => {
+        setSuccessMsg("✅ Feedback submitted successfully!");
+        setNewFeedback({ eventId: "", rating: "", comment: "", tags: [] });
+        setCharCount(0);
+        
+        // Refresh feedback list
+        api_private_get(
+          "/events/feedback",
+          (response) => setFeedbackList(response || []),
+          (err) => console.error("Error refreshing feedback:", err)
+        );
 
-    setTimeout(() => setSuccessMsg(""), 3000);
-
-    // Scroll to new feedback
-    setTimeout(() => {
-      feedbackEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, 100);
+        setTimeout(() => {
+          feedbackEndRef.current?.scrollIntoView({ behavior: "smooth" });
+          setSuccessMsg("");
+        }, 3000);
+      },
+      (err) => {
+        console.error("Submission error:", err);
+        setError("Failed to submit feedback. Please try again.");
+      }
+    );
   };
+
+  if (loading.events || loading.feedback) {
+    return <div className="loading-container">Loading data...</div>;
+  }
+
+  if (error) {
+    return (
+      <div className="error-container">
+        <p>{error}</p>
+        <button onClick={() => window.location.reload()} className="btn-retry">
+          Try Again
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="feedback-page-container">
@@ -96,50 +138,45 @@ const FeedbackPage = () => {
 
       <form className="feedback-form" onSubmit={handleSubmit}>
         <select
-          name="eventName"
-          value={newFeedback.eventName}
+          name="eventId"
+          value={newFeedback.eventId}
           onChange={handleInputChange}
           className="feedback-select"
           required
         >
           <option value="">Select Event</option>
-          {mockEventList.map((event, idx) => (
-            <option key={idx} value={event}>
-              {event}
+          {registeredEvents.map((event) => (
+            <option key={event.eventID} value={event.eventID}>
+              {event.eventTitle}
             </option>
           ))}
         </select>
 
         <div className="star-rating-container">
-  <label className="rating-label">Rating:</label>
-  <div className="star-row">
-    {[1, 2, 3, 4, 5].map((star) => (
-      <span
-        key={star}
-        className={`star ${
-          star <= (hoveredRating || newFeedback.rating) ? "filled" : ""
-        }`}
-        onClick={() =>
-          setNewFeedback({ ...newFeedback, rating: star })
-        }
-        onMouseEnter={() => setHoveredRating(star)}
-        onMouseLeave={() => setHoveredRating(null)}
-      >
-        ★
-      </span>
-    ))}
-  </div>
-</div>
+          <label className="rating-label">Rating:</label>
+          <div className="star-row">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <span
+                key={star}
+                className={`star ${
+                  star <= (hoveredRating || newFeedback.rating) ? "filled" : ""
+                }`}
+                onClick={() => setNewFeedback({ ...newFeedback, rating: star })}
+                onMouseEnter={() => setHoveredRating(star)}
+                onMouseLeave={() => setHoveredRating(null)}
+              >
+                ★
+              </span>
+            ))}
+          </div>
+        </div>
 
-        {/* Tag Buttons */}
         <div className="tag-selector">
-          {tagOptions.map((tag, idx) => (
+          {tagOptions.map((tag) => (
             <button
               type="button"
-              key={idx}
-              className={`tag-btn ${
-                newFeedback.tags.includes(tag) ? "selected" : ""
-              }`}
+              key={tag}
+              className={`tag-btn ${newFeedback.tags.includes(tag) ? "selected" : ""}`}
               onClick={() => handleTagToggle(tag)}
             >
               {tag}
@@ -162,23 +199,27 @@ const FeedbackPage = () => {
           Submit Feedback
         </button>
         {successMsg && <p className="success-msg">{successMsg}</p>}
+        {error && <p className="error-msg">{error}</p>}
       </form>
-      <h2 className="previous-feedback-title">Our Previous Feedbacks</h2>
 
-
+      <h2 className="previous-feedback-title">Community Feedbacks</h2>
       <div className="feedback-list">
         {feedbackList.length === 0 ? (
           <p className="no-feedback">No feedback submitted yet.</p>
         ) : (
           feedbackList.map((fb) => (
-            <div className="feedback-card" key={fb.eventId}>
-              <h3 className="feedback-event">{fb.eventName}</h3>
-              <p className="feedback-rating">{"★".repeat(fb.rating)}{"☆".repeat(5 - fb.rating)}</p>
+            <div className="feedback-card" key={fb.feedbackId}>
+              <h3 className="feedback-event">{fb.eventTitle}</h3>
+              <p className="feedback-rating">
+                {"★".repeat(fb.rating)}{"☆".repeat(5 - fb.rating)}
+              </p>
               <p className="feedback-comment">"{fb.comment}"</p>
               {fb.tags?.length > 0 && (
                 <p className="feedback-tags">Tags: {fb.tags.join(", ")}</p>
               )}
-              <p className="feedback-date">Submitted on: {fb.date}</p>
+              <p className="feedback-date">
+                Submitted on: {new Date(fb.submittedOn).toLocaleDateString()}
+              </p>
             </div>
           ))
         )}
