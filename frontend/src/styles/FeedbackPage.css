@@ -1,168 +1,223 @@
 .feedback-page-container {
-    max-width: 800px;
-    margin: auto;
-    padding: 40px 20px;
-    font-family: "Poppins", sans-serif;
-    color: #333;
-  }
-  
-  .feedback-title {
-    font-size: 32px;
-    color: #53917e;
-    text-align: center;
-    margin-bottom: 10px;
-  }
-  
-  .feedback-subtitle {
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 16px;
-    color: #666;
-  }
-  
-  .feedback-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-bottom: 40px;
-  }
-  
-  .feedback-input,
-  .feedback-select,
-  .feedback-textarea {
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    font-size: 14px;
-  }
-  
-  .feedback-textarea {
-    resize: vertical;
-    min-height: 100px;
-  }
-  
-  .feedback-submit-btn {
-    background: linear-gradient(135deg, #b1b695, #53917e);
-    color: #fff;
-    border: none;
-    padding: 12px;
-    border-radius: 30px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.3s ease-in-out;
-  }
-  
-  .feedback-submit-btn:hover {
-    transform: scale(1.05);
-  }
-  
-  .feedback-list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .feedback-card {
-    padding: 20px;
-    border: 1px solid #e0e0e0;
-    border-left: 5px solid #53917e;
-    border-radius: 10px;
-    background: #f9f9f9;
-  }
-  
-  .feedback-event {
-    font-size: 18px;
-    font-weight: bold;
-    color: #6d1a36;
-  }
-  
-  .feedback-rating,
-  .feedback-comment,
-  .feedback-date {
-    font-size: 14px;
-    color: #555;
-    margin-top: 5px;
-  }
-  
-  .no-feedback {
-    text-align: center;
-    color: #999;
-  }
-  .tag-selector {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 10px;
-  }
-  
-  .tag-btn {
-    padding: 6px 12px;
-    background: #eee;
-    border-radius: 20px;
-    border: 1px solid #ccc;
-    font-size: 13px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  
-  .tag-btn.selected {
-    background: #53917e;
-    color: white;
-    border-color: #53917e;
-  }
-  
-  .char-count {
-    text-align: right;
-    font-size: 12px;
-    color: #888;
-  }
-  
-  .success-msg {
-    color: green;
-    margin-top: 10px;
-    font-weight: 500;
-  }
-  .star-rating-container {
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-  
-  .rating-label {
-    font-weight: 600;
-    margin-bottom: 5px;
-    display: block;
-    color: #333;
-  }
-  
-  .star-row {
-    display: flex;
-    gap: 8px;
-  }
-  
-  .star {
-    font-size: 28px;
-    color: #ccc;
-    cursor: pointer;
-    transition: color 0.2s ease, transform 0.2s ease;
-  }
-  
-  .star.filled {
-    color: #fbbf24; /* Golden yellow */
-  }
-  
-  .star:hover {
-    transform: scale(1.1);
-  }
-  .previous-feedback-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-top: 40px;
-    margin-bottom: 20px;
-    color: #53917e; /* Matches SEES green theme */
-    text-align: center;
-  }
-  
-  
-  
-  
+  max-width: 800px;
+  margin: auto;
+  padding: 40px 20px;
+  font-family: "Poppins", sans-serif;
+  color: #333;
+}
+
+.feedback-title {
+  font-size: 32px;
+  color: #53917e;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.feedback-subtitle {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 16px;
+  color: #666;
+}
+
+/* --------------------------------------------------- */
+/* HORIZONTAL SCROLLER FOR REGISTERED EVENTS           */
+/* --------------------------------------------------- */
+.registered-events-scroll-container {
+  margin-bottom: 30px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.registered-events-scroller {
+  display: flex;
+  gap: 16px;
+}
+
+/* Each event “card” in the horizontal list */
+.event-card {
+  min-width: 200px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 16px;
+  background-color: #fdfdfd;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.event-card:hover {
+  transform: scale(1.03);
+}
+
+.event-card.selected {
+  border: 2px solid #53917e;
+  box-shadow: 0 0 6px rgba(83, 145, 126, 0.3);
+}
+
+/* --------------------------------------------------- */
+/* FEEDBACK FORM                                       */
+/* --------------------------------------------------- */
+.feedback-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 40px;
+}
+
+.feedback-input,
+.feedback-select,
+.feedback-textarea {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.feedback-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.feedback-submit-btn {
+  background: linear-gradient(135deg, #b1b695, #53917e);
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+.feedback-submit-btn:hover {
+  transform: scale(1.05);
+}
+
+/* --------------------------------------------------- */
+/* TAG SELECTOR                                        */
+/* --------------------------------------------------- */
+.tag-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.tag-btn {
+  padding: 6px 12px;
+  background: #eee;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tag-btn.selected {
+  background: #53917e;
+  color: white;
+  border-color: #53917e;
+}
+
+/* --------------------------------------------------- */
+/* STAR RATING                                         */
+/* --------------------------------------------------- */
+.star-rating-container {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.rating-label {
+  font-weight: 600;
+  margin-bottom: 5px;
+  display: block;
+  color: #333;
+}
+
+.star-row {
+  display: flex;
+  gap: 8px;
+}
+
+.star {
+  font-size: 28px;
+  color: #ccc;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.star.filled {
+  color: #fbbf24; /* Golden yellow */
+}
+
+.star:hover {
+  transform: scale(1.1);
+}
+
+/* --------------------------------------------------- */
+/* TEXT COUNTER, SUCCESS MSG                           */
+/* --------------------------------------------------- */
+.char-count {
+  text-align: right;
+  font-size: 12px;
+  color: #888;
+}
+
+.success-msg {
+  color: green;
+  margin-top: 10px;
+  font-weight: 500;
+}
+
+/* --------------------------------------------------- */
+/* PREVIOUS FEEDBACK                                   */
+/* --------------------------------------------------- */
+.previous-feedback-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  color: #53917e; /* Matches SEES green theme */
+  text-align: center;
+}
+
+.feedback-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.feedback-card {
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-left: 5px solid #53917e;
+  border-radius: 10px;
+  background: #f9f9f9;
+}
+
+.feedback-event {
+  font-size: 18px;
+  font-weight: bold;
+  color: #6d1a36;
+}
+
+.feedback-rating,
+.feedback-comment,
+.feedback-date {
+  font-size: 14px;
+  color: #555;
+  margin-top: 5px;
+}
+
+.feedback-tags {
+  font-size: 14px;
+  color: #555;
+  margin-top: 5px;
+}
+
+.no-feedback {
+  text-align: center;
+  color: #999;
+}
