@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../styles/FeedbackPage.css";
 import { useAuth } from "../context/AuthContext";
-// import axios from "axios"; // Uncomment if you plan to fetch from an API
 
 // Demo data (replace with actual API calls)
 const mockRegisteredEvents = [
