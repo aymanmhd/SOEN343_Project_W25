@@ -4,11 +4,11 @@ import https from "https";
 import cors from "cors";
 import express, { Request } from "express";
 
-// Extend the Request interface to include the username property
+// Extend the Request interface to include the userId property fomr the cookieJwtAuth middleware
 declare global {
     namespace Express {
         interface Request {
-            username?: string;
+            account: Model<IAccount>;
         }
     }
 }
@@ -17,7 +17,7 @@ import dotenv from 'dotenv';
 import cookieParser from "cookie-parser";
 import cookieJwtAuth from "./cookieJwtAuth";
 import * as database from "./database";
-import AccountsManager from "./AccountsManager";
+import { AccountsManager, AccountRole } from "./AccountsManager";
 import EventsManager from "./EventsManager";
 import TransactionsManager from "./TransactionsManager";
 
@@ -25,9 +25,9 @@ import TransactionsManager from "./TransactionsManager";
 import MailManager from "./MailManager";
 import LoginStreak from "./LoginStreak";
 
-import mongoose, { Schema } from "mongoose";
-import { Account, AccountSchema } from "./models/Account";
-import { Event, EventSchema } from "./models/Event";
+import mongoose, { Model, Schema } from "mongoose";
+import { Account, AccountSchema, IAccount } from "./models/Account";
+import { Event, EventSchema, IEvent } from "./models/Event";
 import { Mail, MailSchema } from "./models/Mail";
 import { Order, OrderSchema } from "./models/Order";
 // const Account = require("./models/Account");
@@ -48,9 +48,9 @@ const websiteUrl = "http://localhost:3000";
 
 setTimeout(async () => {
     database.dropDatabase();
-    const account2_create = await AccountsManager.register("admin2", "password", "Admin", "Admin User");
+    const account2_create = await AccountsManager.register("admin2", "password", AccountRole.Admin, "Admin User");
     // console.log(account2_create);
-    const account2_find = await AccountsManager.findAccountByUsername("admin2");
+    const account2_find = await AccountsManager.findAccountByEmail("admin2");
     if (!account2_find) {
         throw new Error("Account not found");
     }
@@ -85,7 +85,7 @@ setTimeout(async () => {
     await TransactionsManager.addToCart(account2_find, event2);
 
     // add speaker
-    const speaker1 = await AccountsManager.register("speaker1", "password", "Admin", "Speaker 1");
+    const speaker1 = await AccountsManager.register("speaker1", "password", AccountRole.Admin, "Speaker 1");
     // add speaker to event
     await EventsManager.addSpeaker(event1, speaker1);
 
@@ -121,11 +121,11 @@ apiServer.get("/", (req, res) => {
 /* ================================================== */
 
 apiServer.post("/login", async (req, res) => {
-    const {username, password} = req.body;
+    const {email, password} = req.body;
     
     let account;
     try {
-        account = await AccountsManager.login(username, password);
+        account = await AccountsManager.login(email, password);
     } catch (e: any) {
         console.error("Error: ", e);
         return res.status(401).redirect(websiteUrl + "/login.html?error-msg=" + e.message);
@@ -134,7 +134,7 @@ apiServer.post("/login", async (req, res) => {
     if (!process.env.JWT_SECRET) {
         throw new Error("JWT_SECRET is not defined");
     }
-    const jwtToken = jwt.sign({username: account.username}, process.env.JWT_SECRET, {expiresIn: "10m"});
+    const jwtToken = jwt.sign({userId: account._id}, process.env.JWT_SECRET, {expiresIn: "10m"});
 
     res.cookie("token", jwtToken, {
         httpOnly: true,
@@ -149,9 +149,9 @@ apiServer.post("/login", async (req, res) => {
 });
 
 apiServer.post("/register", async (req, res) => {
-    const {username, password, type, fullName} = req.body;
+    const {email, password, role, fullName} = req.body;
     try {
-        const account = await AccountsManager.register(username, password, type, fullName);
+        const account = await AccountsManager.register(email, password, role, fullName);
         res.json(account);
         // return res.redirect(websiteUrl + "/login.html?success-msg=Successfully registered! Please log in...");
     } catch (e: any) {
@@ -171,31 +171,23 @@ apiServer.get("/check_login", cookieJwtAuth, (req, res) => {
 });
 
 
-
 apiServer.get('/account', cookieJwtAuth, async (req, res) => {
-    if (!req.username) {
-        res.status(400).json({ error: "Username is required" });
-        return;
-    }
-    let account = await AccountsManager.findAccountByUsername(req.username);
-    if (!account) {
-        res.status(404).json({ error: 'Account not found' });
-        return;
-    }
     try {
-        account = await account.populate('cartItems');  // equivalent to `GET /cart`
-        account = await account.populate('orders');
-        account = await account.populate({
-            path: 'mails',
-            populate: [
-            { path: 'accountTo', select: 'username' },
-            { path: 'accountFrom', select: 'username' }
-            ]
-        });  // equivalent to `GET /mail`
-        account = await account.populate('attendingEvents');
-        account = await account.populate('hostedEvents');
+        let populated  = await req.account.populate('cartItems', []);  // equivalent to `GET /cart`
+        populated = await populated.populate('orders');
+        populated = await populated.populate(
+            {
+                path: 'mails',
+                populate: [
+                    { path: 'accountTo', select: 'email' },
+                    { path: 'accountFrom', select: 'email' }
+                ]
+            }
+        );  // equivalent to `GET /mail`
+        populated = await populated?.populate('attendingEvents', []);
+        populated = await populated?.populate('hostedEvents', []);
 
-        res.json(account);
+        res.json(populated);
     } catch (error) {
         console.error('Failed to fetch accounts:', error);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -208,14 +200,10 @@ apiServer.get('/account', cookieJwtAuth, async (req, res) => {
 /* ================================================== */
 
 apiServer.post("/events", cookieJwtAuth, async (req, res) => {
-    if (!req.username) {
-        res.status(400).json({ error: "Username is required" });
-        return;
-    }
-    const account = await AccountsManager.findAccountByUsername(req.username);
+    const account = req.account;
     const { name, date, location, price, description } = req.body;
     try {
-        const event: any = await EventsManager.createNewEvent(name, new Date(date), location, price, description);
+        const event: IEvent = await EventsManager.createNewEvent(name, new Date(date), location, price, description);
         res.status(201).json(event);
     } catch (error) {
         console.error("Error creating event:", error);
@@ -224,17 +212,13 @@ apiServer.post("/events", cookieJwtAuth, async (req, res) => {
 });
 
 apiServer.get("/events", cookieJwtAuth, async (req, res) => {
-    if (!req.username) {
-        res.status(400).json({ error: "Username is required" });
-        return;
-    }
-    const account = await AccountsManager.findAccountByUsername(req.username);
+    const account = req.account;
     try {
         let events = await EventsManager.getAllEvents();
-        // for each speaker (ObjectId) in event, populate username and fullname 
+        // for each speaker (ObjectId) in event, populate email and fullname 
         events = await Promise.all(events.map(async event => await event.populate({
             path: 'speakers',
-            select: 'username fullName'
+            select: 'email fullName'
         })));
         res.json(events);
     } catch (error) {
@@ -244,11 +228,7 @@ apiServer.get("/events", cookieJwtAuth, async (req, res) => {
 });
 
 apiServer.post("/events/add_speaker", cookieJwtAuth, async (req, res) => {
-    if (!req.username) {
-        res.status(400).json({ error: "Username is required" });
-        return;
-    }
-    const account = await AccountsManager.findAccountByUsername(req.username);
+    const account = req.account;
     const { eventId, speakerId } = req.body;
     try {
         const updatedEvent = await EventsManager.addSpeaker(eventId, speakerId);
@@ -260,11 +240,7 @@ apiServer.post("/events/add_speaker", cookieJwtAuth, async (req, res) => {
 });
 
 apiServer.post("/events/add_attendee_manually", cookieJwtAuth, async (req, res) => {
-    if (!req.username) {
-        res.status(400).json({ error: "Username is required" });
-        return;
-    }
-    const account = await AccountsManager.findAccountByUsername(req.username);
+    const account = req.account;
     const { eventId, attendeeId } = req.body;
     try {
         const updatedEvent = await EventsManager.addAttendee(eventId, attendeeId);
@@ -280,14 +256,10 @@ apiServer.post("/events/add_attendee_manually", cookieJwtAuth, async (req, res) 
 /* ================================================== */
 
 apiServer.post("/cart/add", cookieJwtAuth, async (req, res) => {
-    if (!req.username) {
-        res.status(400).json({ error: "Username is required" });
-        return;
-    }
-    const account = await AccountsManager.findAccountByUsername(req.username);
+    const account = req.account;
     const { eventId } = req.body;
     try {
-        // const account = await AccountsManager.findAccountByUsername("admin2");  // TODO: Replace with logged-in user
+        // const account = await AccountsManager.findAccountByEmail("admin2");  // TODO: Replace with logged-in user
         const event = await Event.findById(eventId);
         if (!event) {
             res.status(404).json({ error: "Event not found" });
@@ -307,14 +279,9 @@ apiServer.post("/cart/add", cookieJwtAuth, async (req, res) => {
 });
 
 apiServer.post("/cart/remove", cookieJwtAuth, async (req, res) => {
-    if (!req.username) {
-        res.status(400).json({ error: "Username is required" });
-        return;
-    }
-    const account = await AccountsManager.findAccountByUsername(req.username);
+    const account = req.account;
     const { eventId } = req.body;
     try {
-        // const account = await AccountsManager.findAccountByUsername("admin2");  // TODO: Replace with logged-in user
         const event = await Event.findById(eventId);
         if (!event) {
             res.status(404).json({ error: "Event not found" });
@@ -329,13 +296,8 @@ apiServer.post("/cart/remove", cookieJwtAuth, async (req, res) => {
 });
 
 apiServer.post("/cart/clear", cookieJwtAuth, async (req, res) => {
-    if (!req.username) {
-        res.status(400).json({ error: "Username is required" });
-        return;
-    }
-    const account = await AccountsManager.findAccountByUsername(req.username);
+    const account = req.account;
     try {
-        // const account = await AccountsManager.findAccountByUsername("admin2"); // TODO: Replace with logged-in user
         const updatedCart = await TransactionsManager.clearCart(account);
         res.redirect('/cart');
     } catch (error) {
@@ -345,19 +307,14 @@ apiServer.post("/cart/clear", cookieJwtAuth, async (req, res) => {
 });
 
 apiServer.get("/cart", cookieJwtAuth, async (req, res) => {
-    if (!req.username) {
-        res.status(400).json({ error: "Username is required" });
-        return;
-    }
-    const account = await AccountsManager.findAccountByUsername(req.username);
+    const account = req.account;
     try {
-        // const account = await AccountsManager.findAccountByUsername("admin2"); // TODO: Replace with logged-in user
         if (!account) {
             res.status(404).json({ error: "Account not found" });
             return;
         }
-        await account.populate('cartItems');
-        res.json(account.cartItems);
+        let populated = await account.populate('cartItems', []);
+        res.json(populated.cartItems);
     } catch (error) {
         console.error("Error fetching cart:", error);
         res.status(500).json({ error: "Failed to fetch cart" });
@@ -365,14 +322,9 @@ apiServer.get("/cart", cookieJwtAuth, async (req, res) => {
 });
 
 apiServer.post("/cart/checkout", cookieJwtAuth, async (req, res) => {
-    if (!req.username) {
-        res.status(400).json({ error: "Username is required" });
-        return;
-    }
-    const account = await AccountsManager.findAccountByUsername(req.username);
+    const account = req.account;
     const { paymentCard } = req.body;
     try {
-        // const account = await AccountsManager.findAccountByUsername("admin2"); // TODO: Replace with logged-in user
         const order = await TransactionsManager.checkoutCart(account, paymentCard);
         res.json(order);
     } catch (error) {
@@ -386,18 +338,13 @@ apiServer.post("/cart/checkout", cookieJwtAuth, async (req, res) => {
 /* ================================================== */
 
 apiServer.get("/mail", cookieJwtAuth, async (req, res) => {
-    if (!req.username) {
-        res.status(400).json({ error: "Username is required" });
-        return;
-    }
-    const account = await AccountsManager.findAccountByUsername(req.username);
+    const account = req.account;
     try {
-        // const account = await AccountsManager.findAccountByUsername("admin2"); // TODO: Replace with logged-in user
         const mails = await MailManager.findMailByAccountTo(account);
-        // populate accountFrom and accountTo fields with username and fullName
+        // populate accountFrom and accountTo fields with email and fullName
         await Mail.populate(mails, {
             path: 'accountFrom accountTo',
-            select: 'username fullName'
+            select: 'email fullName'
         });
         res.json(mails);
     } catch (error) {
@@ -407,15 +354,10 @@ apiServer.get("/mail", cookieJwtAuth, async (req, res) => {
 });
 
 apiServer.post("/mail", cookieJwtAuth, async (req, res) => {
-    if (!req.username) {
-        res.status(400).json({ error: "Username is required" });
-        return;
-    }
-    const account = await AccountsManager.findAccountByUsername(req.username);
+    const account = req.account;
     const { accountTo, subject, message } = req.body;
     try {
-        // const account: NonNullable<any> = await AccountsManager.findAccountByUsername("admin2"); // TODO: Replace with logged-in user
-        const accountToObj = await AccountsManager.findAccountByUsername(accountTo);
+        const accountToObj = await AccountsManager.findAccountByEmail(accountTo);
         if (!accountToObj) {
             res.status(404).json({ error: "Recipient account not found" });
             return;
@@ -423,7 +365,7 @@ apiServer.post("/mail", cookieJwtAuth, async (req, res) => {
         const mail = await MailManager.sendNewMail(account, accountToObj, subject, message);
         await Mail.populate(mail, {
             path: 'accountFrom accountTo',
-            select: 'username fullName'
+            select: 'email fullName'
         });
         res.json(mail);
     } catch (error) {

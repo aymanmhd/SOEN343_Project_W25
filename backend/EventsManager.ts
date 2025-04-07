@@ -1,9 +1,10 @@
-import { Event } from './models/Event';
+import { Model } from 'mongoose';
+import { Event, IEvent } from './models/Event';
 import { v4 as uuidv4 } from 'uuid';
 
 class EventsManager {
 
-    static async createNewEvent(name: string, date: Date, location: string, price: number, description: string) {
+    static async createNewEvent(name: string, date: Date, location: string, price: number, description: string): Promise<IEvent> {
         const newEvent = new Event({
             name: name,
             date: date,

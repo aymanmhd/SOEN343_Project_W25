@@ -23,7 +23,7 @@
 - **Request Body**:
    ```json
    {
-      "username": "string",
+      "email": "string",
       "password": "string"
    }
    ```
@@ -34,7 +34,7 @@
 - **Request Body**:
    ```json
    {
-      "username": "string",
+      "email": "string",
       "password": "string",
       "isAdmin": "boolean",  // only admins can register an admin account
       "fullName": "string"
@@ -43,7 +43,7 @@
 - **Response**: Json Account object created:
 ```json
 {
-    "username": "admin3",
+    "email": "admin3",
     "password": "$2b$10$uWJjpS31lNnKBRhylxakq.nl7Rn4OgW6.jt4JzwhYkq6dUoB5Fcui",
     "isAdmin": false,
     "fullName": "Teo",
@@ -122,7 +122,7 @@ The `Event` class represents the structure of an event object in the system.
         "speakers": [
             {
                 "_id": "67e48ac7a730883e9a840e32",
-                "username": "speaker1",
+                "email": "speaker1",
                 "fullName": "Speaker 1"
             }
         ],
@@ -283,7 +283,7 @@ The `Account` class represents the structure of an account object in the system.
 ```typescript
 {
    // basic info
-   "username": "string",
+   "email": "string",
    "password": "string",
    "isAdmin": "boolean",
    "fullName": "string",
@@ -319,8 +319,8 @@ The `Mail` class represents the structure of a mail object in the system.
 
 ```typescript
 {
-   "accountTo": "string",  // username field of Account
-   "accountFrom": "string | null",  // username field of Account OR `null` indicating system message
+   "accountTo": "string",  // email field of Account
+   "accountFrom": "string | null",  // email field of Account OR `null` indicating system message
    "timeSent": "string (ISO format)",
    "subject": "string",
    "message": "string"
@@ -338,7 +338,7 @@ The `Mail` class represents the structure of a mail object in the system.
         "accountFrom": null,
         "accountTo": {
             "_id": "67e47dfbec8983df124decb8",
-            "username": "admin2",
+            "email": "admin2",
             "fullName": "Admin"
         },
         "timeSent": "2025-03-26T22:21:48.364Z",
@@ -350,12 +350,12 @@ The `Mail` class represents the structure of a mail object in the system.
         "_id": "67e47dfcec8983df124decd4",
         "accountFrom": {
             "_id": "67e47dfbec8983df124decb8",
-            "username": "admin2",
+            "email": "admin2",
             "fullName": "Admin"
         },
         "accountTo": {
             "_id": "67e47dfbec8983df124decb8",
-            "username": "admin2",
+            "email": "admin2",
             "fullName": "Admin"
         },
         "timeSent": "2025-03-26T22:21:48.884Z",
@@ -371,7 +371,7 @@ The `Mail` class represents the structure of a mail object in the system.
 - **Request Body**:
    ```json
    {
-      "accountTo": "string",  // username field of Account obj
+      "accountTo": "string",  // email field of Account obj
       "subject": "string",
       "message": "string"
    }
@@ -382,12 +382,12 @@ The `Mail` class represents the structure of a mail object in the system.
 {
     "accountFrom": {
         "_id": "67e47e9e30f5375d18fcbccd",
-        "username": "admin2",
+        "email": "admin2",
         "fullName": "Admin"
     },
     "accountTo": {
         "_id": "67e47e9e30f5375d18fcbccd",
-        "username": "admin2",
+        "email": "admin2",
         "fullName": "Admin"
     },
     "timeSent": "2025-03-26T22:27:25.267Z",

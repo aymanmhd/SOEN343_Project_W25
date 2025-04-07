@@ -1,6 +1,6 @@
 import { Event } from './models/Event';
 import { Account } from './models/Account';
-import AccountsManager from './AccountsManager';
+import { AccountsManager } from './AccountsManager';
 import { Order } from './models/Order';
 import { v4 as uuidv4 } from 'uuid';
 import { Mail } from './models/Mail';

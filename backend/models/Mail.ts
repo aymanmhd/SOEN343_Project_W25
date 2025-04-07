@@ -1,7 +1,15 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Schema, model } from 'mongoose';
 import { Account } from './Account';
 
-const MailSchema: mongoose.Schema = new mongoose.Schema({
+interface IMail {
+    accountFrom: Schema.Types.ObjectId | null;
+    accountTo: Schema.Types.ObjectId;
+    timeSent: Date;
+    subject: string;
+    message: string;
+}
+
+const MailSchema: Schema = new Schema<IMail>({
     accountFrom: { type: Schema.Types.ObjectId, ref: 'Account', required: false, default: null },
     accountTo: { type: Schema.Types.ObjectId, ref: 'Account', required: true },
     timeSent: { type: Date, required: true },
@@ -9,6 +17,6 @@ const MailSchema: mongoose.Schema = new mongoose.Schema({
     message: { type: String, required: true },
 });
 
-const Mail = mongoose.model('Mail', MailSchema);
+const Mail = model<IMail>('Mail', MailSchema);
 
-export { Mail, MailSchema };
+export { Mail, MailSchema, IMail };

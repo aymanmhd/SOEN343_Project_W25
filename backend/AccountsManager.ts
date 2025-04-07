@@ -1,15 +1,20 @@
 import bcrypt from 'bcrypt';
-import { Account } from './models/Account';
-import mongoose from 'mongoose';
+import { Account, IAccount } from './models/Account';
+import mongoose, { Model } from 'mongoose';
 import { error } from 'console';
 
+enum AccountRole {
+    Regular = 'Regular',
+    Admin = 'Admin',
+    Organizer = 'Organizer'
+}
 
 // interface for user creation parameters
 interface AccountData {
-    username: string;
+    email: string;
     password: string;
     fullName: string;
-    type: string;
+    role: AccountRole;
     //cartItems?: mongoose.Types.ObjectId[];
     //orders?: mongoose.Types.ObjectId[];
     //mails?: mongoose.Types.ObjectId[];
@@ -41,13 +46,13 @@ class OrganizerAccount {
 
 // factory class (factory design pattern)
 class AccountFactory {
-    static createAccount(type: string, data: AccountData): any {
-        switch (type) {
-            case 'Admin':
+    static createAccount(role: AccountRole, data: AccountData): InstanceType<typeof Account> {
+        switch (role) {
+            case AccountRole.Admin:
                 return new AdminAccount(data).account;
-            case 'Regular':
+            case AccountRole.Regular:
                 return new RegularAccount(data).account;
-            case 'Organizer':
+            case AccountRole.Organizer:
                 return new OrganizerAccount(data).account;
             default:
                 throw new Error("Error initializing the type.");
@@ -56,22 +61,22 @@ class AccountFactory {
 }
 
 class AccountsManager {
-    // find account by username
-    static async findAccountByUsername(username: String) {
-        return await Account.findOne({ username });
+    // find account by email
+    static async findAccountByEmail(email: String) {
+        return await Account.findOne({ email });
     }
 
-    static async register(username: string, password: string, type: string, fullName: string) {
+    static async register(email: string, password: string, role: AccountRole, fullName: string) {
         const hashedPassword = await bcrypt.hash(password, 10);
         console.log('Hash: ', hashedPassword);
-        const newAccount = AccountFactory.createAccount(type, {username, password: hashedPassword, type, fullName});
+        const newAccount = AccountFactory.createAccount(role, {email, password: hashedPassword, role, fullName});
         const result = await newAccount.save();
         console.log('User created!');
         return result;
     }
 
-    static async login(username: string, password: string) {
-        const account = await AccountsManager.findAccountByUsername(username);
+    static async login(email: string, password: string) {
+        const account = await AccountsManager.findAccountByEmail(email);
         if (!account) {
             throw new Error('Account not found');
         }
@@ -85,4 +90,4 @@ class AccountsManager {
     }
 }
 
-export default AccountsManager;
+export {AccountRole, AccountsManager};

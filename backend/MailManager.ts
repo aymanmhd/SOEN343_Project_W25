@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import AccountsManager from './AccountsManager';
+import { AccountsManager } from './AccountsManager';
 import { Account } from './models/Account';
 import { Mail } from './models/Mail'; // Adjust the path as necessary
 import { v4 as uuidv4 } from 'uuid';
