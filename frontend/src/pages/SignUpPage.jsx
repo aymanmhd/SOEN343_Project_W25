@@ -5,29 +5,37 @@ import "../styles/SignUpPage.css";
 import SignUpFormBuilder from "../patterns/SignUpFormBuilder"; // adjust path as needed
 
 const SignUpPage = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const [role, setRole] = useState("attendee"); // New piece of state for role selection
+
   const navigate = useNavigate();
 
-  // 🧱 Use the builder here:
+  // Use the builder for our form fields
   const formBuilder = new SignUpFormBuilder()
     .addInput("text", "Full Name", "fa-user", fullName, setFullName)
-    .addInput("text", "Username", "fa-envelope", username, setUsername)
+    .addInput("email", "Email", "fa-envelope", email, setEmail)
     .addPasswordInput(password, setPassword, showPassword, () =>
       setShowPassword(!showPassword)
     );
 
-  // 🧠 Function to handle submit
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
 
+    // Send the request to /auth/register with { name, email, password, role }
     api_private_post(
-      "/register",
-      { username, password, fullName, type: "Regular" },
+      "/auth/register",
+      {
+        name: fullName,
+        email,
+        password,
+        role,
+      },
       (response) => {
         if (response && response.error) {
           setError(response.error);
@@ -44,12 +52,28 @@ const SignUpPage = () => {
 
   return (
     <div className="signup-container">
+      {/* LEFT SECTION */}
       <div className="signup-left-section">
         <h2 className="signup-title">Create an Account</h2>
 
-       
+        {/* Role Toggle Pills */}
+        <div className="signup-role-toggle-switch">
+          <div
+            className={`toggle-option ${role === "attendee" ? "active" : ""}`}
+            onClick={() => setRole("attendee")}
+          >
+            Attendee
+          </div>
+          <div
+            className={`toggle-option ${role === "organizer" ? "active" : ""}`}
+            onClick={() => setRole("organizer")}
+          >
+            Organizer
+          </div>
+        </div>
 
-        <p className="signup-or-text">or register with email:</p>
+        <br />
+
 
         <form onSubmit={handleSubmit} className="signup-input-container">
           {formBuilder.build()}
@@ -62,8 +86,10 @@ const SignUpPage = () => {
         </form>
       </div>
 
+      {/* DIVIDER */}
       <div className="signup-divider"></div>
 
+      {/* RIGHT SECTION */}
       <div className="signup-right-section">
         <h1 className="welcome-back-title">Welcome Back!</h1>
         <h2 className="welcome-back-text">
@@ -76,6 +102,5 @@ const SignUpPage = () => {
     </div>
   );
 };
-
 
 export default SignUpPage;
