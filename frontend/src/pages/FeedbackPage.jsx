@@ -1,211 +1,157 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../styles/FeedbackPage.css";
 import { useAuth } from "../context/AuthContext";
+import { api_private_get, api_private_post } from "../utils/api.js";
 
-// Demo data (replace with actual API calls)
-const mockRegisteredEvents = [
-  {
-    id: "evt-1",
-    title: "Intro to Machine Learning",
-    description: "Learn the basics of ML concepts.",
-  },
-  {
-    id: "evt-2",
-    title: "Cybersecurity Basics",
-    description: "Fundamentals of staying safe online.",
-  },
-  {
-    id: "evt-3",
-    title: "Web Dev Bootcamp",
-    description: "Dive into modern web development.",
-  },
-];
-
-const mockFeedbackData = [
-  {
-    eventId: "1",
-    eventName: "AI in Education Summit",
-    rating: 4,
-    comment: "Great insights into the future of AI!",
-    tags: ["Inspiring", "Innovative"],
-    date: "2025-03-01",
-  },
-  {
-    eventId: "2",
-    eventName: "Sustainable Learning Environments",
-    rating: 5,
-    comment: "Well-organized and inspiring.",
-    tags: ["Sustainable", "Thoughtful"],
-    date: "2025-02-20",
-  },
-];
-
-const tagOptions = [
-  "Inspiring",
-  "Technical",
-  "Fun",
-  "Well-Organized",
-  "Interactive",
-];
+const tagOptions = ["Inspiring", "Technical", "Fun", "Well-Organized", "Interactive"];
 
 const FeedbackPage = () => {
   const { user } = useAuth();
   const [registeredEvents, setRegisteredEvents] = useState([]);
-  const [selectedEvent, setSelectedEvent] = useState(null);
-
   const [feedbackList, setFeedbackList] = useState([]);
   const [newFeedback, setNewFeedback] = useState({
     eventId: "",
-    rating: 0,
+    rating: "",
     comment: "",
     tags: [],
   });
-
   const [successMsg, setSuccessMsg] = useState("");
   const [charCount, setCharCount] = useState(0);
   const [hoveredRating, setHoveredRating] = useState(null);
+  const [loading, setLoading] = useState({
+    events: true,
+    feedback: true
+  });
+  const [error, setError] = useState("");
   const feedbackEndRef = useRef(null);
 
-  // -------------------------------------------
-  // On component mount, load the user’s events and any existing feedback
-  // -------------------------------------------
   useEffect(() => {
-    // EXAMPLE: fetch the events the user (attendee) is registered to
-    // e.g., axios.get(`/api/users/${user.id}/registeredEvents`)
-    // .then(response => setRegisteredEvents(response.data))
-    // .catch(err => console.error(err));
+    // Fetch registered events
+    api_private_get(
+      "/users/registrations",
+      (response) => {
+        setRegisteredEvents(response || []);
+        setLoading(prev => ({ ...prev, events: false }));
+      },
+      (err) => {
+        console.error("Error fetching registrations:", err);
+        setError("Failed to load registered events");
+        setLoading(prev => ({ ...prev, events: false }));
+      }
+    );
 
-    // For demo, we use mock data:
-    setRegisteredEvents(mockRegisteredEvents);
+    // Fetch all feedback
+    api_private_get(
+      "/events/feedback",
+      (response) => {
+        setFeedbackList(response || []);
+        setLoading(prev => ({ ...prev, feedback: false }));
+      },
+      (err) => {
+        console.error("Error fetching feedback:", err);
+        setError("Failed to load previous feedback");
+        setLoading(prev => ({ ...prev, feedback: false }));
+      }
+    );
+  }, []);
 
-    // EXAMPLE: fetch existing feedback (all or user-specific)
-    // e.g., axios.get("/events/feedback")
-    //        .then(response => setFeedbackList(response.data))
-    //        .catch(err => console.error(err));
-
-    // For demo, we use mock data:
-    setFeedbackList(mockFeedbackData);
-  }, [user]);
-
-  // -------------------------------------------
-  // Handle text-area and star-rating changes
-  // -------------------------------------------
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNewFeedback((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setNewFeedback({ ...newFeedback, [name]: value });
+
     if (name === "comment") {
       setCharCount(value.length);
     }
   };
 
   const handleTagToggle = (tag) => {
-    setNewFeedback((prev) => {
-      const tags = [...prev.tags];
-      if (tags.includes(tag)) {
-        return { ...prev, tags: tags.filter((t) => t !== tag) };
-      } else {
-        return { ...prev, tags: [...tags, tag] };
-      }
-    });
+    const tags = [...newFeedback.tags];
+    if (tags.includes(tag)) {
+      setNewFeedback({ ...newFeedback, tags: tags.filter((t) => t !== tag) });
+    } else {
+      setNewFeedback({ ...newFeedback, tags: [...tags, tag] });
+    }
   };
 
-  // -------------------------------------------
-  // When an event card is clicked, select it
-  // -------------------------------------------
-  const handleSelectEvent = (eventObj) => {
-    setSelectedEvent(eventObj);
-    setNewFeedback((prev) => ({
-      ...prev,
-      eventId: eventObj.id, // Link new feedback to this event’s ID
-    }));
-  };
-
-  // -------------------------------------------
-  // Submitting feedback
-  // -------------------------------------------
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+    setError("");
 
-    // Make sure we have a valid event selected
-    if (!selectedEvent) {
-      alert("Please select an event to submit feedback.");
+    if (!newFeedback.eventId || !newFeedback.rating || !newFeedback.comment) {
+      setError("Please fill in all required fields");
       return;
     }
 
-    // Build the new feedback object
-    const newEntry = {
+    const payload = {
       eventId: newFeedback.eventId,
-      eventName: selectedEvent.title,
-      rating: newFeedback.rating,
-      comment: newFeedback.comment,
+      rating: Number(newFeedback.rating),
       tags: newFeedback.tags,
-      date: new Date().toISOString().split("T")[0],
+      comment: newFeedback.comment
     };
 
-    // POST to backend example:
-    // await axios.post("/events/feedback", {
-    //   eventId: newFeedback.eventId,
-    //   rating: newFeedback.rating,
-    //   tags: newFeedback.tags,
-    //   comment: newFeedback.comment,
-    // });
+    api_private_post(
+      "/events/feedback",
+      payload,
+      (response) => {
+        setSuccessMsg("✅ Feedback submitted successfully!");
+        setNewFeedback({ eventId: "", rating: "", comment: "", tags: [] });
+        setCharCount(0);
+        
+        // Refresh feedback list
+        api_private_get(
+          "/events/feedback",
+          (response) => setFeedbackList(response || []),
+          (err) => console.error("Error refreshing feedback:", err)
+        );
 
-    // For demo, we’ll just append to local list
-    setFeedbackList([newEntry, ...feedbackList]);
-
-    // Reset form
-    setNewFeedback({ eventId: "", rating: 0, comment: "", tags: [] });
-    setSelectedEvent(null);
-    setCharCount(0);
-
-    setSuccessMsg("✅ Feedback submitted successfully!");
-    setTimeout(() => setSuccessMsg(""), 3000);
-
-    // Scroll to new feedback
-    setTimeout(() => {
-      feedbackEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, 100);
+        setTimeout(() => {
+          feedbackEndRef.current?.scrollIntoView({ behavior: "smooth" });
+          setSuccessMsg("");
+        }, 3000);
+      },
+      (err) => {
+        console.error("Submission error:", err);
+        setError("Failed to submit feedback. Please try again.");
+      }
+    );
   };
+
+  if (loading.events || loading.feedback) {
+    return <div className="loading-container">Loading data...</div>;
+  }
+
+  if (error) {
+    return (
+      <div className="error-container">
+        <p>{error}</p>
+        <button onClick={() => window.location.reload()} className="btn-retry">
+          Try Again
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="feedback-page-container">
       <h1 className="feedback-title">Event Feedback</h1>
-      <p className="feedback-subtitle">
-        We value your thoughts. Share your feedback!
-      </p>
+      <p className="feedback-subtitle">We value your thoughts. Share your feedback!</p>
 
-      {/* ---------------------------------------------------------------- */}
-      {/* HORIZONTAL SCROLL of Registered Events */}
-      {/* ---------------------------------------------------------------- */}
-      <div className="registered-events-scroll-container">
-        <div className="registered-events-scroller">
-          {registeredEvents.length === 0 ? (
-            <p>No registered events found.</p>
-          ) : (
-            registeredEvents.map((evt) => (
-              <div
-                key={evt.id}
-                onClick={() => handleSelectEvent(evt)}
-                className={`event-card ${
-                  selectedEvent?.id === evt.id ? "selected" : ""
-                }`}
-              >
-                <h3>{evt.title}</h3>
-                <p>{evt.description}</p>
-              </div>
-            ))
-          )}
-        </div>
-      </div>
-
-      {/* ---------------------------------------------------------------- */}
-      {/* FEEDBACK FORM */}
-      {/* ---------------------------------------------------------------- */}
       <form className="feedback-form" onSubmit={handleSubmit}>
-        {/* Star Rating */}
+        <select
+          name="eventId"
+          value={newFeedback.eventId}
+          onChange={handleInputChange}
+          className="feedback-select"
+          required
+        >
+          <option value="">Select Event</option>
+          {registeredEvents.map((event) => (
+            <option key={event.eventID} value={event.eventID}>
+              {event.eventTitle}
+            </option>
+          ))}
+        </select>
+
         <div className="star-rating-container">
           <label className="rating-label">Rating:</label>
           <div className="star-row">
@@ -215,9 +161,7 @@ const FeedbackPage = () => {
                 className={`star ${
                   star <= (hoveredRating || newFeedback.rating) ? "filled" : ""
                 }`}
-                onClick={() =>
-                  setNewFeedback((prev) => ({ ...prev, rating: star }))
-                }
+                onClick={() => setNewFeedback({ ...newFeedback, rating: star })}
                 onMouseEnter={() => setHoveredRating(star)}
                 onMouseLeave={() => setHoveredRating(null)}
               >
@@ -227,15 +171,12 @@ const FeedbackPage = () => {
           </div>
         </div>
 
-        {/* Tag Buttons */}
         <div className="tag-selector">
-          {tagOptions.map((tag, idx) => (
+          {tagOptions.map((tag) => (
             <button
               type="button"
-              key={idx}
-              className={`tag-btn ${
-                newFeedback.tags.includes(tag) ? "selected" : ""
-              }`}
+              key={tag}
+              className={`tag-btn ${newFeedback.tags.includes(tag) ? "selected" : ""}`}
               onClick={() => handleTagToggle(tag)}
             >
               {tag}
@@ -243,7 +184,6 @@ const FeedbackPage = () => {
           ))}
         </div>
 
-        {/* Comment Box */}
         <textarea
           name="comment"
           value={newFeedback.comment}
@@ -259,32 +199,31 @@ const FeedbackPage = () => {
           Submit Feedback
         </button>
         {successMsg && <p className="success-msg">{successMsg}</p>}
+        {error && <p className="error-msg">{error}</p>}
       </form>
 
-      {/* ---------------------------------------------------------------- */}
-      {/* PREVIOUS FEEDBACK */}
-      {/* ---------------------------------------------------------------- */}
-      <h2 className="previous-feedback-title">Our Previous Feedbacks</h2>
+      <h2 className="previous-feedback-title">Community Feedbacks</h2>
       <div className="feedback-list">
         {feedbackList.length === 0 ? (
           <p className="no-feedback">No feedback submitted yet.</p>
         ) : (
           feedbackList.map((fb) => (
-            <div className="feedback-card" key={fb.eventId}>
-              <h3 className="feedback-event">{fb.eventName}</h3>
+            <div className="feedback-card" key={fb.feedbackId}>
+              <h3 className="feedback-event">{fb.eventTitle}</h3>
               <p className="feedback-rating">
-                {"★".repeat(fb.rating)}
-                {"☆".repeat(5 - fb.rating)}
+                {"★".repeat(fb.rating)}{"☆".repeat(5 - fb.rating)}
               </p>
               <p className="feedback-comment">"{fb.comment}"</p>
               {fb.tags?.length > 0 && (
                 <p className="feedback-tags">Tags: {fb.tags.join(", ")}</p>
               )}
-              <p className="feedback-date">Submitted on: {fb.date}</p>
+              <p className="feedback-date">
+                Submitted on: {new Date(fb.submittedOn).toLocaleDateString()}
+              </p>
             </div>
           ))
         )}
-        <div ref={feedbackEndRef} />
+        <div ref={feedbackEndRef}></div>
       </div>
     </div>
   );
