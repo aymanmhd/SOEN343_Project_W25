@@ -37,6 +37,7 @@ const CreateEventPage = () => {
       "description: " + eventDescription,
       "speakers: " + speakersArray,
       "venue: "  + eventVenue,
+      "agenda: " + eventAgenda
     );
 
     api_private_post(

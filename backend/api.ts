@@ -61,8 +61,8 @@ setTimeout(async () => {
     await TransactionsManager.clearCart(account2_find);
     // console.log(account2_find);
 
-    const event1 = await EventsManager.createNewEvent("Sample Event", new Date(), "Sample Location", "10:00 AM", 50.00, "This is a sample event description.", "Sample Speaker 1, Sample Speaker 2", "Telus Center");
-    const event2 = await EventsManager.createNewEvent("Sample Event", new Date(), "Sample Location", "3:00 PM", 100.00, "This is a sample event description.", "Sample Speaker 3, Sample speaker 4,", "Bell Center");
+    const event1 = await EventsManager.createNewEvent("Sample Event", new Date(), "Sample Location", "10:00 AM", 50.00, "This is a sample event description.", "Sample Speaker 1, Sample Speaker 2", "Telus Center", "Sample Agenda");
+    const event2 = await EventsManager.createNewEvent("Sample Event", new Date(), "Sample Location", "3:00 PM", 100.00, "This is a sample event description.", "Sample Speaker 3, Sample speaker 4,", "Bell Center", "Sample Agenda");
 
     await TransactionsManager.addToCart(account2_find, event1);
     await TransactionsManager.addToCart(account2_find, event2);
@@ -204,9 +204,9 @@ apiServer.get('/account', cookieJwtAuth, async (req, res) => {
 
 apiServer.post("/events", cookieJwtAuth, async (req, res) => {
     const account = req.account;
-    const { name, date, location, time, price, description, speakers, venue} = req.body;
+    const { name, date, location, time, price, description, speakers, venue, agenda} = req.body;
     try {
-        const event: IEvent = await EventsManager.createNewEvent(name, new Date(date), location, time, price, description, speakers, venue);
+        const event: IEvent = await EventsManager.createNewEvent(name, new Date(date), location, time, price, description, speakers, venue, agenda);
         res.status(201).json(event);
     }
     catch (error) {

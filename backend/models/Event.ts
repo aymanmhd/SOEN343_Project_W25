@@ -11,6 +11,7 @@ interface IEvent {
     attendees: Array<Schema.Types.ObjectId>;
     venue: string;
     time:  Date;
+    agenda: string;
 
 }
 
@@ -24,6 +25,7 @@ const EventSchema: Schema = new Schema<IEvent>({
     speakers: { type: [{ type: Schema.Types.ObjectId }], ref: 'Account', required: true },
     attendees: { type: [{ type: Schema.Types.ObjectId }], ref: 'Account', required: true },
     venue: { type: String, required: true },
+    agenda: { type: String, required: true },
 
 });
 

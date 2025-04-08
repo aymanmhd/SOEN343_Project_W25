@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 class EventsManager {
 
-    static async createNewEvent(name: string, date: Date, location: string, time: string, price: number, description: string, speakers: string, venue: string): Promise<IEvent> {
+    static async createNewEvent(name: string, date: Date, location: string, time: string, price: number, description: string, speakers: string, venue: string, agenda: string): Promise<IEvent> {
         const newEvent = new Event({
             name: name,
             date: date,
@@ -15,6 +15,7 @@ class EventsManager {
             speakers: [],
             attendees: [],
             venue: venue,
+            agenda: agenda,
         });
 
         return await newEvent.save();
