@@ -24,6 +24,8 @@ import TransactionsManager from "./TransactionsManager";
 
 import MailManager from "./MailManager";
 import LoginStreak from "./LoginStreak";
+import recommendation from "./recommendation";
+
 
 import mongoose, { Model, Schema } from "mongoose";
 import { Account, AccountSchema, IAccount } from "./models/Account";
@@ -373,6 +375,9 @@ apiServer.post("/mail", cookieJwtAuth, async (req, res) => {
         res.status(500).json({ error: "Failed to send mail" });
     }
 });
+
+
+apiServer.use('/api', recommendation);
 
 
 const httpServer = http.createServer(apiServer);
