@@ -36,9 +36,7 @@ const CreateEventPage = () => {
       "price: " + priceValue,
       "description: " + eventDescription,
       "speakers: " + speakersArray,
-      "attendees: " + attendeesArray,
       "venue: "  + eventVenue,
-      "agenda: "  + eventAgenda
     );
 
     api_private_post(
@@ -51,9 +49,7 @@ const CreateEventPage = () => {
         price: priceValue,
         description: eventDescription,
         speakers: speakersArray,
-        attendees: attendeesArray,
         venue: eventVenue,
-        agenda: eventAgenda
       },
       (response) => {
         if (response?.error) {
@@ -67,9 +63,7 @@ const CreateEventPage = () => {
           setEventPrice(0);
           setEventDescription("");
           setEventSpeakers("");
-          setEventAttendees("");
           setEventVenue("");
-          setEventAgenda("");
         }
       },
       (err) => {

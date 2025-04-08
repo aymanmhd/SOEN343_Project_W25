@@ -32,6 +32,7 @@ import { Account, AccountSchema, IAccount } from "./models/Account";
 import { Event, EventSchema, IEvent } from "./models/Event";
 import { Mail, MailSchema } from "./models/Mail";
 import { Order, OrderSchema } from "./models/Order";
+import { time } from "console";
 // const Account = require("./models/Account");
 // const Event = require("./models/Event");
 // const Mail = require("./models/Mail");
@@ -60,8 +61,8 @@ setTimeout(async () => {
     await TransactionsManager.clearCart(account2_find);
     // console.log(account2_find);
 
-    const event1 = await EventsManager.createNewEvent("Sample Event", new Date(), "Sample Location", 50.00, "This is a sample event description.");
-    const event2 = await EventsManager.createNewEvent("Sample Event", new Date(), "Sample Location", 100.00, "This is a sample event description.");
+    const event1 = await EventsManager.createNewEvent("Sample Event", new Date(), "Sample Location", "10:00 AM", 50.00, "This is a sample event description.", "Sample Speaker 1, Sample Speaker 2", "Telus Center");
+    const event2 = await EventsManager.createNewEvent("Sample Event", new Date(), "Sample Location", "3:00 PM", 100.00, "This is a sample event description.", "Sample Speaker 3, Sample speaker 4,", "Bell Center");
 
     await TransactionsManager.addToCart(account2_find, event1);
     await TransactionsManager.addToCart(account2_find, event2);
@@ -203,11 +204,12 @@ apiServer.get('/account', cookieJwtAuth, async (req, res) => {
 
 apiServer.post("/events", cookieJwtAuth, async (req, res) => {
     const account = req.account;
-    const { name, date, location, price, description } = req.body;
+    const { name, date, location, time, price, description, speakers, venue} = req.body;
     try {
-        const event: IEvent = await EventsManager.createNewEvent(name, new Date(date), location, price, description);
+        const event: IEvent = await EventsManager.createNewEvent(name, new Date(date), location, time, price, description, speakers, venue);
         res.status(201).json(event);
-    } catch (error) {
+    }
+    catch (error) {
         console.error("Error creating event:", error);
         res.status(500).json({ error: "Failed to create event" });
     }
