@@ -51,8 +51,11 @@ const CreateEventPage = () => {
         description: eventDescription,
         speakers: speakersArray,
         venue: eventVenue,
+        agenda: eventAgenda,
       },
       (response) => {
+        console.log("Authenticated user:", user);
+        console.log("Event Creation response:", response);
         if (response?.error) {
           setError(response.error);
         } else {

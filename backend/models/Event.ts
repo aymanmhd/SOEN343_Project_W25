@@ -22,8 +22,8 @@ const EventSchema: Schema = new Schema<IEvent>({
     location: { type: String, required: true },
     price: { type: Number, required: true },
     description: { type: String, required: true },
-    speakers: { type: [{ type: Schema.Types.ObjectId }], ref: 'Account', required: true },
-    attendees: { type: [{ type: Schema.Types.ObjectId }], ref: 'Account', required: true },
+    speakers: { type: [{ type: Schema.Types.ObjectId }], ref: 'Account', default: [] },
+    attendees: { type: [{ type: Schema.Types.ObjectId }], ref: 'Account', default: [] },
     venue: { type: String, required: true },
     agenda: { type: String, required: true },
 
