@@ -4,6 +4,7 @@ import img2 from '../media/parsa.jpeg';
 import img3 from '../media/pogut.jpeg';
 import img4 from '../media/teo.jpeg';
 import img5 from '../media/maria.png';
+import img6 from '../media/ayman.png';
 import "../styles/AboutPage.css";
 
 const AboutPage = () => {
@@ -70,7 +71,7 @@ const AboutPage = () => {
             <p>Frontend Developer</p>
           </div>
           <div className="team-card">
-            <img src="https://via.placeholder.com/150" alt="Ayman Mehdi" />
+            <img src={img6} alt="Ayman Mehdi" />
             <h4>Ayman Mehdi</h4>
             <p>Data Modeler</p>
           </div>

@@ -58,7 +58,7 @@ const PromotionsPage = () => {
 
         {submitted && (
           <p className="success-message">
-            ✅ Email successfully sent to all attendees (mock).
+            ✅ Email successfully sent to all attendees!
           </p>
         )}
       </form>
