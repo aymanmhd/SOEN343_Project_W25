@@ -1,4 +1,9 @@
 import React from "react";
+import img1 from '../media/arman.jpeg';
+import img2 from '../media/parsa.jpeg';
+import img3 from '../media/pogut.jpeg';
+import img4 from '../media/teo.jpeg';
+import img5 from '../media/maria.png';
 import "../styles/AboutPage.css";
 
 const AboutPage = () => {
@@ -45,22 +50,22 @@ const AboutPage = () => {
         <h2>Meet Our Team</h2>
         <div className="team-cards">
           <div className="team-card">
-            <img src="https://via.placeholder.com/150" alt="Maria-Christine Catiche" />
+            <img src={img5} alt="Maria-Christine Catiche" />
             <h4>Maria-Christine Catiche</h4>
             <p>Scrum Master</p>
           </div>
           <div className="team-card">
-            <img src="https://via.placeholder.com/150" alt="Parsa Darbani" />
+            <img src={img2} alt="Parsa Darbani" />
             <h4>Parsa Darbani</h4>
             <p>Project Manager</p>
           </div>
           <div className="team-card">
-            <img src="https://via.placeholder.com/150" alt="Arman Emami" />
+            <img src={img1} alt="Arman Emami" />
             <h4>Arman Emami</h4>
             <p>Team Leader</p>
           </div>
           <div className="team-card">
-            <img src="https://via.placeholder.com/150" alt="Parsa Hejazi" />
+            <img src={img3} alt="Parsa Hejazi" />
             <h4>Parsa Hejazi</h4>
             <p>Frontend Developer</p>
           </div>
@@ -70,7 +75,7 @@ const AboutPage = () => {
             <p>Data Modeler</p>
           </div>
           <div className="team-card">
-            <img src="https://via.placeholder.com/150" alt="Teodor Oprea" />
+            <img src={img4} alt="Teodor Oprea" />
             <h4>Teodor Oprea</h4>
             <p>Backend Developer</p>
           </div>
