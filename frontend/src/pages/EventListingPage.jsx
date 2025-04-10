@@ -1,6 +1,16 @@
 import React, { useMemo } from "react";
 import { useAuth } from "../context/AuthContext";
 import EventCard from "../components/EventCard";
+import img1 from '../media/dev.png';
+import img2 from '../media/big.jpeg';
+import img3 from '../media/chain.png';
+import img4 from '../media/cyber.jpeg';
+import img5 from '../media/data.jpg';
+import img6 from '../media/ai.jpg';
+import img7 from '../media/cloud.jpg';
+import img8 from '../media/react.jpg';
+import img9 from '../media/ui.jpg'; 
+import img10 from '../media/net.jpg';  
 import "../styles/EventListingPage.css";
 
 
@@ -16,7 +26,7 @@ const EventListingPage = () => {
       date: "2025-09-15",
       location: "Online",
       shortDescription: "AI Recommendation: Get started with the basics of Machine Learning and see how AI can power your projects!",
-      imageUrl: "https://via.placeholder.com/300x180?text=Intro+to+AI",
+      imageUrl: img6,
     },
     {
       id: 102,
@@ -24,7 +34,7 @@ const EventListingPage = () => {
       date: "2025-10-02",
       location: "Toronto",
       shortDescription: "AI Recommendation: Learn to build, deploy, and scale your apps in the cloud with zero downtime.",
-      imageUrl: "https://via.placeholder.com/300x180?text=Cloud+Masterclass",
+      imageUrl: img7,
     },
     {
       id: 103,
@@ -32,7 +42,7 @@ const EventListingPage = () => {
       date: "2025-08-21",
       location: "Montreal",
       shortDescription: "AI Recommendation: Hands-on workshop to create cross-platform mobile apps with React Native.",
-      imageUrl: "https://via.placeholder.com/300x180?text=React+Native",
+      imageUrl: img8,
     },
     {
       id: 104,
@@ -40,7 +50,7 @@ const EventListingPage = () => {
       date: "2025-07-14",
       location: "Vancouver",
       shortDescription: "AI Recommendation: Boost user engagement by applying user-centric design patterns in your apps.",
-      imageUrl: "https://via.placeholder.com/300x180?text=UX+UI+Design",
+      imageUrl: img9,
     },
     {
       id: 105,
@@ -48,7 +58,7 @@ const EventListingPage = () => {
       date: "2025-11-01",
       location: "Online",
       shortDescription: "AI Recommendation: Tackle large-scale data processing and analytics in a real-world environment.",
-      imageUrl: "https://via.placeholder.com/300x180?text=Big+Data+Bootcamp",
+      imageUrl: img2,
     },
     {
       id: 106,
@@ -56,7 +66,7 @@ const EventListingPage = () => {
       date: "2025-10-10",
       location: "New York City",
       shortDescription: "AI Recommendation: Keep your systems safe by understanding modern threats and prevention methods.",
-      imageUrl: "https://via.placeholder.com/300x180?text=Cybersecurity",
+      imageUrl: img4,
     },
     {
       id: 107,
@@ -64,7 +74,7 @@ const EventListingPage = () => {
       date: "2025-09-30",
       location: "San Francisco",
       shortDescription: "AI Recommendation: Dive into Python-based data analysis and visualization techniques.",
-      imageUrl: "https://via.placeholder.com/300x180?text=Data+Science",
+      imageUrl: img5,
     },
     {
       id: 108,
@@ -72,7 +82,7 @@ const EventListingPage = () => {
       date: "2025-12-05",
       location: "Online",
       shortDescription: "AI Recommendation: Learn CI/CD workflows, containerization, and best practices for modern DevOps.",
-      imageUrl: "https://via.placeholder.com/300x180?text=DevOps",
+      imageUrl: img1,
     },
     {
       id: 109,
@@ -80,7 +90,15 @@ const EventListingPage = () => {
       date: "2025-08-25",
       location: "Los Angeles",
       shortDescription: "AI Recommendation: Explore decentralized apps, smart contracts, and the future of the blockchain.",
-      imageUrl: "https://via.placeholder.com/300x180?text=Blockchain",
+      imageUrl: img3,
+    },
+    {
+      id: 1022,
+      title: "Test Event",
+      date: "2025-04-15",
+      location: "Concordia University",
+      shortDescription: "AI Recommendation: This is an exciting opportunity to learn, network, grow, and make new connections!",
+      imageUrl: img10,
     },
   ], []);
 
