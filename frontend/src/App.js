@@ -1,4 +1,5 @@
 import React from "react";
+import "./styles/App.css"; // <-- Import your CSS with the animated gradient
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import Navbar from "./components/Navbar";
@@ -10,7 +11,7 @@ import AttendeeDashboard from "./pages/AttendeeDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import OrganizerDashboard from "./pages/OrganizerDashboard";
 import AdminPanel from "./pages/AdminPanel";
-import ProfilePage from "./pages/ProfilePage"; 
+import ProfilePage from "./pages/ProfilePage";
 import NetworkingPage from "./pages/NetworkingPage";
 import EventListingPage from "./pages/EventListingPage";
 import EventDetailsPage from "./pages/EventDetailsPage";
@@ -20,14 +21,14 @@ import ResourcesPage from "./pages/ResourcesPage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
 import CreateEventPage from "./pages/CreateEventPage";
-import ManageEventsPage from "./pages/ManageEventsPage"; 
+import ManageEventsPage from "./pages/ManageEventsPage";
 import FeedbackPage from "./pages/FeedbackPage";
 import AdminReports from "./pages/AdminReports";
 import AdminFinancials from "./pages/AdminFinancials";
 import AccountPage from "./pages/AccountPage";
 import PromotionsPage from "./pages/PromotionsPage";
 import ModerationPage from "./pages/ModerationPage";
-import AdminUsersPage from "./pages/AdminUsersPage"; 
+import AdminUsersPage from "./pages/AdminUsersPage";
 
 function App() {
   return (
@@ -53,7 +54,7 @@ function AppContent() {
   const location = useLocation(); // Get the current path
 
   return (
-    <div className="app-container">
+    <div className="app-container">  {/* This class has the animated gradient in App.css */}
       <Navbar /> {/* Navbar stays fixed at the top */}
 
       <main>
@@ -85,7 +86,8 @@ function AppContent() {
         </Routes>
       </main>
 
-      {location.pathname === "/" && <Footer />} {/* Show Footer only on public homepage */}
+      {/* Show Footer only on public homepage */}
+      {location.pathname === "/" && <Footer />}
     </div>
   );
 }

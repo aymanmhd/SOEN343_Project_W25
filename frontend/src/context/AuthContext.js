@@ -42,7 +42,7 @@ export function AuthProvider({ children }) {
   }
 
   //----------------------------------------------------------------
-  // SIGN UP: using the form on SignUpPage
+  // SIGN UP
   //----------------------------------------------------------------
   function signUpUser({ name, email, password, role }) {
     const existing = users.find(
@@ -60,28 +60,26 @@ export function AuthProvider({ children }) {
 
     // Otherwise create new user
     const newUser = {
-      id: Date.now(), // just a numeric ID
+      id: Date.now(),
       name,
       email,
       password,
       role,
-      dailyStreak: role === "attendee" ? 0 : undefined, // track streak if attendee
-      registeredEvents: role === "attendee" ? [] : undefined, // only for attendee
+      dailyStreak: role === "attendee" ? 0 : undefined,
+      registeredEvents: role === "attendee" ? [] : undefined,
     };
     saveUsers([...users, newUser]);
   }
 
   //----------------------------------------------------------------
-  // LOGIN: real email/password approach
+  // LOGIN
   //----------------------------------------------------------------
   function login(email, password) {
-    // Find matching user in mock DB
     const foundUser = users.find(
       (u) =>
         u.email.toLowerCase() === email.toLowerCase() && u.password === password
     );
     if (!foundUser) {
-      // If no match, throw an error
       throw new Error("Invalid credentials");
     }
 
@@ -90,10 +88,8 @@ export function AuthProvider({ children }) {
       foundUser.dailyStreak = (foundUser.dailyStreak || 0) + 1;
     }
 
-    // Persist the updated user + set as current user
     saveCurrentUser(foundUser);
-    // If we changed foundUser, also update users array
-    saveUsers([...users]);
+    saveUsers([...users]); // persist any changes (streak, etc.)
 
     return foundUser;
   }
@@ -127,9 +123,9 @@ export function AuthProvider({ children }) {
       price,
       description,
       speakers,
-      organizerId: user?.id, // who created it
+      organizerId: user?.id,
       organizerEmail: user?.email,
-      registeredAttendees: [], // which attendee IDs have registered
+      registeredAttendees: [],
     };
     saveEvents([...events, newEvent]);
   }
@@ -144,7 +140,6 @@ export function AuthProvider({ children }) {
     // 1) Mark the event as “registered by this user”
     const updatedEvents = events.map((evt) => {
       if (evt.id === Number(eventId)) {
-        // add userId to “registeredAttendees” if not already present
         if (!evt.registeredAttendees.includes(user.id)) {
           evt.registeredAttendees.push(user.id);
         }
@@ -155,15 +150,45 @@ export function AuthProvider({ children }) {
 
     // 2) Also keep track in user’s “registeredEvents”
     const updatedUser = { ...user };
-    if (!updatedUser.registeredEvents.includes(eventId)) {
+    if (!updatedUser.registeredEvents.includes(Number(eventId))) {
       updatedUser.registeredEvents.push(Number(eventId));
     }
-    // update the user in the user list
     const newUserList = users.map((u) =>
       u.id === updatedUser.id ? updatedUser : u
     );
     saveUsers(newUserList);
     saveCurrentUser(updatedUser);
+  }
+
+  //----------------------------------------------------------------
+  // DELETE AN EVENT
+  //----------------------------------------------------------------
+  function deleteEvent(eventId) {
+    // Remove the event from events array
+    const updatedEvents = events.filter((evt) => evt.id !== eventId);
+
+    // For every attendee that had this event in their registeredEvents,
+    // remove it to avoid leftover references
+    const updatedUsers = users.map((u) => {
+      if (u.registeredEvents) {
+        u.registeredEvents = u.registeredEvents.filter(
+          (regId) => regId !== eventId
+        );
+      }
+      return u;
+    });
+
+    saveEvents(updatedEvents);
+    saveUsers(updatedUsers);
+
+    // If the current user had that event in their registrations,
+    // we've already updated them in updatedUsers => re-pull from there
+    if (user) {
+      const newCurrentUser = updatedUsers.find((u) => u.id === user.id);
+      if (newCurrentUser) {
+        saveCurrentUser(newCurrentUser);
+      }
+    }
   }
 
   return (
@@ -177,6 +202,7 @@ export function AuthProvider({ children }) {
         logout,
         createEvent,
         registerForEvent,
+        deleteEvent, // expose our new function
       }}
     >
       {children}

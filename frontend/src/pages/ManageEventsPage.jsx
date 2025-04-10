@@ -4,34 +4,32 @@ import "../styles/ManageEventsPage.css";
 import { useAuth } from "../context/AuthContext";
 
 const ManageEventsPage = () => {
-  const { user, events, logout } = useAuth();
+  const { user, events, deleteEvent } = useAuth(); // note the new deleteEvent
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [activeAgenda, setActiveAgenda] = useState(null);
   const [activeVenue, setActiveVenue] = useState(null);
-  
+
   useEffect(() => {
     if (!user || user.role !== "organizer") {
-      // Ideally, redirect if not an organizer
-      // For quick demo, do nothing or console.warn
+      // If desired, redirect if not an organizer
     }
     // Show only events created by this organizer
-    const myEvents = events.filter(evt => evt.organizerId === user?.id);
+    const myEvents = events.filter((evt) => evt.organizerId === user?.id);
     setFilteredEvents(myEvents);
   }, [user, events]);
 
   const handleEdit = (eventId) => {
     console.log("Editing event:", eventId);
-    // For demonstration, no real editing logic
     alert("Edit event is just a placeholder in this mock.");
   };
 
-  // Simple “delete” that removes from the array in memory
+  // Call our new deleteEvent from context
   const handleDelete = (eventId) => {
-    const updated = filteredEvents.filter((evt) => evt.id !== eventId);
-    setFilteredEvents(updated);
-    // For a real approach, we’d update the global context as well.
-    // Example: 
-    //   setEvents(updatedGlobalArray);
+    // Remove from the global store
+    deleteEvent(eventId);
+
+    // Also remove from local state to update UI
+    setFilteredEvents((prev) => prev.filter((evt) => evt.id !== eventId));
   };
 
   const handleAgendaClick = (event) => {
@@ -76,12 +74,9 @@ END:VCALENDAR
     document.body.removeChild(link);
   };
 
-  const upcomingEvents = filteredEvents.filter(e => {
-    // Just a dummy check to see if the date is future or past
-    // Real approach: Compare new Date(e.date) to new Date()
-    return true; // for demo, treat them all as upcoming
-  });
-  const pastEvents = []; // or filter if you want to separate them
+  // For the demo, treat them all as "upcoming"
+  const upcomingEvents = filteredEvents;
+  const pastEvents = []; // or filter if you want
 
   return (
     <div className="manage-events-page">
