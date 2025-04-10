@@ -1,18 +1,16 @@
 import React, { useState } from "react";
 import "../styles/CreateEventPage.css";
 import { useAuth } from "../context/AuthContext";
-import { api_private_post } from "../utils/api.js";
 
 const CreateEventPage = () => {
-  const { user } = useAuth();
+  const { user, createEvent } = useAuth();
   const [eventName, setEventName] = useState("");
   const [eventDate, setEventDate] = useState("");
-  const [eventTime, setEventTime] = useState(""); 
+  const [eventTime, setEventTime] = useState("");
   const [eventLocation, setEventLocation] = useState("");
   const [eventPrice, setEventPrice] = useState(0);
   const [eventDescription, setEventDescription] = useState("");
   const [eventSpeakers, setEventSpeakers] = useState("");
-  const [eventAttendees, setEventAttendees] = useState("");
   const [submitStatus, setSubmitStatus] = useState(null);
   const [error, setError] = useState("");
 
@@ -21,50 +19,36 @@ const CreateEventPage = () => {
     setError("");
     setSubmitStatus(null);
 
-    const speakersArray = eventSpeakers
-      ? eventSpeakers.split(",").map((s) => s.trim())
-      : [];
-
-    const attendeesArray = eventAttendees
-      ? eventAttendees.split(",").map((s) => s.trim())
-      : [];
-
-    const priceValue = Number(eventPrice);
-
-    api_private_post(
-      "/events",
-      {
+    try {
+      createEvent({
         name: eventName,
         date: eventDate,
-        time: eventTime, // ✅ NEW
+        time: eventTime,
         location: eventLocation,
-        price: priceValue,
+        price: Number(eventPrice),
         description: eventDescription,
-        speakers: speakersArray,
-        // attendees: attendeesArray
-      },
-      (response) => {
-        if (response?.error) {
-          setError(response.error);
-        } else {
-          setSubmitStatus("Event created successfully!");
-          setEventName("");
-          setEventDate("");
-          setEventTime(""); // ✅ NEW
-          setEventLocation("");
-          setEventPrice(0);
-          setEventDescription("");
-          setEventSpeakers("");
-          setEventAttendees("");
-        }
-      },
-      (err) => {
-        console.error("Event Creation failed:", err);
-        setError("Event creation failed. Please try again.");
-      }
-    );
+        speakers: eventSpeakers
+          ? eventSpeakers.split(",").map((s) => s.trim())
+          : [],
+      });
+
+      setSubmitStatus("Event created successfully!");
+      setEventName("");
+      setEventDate("");
+      setEventTime("");
+      setEventLocation("");
+      setEventPrice(0);
+      setEventDescription("");
+      setEventSpeakers("");
+    } catch (err) {
+      console.error("Event Creation failed:", err);
+      setError("Event creation failed. Please try again.");
+    }
   };
 
+  // In a real app, you’d restrict this page to organizers only.
+  // For the demo, it’s fine as is.
+  
   return (
     <div className="create-event-page text-gray-800 animate-fadeIn">
       <h1 className="text-4xl sm:text-5xl font-extrabold mb-10 text-gradient">

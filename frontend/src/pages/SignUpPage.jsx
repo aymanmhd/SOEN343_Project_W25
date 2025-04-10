@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { api_private_post } from "../utils/api.js";
+import { useAuth } from "../context/AuthContext";
 import "../styles/SignUpPage.css";
-import SignUpFormBuilder from "../patterns/SignUpFormBuilder"; // adjust path as needed
+import SignUpFormBuilder from "../patterns/SignUpFormBuilder"; // adjust path if needed
 
 const SignUpPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState("");
   const [role, setRole] = useState("attendee"); // New piece of state for role selection
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
+  const { signUpUser } = useAuth();
 
   // Use the builder for our form fields
   const formBuilder = new SignUpFormBuilder()
@@ -22,32 +23,23 @@ const SignUpPage = () => {
       setShowPassword(!showPassword)
     );
 
-  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
 
-    // Send the request to /auth/register with { name, email, password, role }
-    api_private_post(
-      "/auth/register",
-      {
+    // Call our mock signUpUser
+    try {
+      signUpUser({
         name: fullName,
         email,
         password,
         role,
-      },
-      (response) => {
-        if (response && response.error) {
-          setError(response.error);
-        } else {
-          navigate("/login");
-        }
-      },
-      (err) => {
-        console.error("Signup failed:", err);
-        setError("Registration failed. Please try again.");
-      }
-    );
+      });
+      navigate("/login");
+    } catch (err) {
+      console.error("Signup error:", err);
+      setError("Registration failed. Please try again.");
+    }
   };
 
   return (
@@ -73,7 +65,6 @@ const SignUpPage = () => {
         </div>
 
         <br />
-
 
         <form onSubmit={handleSubmit} className="signup-input-container">
           {formBuilder.build()}

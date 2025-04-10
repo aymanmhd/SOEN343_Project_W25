@@ -1,30 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "../styles/EventDetailsPage.css";
+import { useAuth } from "../context/AuthContext";
 
 const EventDetailsPage = () => {
   const { id } = useParams(); // get eventId from URL
+  const { user, events, registerForEvent } = useAuth();
   const [event, setEvent] = useState(null);
 
   useEffect(() => {
-    // BACKEND: Replace with actual API call, e.g.:
-    // fetch(`/api/events/${id}`)
-    //   .then(res => res.json())
-    //   .then(data => setEvent(data));
-
-    // For demonstration, let's use a mock:
-    const mockEvent = {
-      id,
-      title: "Mock Event Title",
-      date: "2025-08-01",
-      location: "Virtual",
-      description:
-        "This is a longer description of the event. Here you'll find more details about what the event is about, the schedule, and any other relevant information for attendees.",
-      imageUrl: "https://via.placeholder.com/800x400?text=Event+Banner",
-    };
-
-    setEvent(mockEvent);
-  }, [id]);
+    // For demonstration, we’ll find the event in our context by ID
+    const numericId = Number(id);
+    const found = events.find((evt) => evt.id === numericId);
+    if (found) {
+      setEvent(found);
+    } else {
+      // If not found, set a mock or do something else
+      setEvent({
+        id: numericId,
+        title: "Mock Event Title",
+        date: "2025-08-01",
+        location: "Virtual",
+        description:
+          "This is a placeholder event because we couldn't find the ID in local storage.",
+        imageUrl: "https://via.placeholder.com/800x400?text=Event+Banner",
+      });
+    }
+  }, [id, events]);
 
   if (!event) {
     return (
@@ -34,21 +36,35 @@ const EventDetailsPage = () => {
     );
   }
 
+  const handleRegister = () => {
+    if (!user) {
+      alert("Please log in first!");
+      return;
+    }
+    if (user.role !== "attendee") {
+      alert("Only attendees can register for events in this demo!");
+      return;
+    }
+    registerForEvent(event.id);
+    alert("Registered successfully (mock)!");
+  };
+
   return (
     <div className="event-details-page">
       <div className="event-banner">
-        <img src={event.imageUrl} alt={event.title} />
+        {event.imageUrl && <img src={event.imageUrl} alt={event.title} />}
       </div>
 
       <div className="event-content">
         <h2 className="event-title">{event.title}</h2>
         <p className="event-meta">
-          <strong>Date:</strong> {event.date} | <strong>Location:</strong> {event.location}
+          <strong>Date:</strong> {event.date} |{" "}
+          <strong>Location:</strong> {event.location}
         </p>
         <p className="event-description">{event.description}</p>
 
-        {/* You can add more sections: e.g. Agenda, Speakers, Registration button, etc. */}
-        <button className="btn-register" onClick={() => alert("Register clicked (placeholder)")}>
+        {/* Registration button */}
+        <button className="btn-register" onClick={handleRegister}>
           Register
         </button>
       </div>

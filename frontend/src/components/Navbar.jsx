@@ -1,31 +1,27 @@
 import { Link } from "react-router-dom";
-import { useAuth } from "../context/AuthContext"; // Import authentication context
+import { useAuth } from "../context/AuthContext"; 
 import "../styles/Navbar.css";
 
 const Navbar = () => {
-  const { user, logout } = useAuth(); // Get authentication state
+  const { user, logout } = useAuth();
 
-  // Determine the correct homepage link
   const homeLink = user
     ? user.role === "attendee"
       ? "/attendee-dashboard"
       : user.role === "organizer"
-        ? "/organizer-dashboard"
-        : "/admin-dashboard"
+      ? "/organizer-dashboard"
+      : "/admin-dashboard"
     : "/";
 
   return (
     <nav className="navbar">
       <div className="logo">
-        <Link to={homeLink}>SEES</Link> {/* Home redirects based on user role */}
+        <Link to={homeLink}>SEES</Link>
       </div>
 
       <div className="nav-links">
-        <Link to={homeLink}>Home</Link> {/* Home updates dynamically */}
+        <Link to={homeLink}>Home</Link>
 
-
-
-        {/* Show different navbar items based on user role */}
         {user && user.role === "attendee" && (
           <>
             <Link to="/events">Explore</Link>
@@ -36,14 +32,12 @@ const Navbar = () => {
           </>
         )}
 
-        {/* Show About & Contact only for public users & attendees */}
         {(!user || user.role === "attendee") && (
           <>
             <Link to="/contact">Contact</Link>
             <Link to="/about">About</Link>
           </>
         )}
-
 
         {user && user.role === "organizer" && (
           <>
@@ -64,7 +58,6 @@ const Navbar = () => {
         )}
       </div>
 
-      {/* Authentication Buttons */}
       <div className="auth-buttons">
         {!user ? (
           <>
@@ -73,7 +66,7 @@ const Navbar = () => {
           </>
         ) : (
           <>
-            <Link to="/profile" className="btn">My Profile</Link> {/* Profile Button */}
+            <Link to="/profile" className="btn">My Profile</Link>
             <button className="btn logout-btn" onClick={logout}>Logout</button>
           </>
         )}

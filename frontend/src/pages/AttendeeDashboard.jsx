@@ -6,8 +6,7 @@ import "../styles/AttendeeDashboard.css";
 const AttendeeDashboard = () => {
   const { user } = useAuth();
   const displayName = user?.name || "Attendee";
-
-  const registeredEvents = ["Tech Conference 2025", "AI Expo", "React Summit"];
+  const dailyStreak = user?.dailyStreak || 0;
 
   return (
     <div className="attendee-dashboard-container">
@@ -16,12 +15,17 @@ const AttendeeDashboard = () => {
         <h1 className="dashboard-heading">
           👋 Welcome back, <span className="highlight-name">{displayName}</span>!
         </h1>
-        <p className="sub-welcome">We’re glad to see you again !</p>
+        <p className="sub-welcome">We’re glad to see you again!</p>
         <div className="dashboard-dots">
           <div className="dot" />
           <div className="dot" />
           <div className="dot" />
         </div>
+      </div>
+
+      {/* Show daily streak */}
+      <div className="streak-counter">
+        <p>🔥 Daily Streak: {dailyStreak} day{dailyStreak !== 1 ? "s" : ""}!</p>
       </div>
 
       {/* Prompt */}
@@ -50,31 +54,17 @@ const AttendeeDashboard = () => {
         <Link to="/feedback" className="action-box">
           💬 Provide a feedback
         </Link>
-
-        
-
-        
       </div>
 
-      {/* Registered Events */}
-      <div className="dashboard-section">
-        <h2 className="section-title">📌 Your Registered Events</h2>
-        <ul className="event-list">
-          {registeredEvents.map((event, index) => (
-            <li key={index} className="event-item">
-              {index + 1}. {event}
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      {/* Recommendations */}
+      {/* Optionally show some “Your Registered Events” if you want,
+          or just rely on MyEventsPage */}
       <div className="dashboard-section recommendations-box">
         <h2 className="section-title text-green">🎯 Personalized Recommendations</h2>
-        <p className="section-subtitle">Discover events just for you 💡</p>
+        <p className="section-subtitle">
+          Discover events just for you 💡 (Imagine an AI recommendation system!)
+        </p>
       </div>
     </div>
-    
   );
 };
 

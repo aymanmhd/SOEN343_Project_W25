@@ -1,78 +1,46 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import EventCard from "../components/EventCard"; // Reusing existing EventCard
+import EventCard from "../components/EventCard"; // Reuse your existing component
 import "../styles/MyEventsPage.css";
 
 const MyEventsPage = () => {
-  const { user } = useAuth();
+  const { user, events } = useAuth();
   const navigate = useNavigate();
-
   const [upcomingEvents, setUpcomingEvents] = useState([]);
   const [pastEvents, setPastEvents] = useState([]);
 
-  // Restrict access to attendees only
   useEffect(() => {
     if (!user || user.role !== "attendee") {
-      navigate("/");
+      // ideally redirect or block
+      // For demo, let's just console.warn or redirect:
+      // navigate("/");
     }
   }, [user, navigate]);
 
-  // Simulate fetching the user's enrolled events
   useEffect(() => {
-    // BACKEND: Replace these with actual API calls, e.g.:
-    // fetch("/api/attendee/my-events")
-    //   .then(res => res.json())
-    //   .then(data => { 
-    //       setUpcomingEvents(data.upcoming);
-    //       setPastEvents(data.past);
-    //   });
+    if (user?.role === "attendee") {
+      // user.registeredEvents is an array of IDs
+      const userEventIds = user.registeredEvents || [];
 
-    // Mock data for demonstration
-    const mockUpcoming = [
-      {
-        id: 101,
-        title: "Intro to Machine Learning",
-        date: "2025-09-10",
-        location: "Online",
-        shortDescription: "A beginner-friendly ML workshop.",
-        imageUrl: "https://via.placeholder.com/300x180?text=MLWorkshop",
-      },
-      {
-        id: 102,
-        title: "Cybersecurity Basics",
-        date: "2025-09-18",
-        location: "Montreal, QC",
-        shortDescription: "Learn fundamental cybersecurity practices.",
-        imageUrl: "https://via.placeholder.com/300x180?text=CyberWorkshop",
-      },
-    ];
+      // filter the global events to only those whose IDs are in registeredEvents
+      const userEvents = events.filter((evt) =>
+        userEventIds.includes(evt.id)
+      );
 
-    const mockPast = [
-      {
-        id: 99,
-        title: "Web Dev Bootcamp",
-        date: "2025-08-01",
-        location: "Toronto, ON",
-        shortDescription: "Basics of frontend and backend development.",
-        imageUrl: "https://via.placeholder.com/300x180?text=WebDevBootcamp",
-      },
-    ];
-
-    setUpcomingEvents(mockUpcoming);
-    setPastEvents(mockPast);
-  }, []);
+      // separate them into upcoming vs past if you like; for now, treat all as upcoming
+      setUpcomingEvents(userEvents);
+      setPastEvents([]); // or filter by date if you want
+    }
+  }, [user, events]);
 
   return (
     <div className="my-events-header">
-  <h2 className="my-events-title">📖 My Events</h2>
-  <p className="my-events-subtext">
-    👋 Hey there! These are the events you've registered for — both upcoming and past.  
-    Stay curious, stay prepared, and make the most of every moment! ✨
-  </p>
-
-
-
+      <h2 className="my-events-title">📖 My Events</h2>
+      <p className="my-events-subtext">
+        👋 Hey there! These are the events you've registered for.  
+        Stay curious, stay prepared, and make the most of every moment! ✨
+      </p>
 
       {/* Upcoming Events */}
       <section className="my-events-section">

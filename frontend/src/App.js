@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-import { AuthProvider, useAuth } from "./context/AuthContext"; // Import AuthProvider
+import { AuthProvider, useAuth } from "./context/AuthContext";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import HomePage from "./pages/HomePage";
@@ -29,8 +29,6 @@ import PromotionsPage from "./pages/PromotionsPage";
 import ModerationPage from "./pages/ModerationPage";
 import AdminUsersPage from "./pages/AdminUsersPage"; 
 
-
-
 function App() {
   return (
     <AuthProvider>
@@ -44,7 +42,7 @@ function App() {
 // Redirect users based on role when they visit "/"
 function HomeRedirector() {
   const { user } = useAuth();
-  
+
   if (!user) return <HomePage />; // Public homepage if not logged in
   if (user.role === "attendee") return <AttendeeDashboard />;
   if (user.role === "organizer") return <OrganizerDashboard />;
@@ -58,9 +56,9 @@ function AppContent() {
     <div className="app-container">
       <Navbar /> {/* Navbar stays fixed at the top */}
 
-      <main> {/* Added padding here to prevent navbar overlap */}
+      <main>
         <Routes>
-          <Route path="/" element={<HomeRedirector />} /> {/* Home changes based on role */}
+          <Route path="/" element={<HomeRedirector />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/profile" element={<ProfilePage />} />
@@ -80,13 +78,10 @@ function AppContent() {
           <Route path="/feedback" element={<FeedbackPage />} />
           <Route path="/admin-reports" element={<AdminReports />} />
           <Route path="/admin-financials" element={<AdminFinancials />} />
-          <Route path="/feedback" element={<FeedbackPage />} />
+          <Route path="/account" element={<OrganizerDashboard />} />
           <Route path="/promotions" element={<PromotionsPage />} />
           <Route path="/moderation" element={<ModerationPage />} />
           <Route path="/user-management" element={<AdminUsersPage />} />
-        
-
-          
         </Routes>
       </main>
 
