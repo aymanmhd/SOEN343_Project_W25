@@ -25,8 +25,11 @@ const AttendeeDashboard = () => {
 
       {/* Show daily streak */}
       <div className="streak-counter">
-        <p>🔥 Daily Streak: {dailyStreak} day{dailyStreak !== 1 ? "s" : ""}!</p>
-      </div>
+  <span className="streak-icon">🔥</span>
+  <div className="streak-badge">
+    {dailyStreak} day{dailyStreak !== 1 ? "s" : ""} streak!
+  </div>
+</div>
 
       {/* Prompt */}
       <p className="dashboard-prompt">

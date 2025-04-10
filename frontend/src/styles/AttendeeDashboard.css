@@ -143,3 +143,44 @@
   margin: 20px 0;
   font-style: italic;
 }
+.streak-counter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px auto;
+  padding: 10px 20px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #e4e7dd, #f3f3f3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  width: fit-content;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: #444;
+  gap: 10px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.streak-counter:hover {
+  transform: scale(1.03);
+}
+
+.streak-icon {
+  font-size: 1.4rem;
+  animation: flame 1s infinite alternate ease-in-out;
+  color: #ff914d;
+}
+
+@keyframes flame {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.15) rotate(-3deg); }
+}
+
+.streak-badge {
+  padding: 5px 12px;
+  background-color: rgba(255, 255, 255, 0.5);
+  color: #53917e;
+  border-radius: 12px;
+  backdrop-filter: blur(3px);
+  border: 1px solid rgba(83, 145, 126, 0.2);
+}

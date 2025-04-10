@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import EventCard from "../components/EventCard";
 import "../styles/EventListingPage.css";
 
+
 const EventListingPage = () => {
   // Pull the "events" array from our mock backend context
   const { events } = useAuth();
